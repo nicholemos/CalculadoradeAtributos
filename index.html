@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <title>Calculadora de Atributos</title>
     <meta charset="UTF-8">
@@ -16,17 +17,17 @@
             background-size: contain;
             resize: both;
             transform: scale(1.0);
-            
-            
+
+
         }
-        
+
         .custom-container {
             width: 80%;
             max-width: 650px;
             margin: 0 auto;
             height: 50%;
         }
-        
+
         /* Estilos para o botão seletor */
         .selector-button {
             position: absolute;
@@ -36,16 +37,19 @@
             border: none;
             cursor: pointer;
         }
+
         .selector-icon {
             width: 30px;
             height: 30px;
             /* Adicionando animação de rotação ao hover */
             transition: transform 0.3s ease-in-out;
         }
+
         /* Aplicar rotação ao hover */
         .selector-button:hover .selector-icon {
             transform: rotate(360deg);
         }
+
         /* Estilos para a caixa de opções */
         .options-box {
             display: none;
@@ -58,9 +62,10 @@
             border: 1px solid #ccc;
             padding: 10px;
             border-radius: 10px;
-            cursor: move; /* Tornar o cursor de seleção */
+            cursor: move;
+            /* Tornar o cursor de seleção */
         }
-        
+
         /* Estilos para o switch toggle */
         .toggle {
             position: relative;
@@ -69,11 +74,11 @@
             height: 20px;
             margin-right: 10px;
         }
-        
+
         .toggle input[type="checkbox"] {
             display: none;
         }
-        
+
         .slider {
             position: absolute;
             cursor: pointer;
@@ -85,7 +90,7 @@
             border-radius: 20px;
             transition: .4s;
         }
-        
+
         .slider:before {
             position: absolute;
             content: "";
@@ -97,74 +102,86 @@
             border-radius: 50%;
             transition: .4s;
         }
-        
-        input[type="checkbox"]:checked + .slider {
-            background-color: #007bff; /* Cor quando o toggle está ativo */
+
+        input[type="checkbox"]:checked+.slider {
+            background-color: #007bff;
+            /* Cor quando o toggle está ativo */
         }
-        
-        input[type="checkbox"]:checked + .slider:before {
-            transform: translateX(20px); /* Posição da bola quando o toggle está ativo */
+
+        input[type="checkbox"]:checked+.slider:before {
+            transform: translateX(20px);
+            /* Posição da bola quando o toggle está ativo */
         }
-        
+
         .outros-col {
             display: none;
             height: auto;
-            width: 10px;            
-            
+            width: 10px;
+
         }
+
         .outros-col.hide {
             display: none;
         }
-        
+
         /* Estilos para a coluna "Outros" quando o toggle está marcado */
         .outros-col.show {
             display: table-cell;
             height: auto;
-            width: 10px;            
+            width: 10px;
         }
-        
+
         @font-face {
             font-family: 'Tormenta';
             src: url('Tormenta.ttf') format('truetype');
         }
-        
+
         .destaque-mensagem {
-            background-color: #000000; /* Cor de fundo */
-            padding: 10px; /* Espaçamento interno */
+            background-color: #000000;
+            /* Cor de fundo */
+            padding: 10px;
+            /* Espaçamento interno */
             color: white;
-            font-size: 18px; /* Tamanho da fonte */
-            font-weight: bold; /* Texto em negrito */
+            font-size: 18px;
+            /* Tamanho da fonte */
+            font-weight: bold;
+            /* Texto em negrito */
         }
-        
+
         .table {
             margin-top: 20px;
-            background-color: transparent; /* Fundo transparente */
-            
+            background-color: transparent;
+            /* Fundo transparente */
+
         }
-        
+
         .table th,
         .table td {
             padding: 8px;
             text-align: center;
-            border: 1px solid transparent; /* Bordas transparentes */
+            border: 1px solid transparent;
+            /* Bordas transparentes */
             border-radius: 20px;
-            background-color: transparent; /* Fundo das células transparente */
+            background-color: transparent;
+            /* Fundo das células transparente */
             width: 10px;
         }
-        
-        
+
+
         .container.custom-container {
-            background-color: #f5f5f56e; /* Cor de fundo desejada */
+            background-color: #f5f5f56e;
+            /* Cor de fundo desejada */
             padding: 20px;
-            border-radius: 10px; /* Valor de arredondamento desejado */
-            
+            border-radius: 10px;
+            /* Valor de arredondamento desejado */
+
         }
-        
+
         .total-col {
             font-weight: bold;
             font-size: 24px;
         }
-        
+
         .close-button {
             position: absolute;
             top: 5px;
@@ -173,27 +190,29 @@
             border: none;
             font-size: 18px;
             cursor: pointer;
-            z-index: 1; /* Certifique-se de que o botão esteja acima do conteúdo da caixa */
+            z-index: 1;
+            /* Certifique-se de que o botão esteja acima do conteúdo da caixa */
         }
-        
+
         .close-button:hover {
-            color: red; /* Mudar a cor quando o botão é hover */
+            color: red;
+            /* Mudar a cor quando o botão é hover */
         }
-        
-        
-        
     </style>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/deeplearn/tfjs.js"></script>
-    
+
 </head>
+
 <body>
-    
+
     <div class="container custom-container">
         <!-- Botão seletor com a imagem de uma engrenagem -->
         <button class="selector-button" onclick="exibirOpcoes()">
-            <img class="selector-icon" src="https://static.vecteezy.com/system/resources/previews/016/314/904/non_2x/transparent-configuration-gear-icon-free-png.png" alt="Engrenagem" style="width: 70px; height: auto;">
+            <img class="selector-icon"
+                src="https://static.vecteezy.com/system/resources/previews/016/314/904/non_2x/transparent-configuration-gear-icon-free-png.png"
+                alt="Engrenagem" style="width: 70px; height: auto;">
         </button>
         <!-- Caixa de opções que será exibida ao clicar na engrenagem -->
         <div class="options-box" id="opcoes">
@@ -215,24 +234,61 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h1 class="text-center" style="color: rgb(82, 3, 3); font-weight: bold; font-family: Tormenta; font-size: 48px;">Calculadora de Atributos</h1>
-                <script id="embedai" src="https://embedai.thesamur.ai/embedai.js" data-id="calculadora-de-atributos-t20"></script>
-                
+                <h1 class="text-center"
+                    style="color: rgb(82, 3, 3); font-weight: bold; font-family: Tormenta; font-size: 48px;">Calculadora
+                    de Atributos</h1>
+                <script id="embedai" src="https://embedai.thesamur.ai/embedai.js"
+                    data-id="calculadora-de-atributos-t20"></script>
+
                 <div class="container" style="display: flex; flex-direction: row;">
-                    
+
                     <div class="column" style="width: 45%;">
                         <!-- Botão "reset" -->
-                        <P><button type="button" class="btn btn-dark" onclick="resetarValores()">Reset</button></P>
+                        <P><button type="button" class="btn btn-dark" onclick="resetarValores()">Reset</button>
+                            <input type="checkbox" id="ghonorCheckbox" onchange="exibirBonusRaca()"> Raças de Ghanor
+                        </P>
+
+
                         <!-- Coluna do botão seletor até pontos disponíveis -->
-                        
+
                         <label for="raca">Raça:</label>
-                        <select id="raca" onchange="exibirBonusRaca()">
+                        <select id="raca" onchange="limparValoresRaciais(),exibirBonusRaca(),aberrantSelect()">
                             <option value="outros" selected>Outros</option>
-                            <option value="humano">Humano</option>
-                            <option value="elfo">Elfo</option>
-                            <option value="golem">Golem</option> 
+                            <option value="humano">Humano/Humana</option>
+                            <option value="elfo">Elfo/Elfa</option>
+                            <option value="dwarf">Anão/Anã</option>
+                            <option value="driad">Dahllan</option>
+                            <option value="goblin">Goblin</option>
+                            <option value="corrompido">Lefou</option>
+                            <option value="minotaur">Minotauro</option>
+                            <option value="tattooed">Qareen</option>
+                            <option value="golem">Golem</option>
+                            <option value="hobbit">Hynne</option>
+                            <option value="greatgnome">Kliren</option>
+                            <option value="medusa">Medusa</option>
+                            <option value="skeleton">Osteon</option>
+                            <option value="siren">Sereia/Tritão</option>
+                            <option value="fairy">Sílfide</option>
+                            <option value="lizardfolk">Trog</option>
+                            <option value="aasimar">Aggelus (Suragel)</option>
+                            <option value="tiefling">Sulfure (Suragel)</option>
+                            <option value="dwarves">Anão/Anã (Ghanor)</option>
+                            <option value="elves">Elfo/Elfa (Ghanor)</option>
+                            <option value="giant">Gigante (Ghanor)</option>
+                            <option value="hobgobling">Hobgoblin (Ghanor)</option>
+                            <option value="halfelf">Meio Elfo (Ghanor)</option>
+                            <option value="aberrant">Aberrante (Ghanor)</option>
+                            <option value="halforc">Meio-Orc (Ameaças)</option>
+                            <option value="orc">Orc (Ameaças)</option>
+                            <option value="frogpeople">Tabrachi (Ameaças)</option>
+                            <option value="ogre">Ogro (Ameaças)</option>
+                            <option value="bugbear">Bugbear (Ameaças)</option>
+                            <option value="hobgoblin_militaristic">Hobgoblin (Ameaças)</option>
+                            <option value="gnoll">Gnoll (Ameaças)</option>
+                            <option value="halfdragon">Kallyanach (Ameaças)</option>
+
                         </select>
-                        
+
                         <!-- Div para as caixas de seleção do Golem (inicialmente oculta) -->
                         <div id="caracteristicasGolem" style="display: none;">
                             <label for="chassi">Chassi:</label>
@@ -242,14 +298,25 @@
                                 <option value="ferro">Ferro</option>
                                 <option value="carne">Carne</option>
                             </select><br>
-                            
+
                             <label for="fonteEnergia">Fonte de Energia:</label>
                             <select id="fonteEnergia" onchange="exibirBonusRaca()">
                                 <option value="">Selecione</option>
                                 <option value="Alquimica">Alquímica</option>
                                 <option value="Elemental">Elemental</option>
+                                <option value="Sagrada">Sagrada</option>
                             </select><br>
-                            
+
+                            <!-- Novo seletor de Fonte de Energia Elemental -->
+                            <div id="elementalOptions" style="display: none;">
+                                <label for="elementalType">Tipo Elemental:</label>
+                                <select id="elementalType" onchange="exibirBonusRaca()">
+                                    <option value="">Selecione</option>
+                                    <option value="Fogo">Fogo</option>
+                                    <option value="Frio">Frio</option>
+                                </select><br>
+                            </div>
+
                             <label for="tamanho">Tamanho:</label>
                             <select id="tamanho" onchange="exibirBonusRaca()">
                                 <option value="">Selecione</option>
@@ -258,19 +325,62 @@
                                 <option value="Grande">Grande</option>
                             </select>
                         </div>
-                        <Br></Br>
-                        <h3 style="color: rgb(82, 3, 3); font-weight: bold; font-family: Tormenta; font-size: 24    px;">Habilidades de Raça</h3>
-                        <p id="bonusMessage" class="destaque-mensagem" ></p>
-                        
+
+                        <div id="caracteristicasAberrante" style="display: none;">
+                            <label>Mutações:</label><br>
+                            <input type="checkbox" id="mutacaoAscetico" value="ascetico"> Ascético<br>
+                            <input type="checkbox" id="mutacaoMagiaBizarra" value="magiabizarra"> Magia Bizarra<br>
+                            <input type="checkbox" id="mutacaoCouroRochoso" value="courorochoso"> Couro Rochoso<br>
+                            <input type="checkbox" id="mutacaoMetamorfose" value="metamorfose"> Metamorfose<br>
+                            <input type="checkbox" id="mutacaoMordida" value="mordida"> Mordida<br>
+                            <input type="checkbox" id="mutacaoMusculoso" value="musculoso"> Musculoso<br>
+                            <input type="checkbox" id="mutacaoResistente" value="resistente"> Resistente<br>
+                            <input type="checkbox" id="mutacaoSentidosAguçados" value="sentidosagucados"> Sentidos
+                            Aguçados<br>
+                            <input type="checkbox" id="mutacaoVeloz" value="veloz"> Veloz<br>
+                            <input type="checkbox" id="mutacaoVenenoso" value="venenoso"> Venenoso<br>
+                        </div>
+
+                        <div id="dragonType" style="display: none;">
+                            <label for="dragonType">Tipo Elemental:</label>
+                            <select id="dragonTypeSelect" onchange="exibirBonusRaca(),atualizarAtributosRaciais()">
+                                <option value="">Selecione</option>
+                                <option value="Acido">Ácido</option>
+                                <option value="Eletricidade">Eletricidade</option>
+                                <option value="Fogo">Fogo</option>
+                                <option value="Frio">Frio</option>
+                                <option value="Luz">Luz</option>
+                                <option value="Trevas">Trevas</option>
+                            </select>
+
+                            <label>Benção de Kallyadranoch:</label><br>
+                            <input type="checkbox" id="bencaoArmamento" value="armamento">Armamento Kallyanach<br>
+                            <input type="checkbox" id="bencaoAsas" value="asas">Asas Dracônicas<br>
+                            <input type="checkbox" id="bencaoEscamas" value="escamas">Escamas Elementais<br>
+                            <input type="checkbox" id="bencaoMagia" value="magia">Prática Arcana<br>
+                            <input type="checkbox" id="bencaoSentidos" value="sentidos">Sentidos Dracônicos<br>
+                            <input type="checkbox" id="bencaoSopro" value="sopro">Sopro de Dragão<br>
+                            <br>
+
+                            <!-- Adicione um elemento para exibir o tipo elemental selecionado -->
+                            <p>Herança Dracônica: <span id="herancaElemental"></span></p>
+                        </div>
+
+                        <h3
+                            style="color: rgb(82, 3, 3); font-weight: bold; font-family: Tormenta; font-size: 24    px;">
+                            Habilidades de Raça</h3>
+                        <p id="bonusMessage" class="destaque-mensagem"></p>
+
                     </div>
                     <div class="column" style="width: 55%;">
                         <p style="font-size: 18px;">
-                            Pontos Disponíveis: 
+                            Pontos Disponíveis:
                             <span id="pontos_disponiveis" style="font-weight: bold;  font-size: 25px">10</span>
                             <!-- O elemento <input> que será exibido quando o toggle estiver ativado -->
-                            <input type="number" value="10" id="pontosInput"  style="display: none; font-size: 25px">
+                            <input type="number" value="10" id="pontosInput" style="display: none; font-size: 25px">
                             <!-- O botão "Salvar" para atualizar o valor dos Pontos Disponíveis -->
-                            <button id="salvarPontos" style="display: none;" onclick="atualizarPontosDisponiveis(),exibirOpcoes()">Salvar</button>
+                            <button id="salvarPontos" style="display: none;"
+                                onclick="atualizarPontosDisponiveis(),exibirOpcoes()">Salvar</button>
                         </p>
                         <table class="table">
                             <thead>
@@ -285,606 +395,1410 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-01.png" alt="simbolo de forca" height="40px" width="auto"></td>
+                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-01.png"
+                                            alt="simbolo de forca" height="40px" width="auto"></td>
                                     <td>FOR</td>
-                                    <td><input type="number" id="forca" value="0" min="-1" max="4" onchange="calcularTotalForca(); calcularPontosDisponiveis();"></td>
-                                    <td><input type="number" id="for_racial" value="0" onchange="calcularTotalForca()" style="width: 75px;"></td>
-                                    <td class="outros-col"><input type="number" id="for_outros" value="0" onchange="calcularTotalForca()" style="width: 75px;"></td>
+                                    <td><input type="number" id="forca" value="0" min="-1" max="4"
+                                            onchange="calcularTotalForca(); calcularPontosDisponiveis();"></td>
+                                    <td><input type="number" id="for_racial" min="0" value="0"
+                                            onchange="calcularTotalForca()" style="width: 75px;"></td>
+                                    <td class="outros-col"><input type="number" min="0" id="for_outros" value="0"
+                                            onchange="calcularTotalForca()" style="width: 75px;"></td>
                                     <td id="total_forca">0</td>
                                 </tr>
                                 <tr>
-                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-02.png" alt="simbolo de destreza" height="40px" width="auto"></td>
+                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-02.png"
+                                            alt="simbolo de destreza" height="40px" width="auto"></td>
                                     <td>DES</td>
-                                    <td><input type="number" id="destreza" value="0" min="-1" max="4" onchange="calcularTotalDestreza(); calcularPontosDisponiveis();"></td>
-                                    <td><input type="number" id="dex_racial" value="0" onchange="calcularTotalDestreza()" style="width: 75px;"></td>
-                                    <td class="outros-col"><input type="number" id="dex_outros" value="0" onchange="calcularTotalDestreza()" style="width: 75px;"></td>
+                                    <td><input type="number" id="destreza" value="0" min="-1" max="4"
+                                            onchange="calcularTotalDestreza(); calcularPontosDisponiveis();"></td>
+                                    <td><input type="number" id="dex_racial" min="0" value="0"
+                                            onchange="calcularTotalDestreza()" style="width: 75px;"></td>
+                                    <td class="outros-col"><input type="number" min="0" id="dex_outros" value="0"
+                                            onchange="calcularTotalDestreza()" style="width: 75px;"></td>
                                     <td id="total_destreza">0</td>
                                 </tr>
                                 <tr>
-                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-03.png" alt="simbolo de constituicao" height="40px" width="auto"></td>
+                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-03.png"
+                                            alt="simbolo de constituicao" height="40px" width="auto"></td>
                                     <td>CON</td>
-                                    <td><input type="number" id="constituicao" value="0" min="-1" max="4" onchange="calcularTotalConstituicao(); calcularPontosDisponiveis();"></td>
-                                    <td><input type="number" id="con_racial" value="0" onchange="calcularTotalConstituicao()" style="width: 75px;"></td>
-                                    <td class="outros-col"><input type="number" id="con_outros" value="0" onchange="calcularTotalConstituicao()" style="width: 75px;"></td>
+                                    <td><input type="number" id="constituicao" value="0" min="-1" max="4"
+                                            onchange="calcularTotalConstituicao(); calcularPontosDisponiveis();"></td>
+                                    <td><input type="number" id="con_racial" min="0" value="0"
+                                            onchange="calcularTotalConstituicao()" style="width: 75px;"></td>
+                                    <td class="outros-col"><input type="number" min="0" id="con_outros" value="0"
+                                            onchange="calcularTotalConstituicao()" style="width: 75px;"></td>
                                     <td id="total_constituicao">0</td>
                                 </tr>
                                 <tr>
-                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-05.png" alt="simbolo de inteligencia" height="40px" width="auto"></td>
+                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-05.png"
+                                            alt="simbolo de inteligencia" height="40px" width="auto"></td>
                                     <td>INT</td>
-                                    <td><input type="number" id="inteligencia" value="0" min="-1" max="4" onchange="calcularTotalInteligencia(); calcularPontosDisponiveis();"></td>
-                                    <td><input type="number" id="int_racial" value="0" onchange="calcularTotalInteligencia()" style="width: 75px;"></td>
-                                    <td class="outros-col"><input type="number" id="int_outros" value="0" onchange="calcularTotalInteligencia()" style="width: 75px;"></td>
+                                    <td><input type="number" id="inteligencia" value="0" min="-1" max="4"
+                                            onchange="calcularTotalInteligencia(); calcularPontosDisponiveis();"></td>
+                                    <td><input type="number" id="int_racial" min="0" value="0"
+                                            onchange="calcularTotalInteligencia()" style="width: 75px;"></td>
+                                    <td class="outros-col"><input type="number" min="0" id="int_outros" value="0"
+                                            onchange="calcularTotalInteligencia()" style="width: 75px;"></td>
                                     <td id="total_inteligencia">0</td>
                                 </tr>
                                 <tr>
-                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-04.png" alt="simbolo de sabedoria" height="40px" width="auto"></td>
+                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-04.png"
+                                            alt="simbolo de sabedoria" height="40px" width="auto"></td>
                                     <td>SAB</td>
-                                    <td><input type="number" id="sabedoria" value="0" min="-1" max="4" onchange="calcularTotalSabedoria(); calcularPontosDisponiveis();"></td>
-                                    <td><input type="number" id="sab_racial" value="0" onchange="calcularTotalSabedoria()" style="width: 75px;"></td>
-                                    <td class="outros-col"><input type="number" id="sab_outros" value="0" onchange="calcularTotalSabedoria()" style="width: 75px;"></td>
+                                    <td><input type="number" id="sabedoria" value="0" min="-1" max="4"
+                                            onchange="calcularTotalSabedoria(); calcularPontosDisponiveis();"></td>
+                                    <td><input type="number" id="sab_racial" min="0" value="0"
+                                            onchange="calcularTotalSabedoria()" style="width: 75px;"></td>
+                                    <td class="outros-col"><input type="number" min="0" id="sab_outros" value="0"
+                                            onchange="calcularTotalSabedoria()" style="width: 75px;"></td>
                                     <td id="total_sabedoria">0</td>
                                 </tr>
                                 <tr>
-                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-06.png" alt="simbolo de carisma" height="40px" width="auto"></td>
+                                    <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-06.png"
+                                            alt="simbolo de carisma" height="40px" width="auto"></td>
                                     <td>CAR</td>
-                                    <td><input type="number" id="carisma" value="0" min="-1" max="4" onchange="calcularTotalCarisma(); calcularPontosDisponiveis();"></td>
-                                    <td><input type="number" id="car_racial" value="0" onchange="calcularTotalCarisma()" style="width: 75px;"></td>
-                                    <td class="outros-col"><input type="number" id="car_outros" value="0" onchange="calcularTotalCarisma()" style="width: 75px;"></td>
+                                    <td><input type="number" id="carisma" value="0" min="-1" max="4"
+                                            onchange="calcularTotalCarisma(); calcularPontosDisponiveis();"></td>
+                                    <td><input type="number" id="car_racial" min="0" value="0"
+                                            onchange="calcularTotalCarisma()" style="width: 75px;"></td>
+                                    <td class="outros-col"><input type="number" min="0" id="car_outros" value="0"
+                                            onchange="calcularTotalCarisma()" style="width: 75px;"></td>
                                     <td id="total_carisma">0</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    
+
                 </div>
                 <h2>Crie a imagem do seu personagem</h2>
                 <h6>Iremos criar um prompt sugestão para você criar uma imagem do seu personagem.<br>
-                Adicione ou altere os dados para se adequar ao que você pretende criar (cor da pele, dos olhos, tipo de roupa, etc).
-                Existem algumas palavras fixas no prompt que ajudam a melhorar a criação. Recomendo manter, mas se prefere outros estilos, 
-                retire o "unreal engine" ou mude o "anime style" para outros de sua preferência. <br>
+                    Adicione ou altere os dados para se adequar ao que você pretende criar (cor da pele, dos olhos, tipo
+                    de roupa, etc).
+                    Existem algumas palavras fixas no prompt que ajudam a melhorar a criação. Recomendo manter, mas se
+                    prefere outros estilos,
+                    retire o "unreal engine" ou mude o "anime style" para outros de sua preferência. <br>
                 </h6>
-                
+
 
                 <button id="gerarPrompt">Gerar Prompt</button>
                 <button id="copiarPrompt">Copiar Prompt</button>
                 <div id="promptGerado"></div>
-                
-                <p><hr>
-                    Para criar a imagem, acesse o seguinte link:<br>
-                    <a href="https://clipdrop.co/stable-diffusion" target="_blank">Criar Imagem (stable-diffusion)</a>
+
+                <p>
+                    <hr>
+                    Para criar a imagem, recomendo duas IA gratuitas:<br>
+                    <a href="https://clipdrop.co/stable-diffusion" target="_blank">Criar Imagem
+                        (stable-diffusion)</a><br>
+                    <a href="https://ideogram.ai/" target="_blank">Criar Imagem (Ideogram)</a>
                 </p>
-                
-                
-                
+
+
+
             </div>
-               
-        </body>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-        <script>
-            function calcularTotalForca() {
-                const forcaValor = parseInt(document.getElementById("forca").value);
-                const forcaRacial = parseInt(document.getElementById("for_racial").value);
-                const forcaOutros = parseInt(document.getElementById("for_outros").value);
-                const totalForca = forcaValor + forcaRacial + forcaOutros;
-                document.getElementById("total_forca").textContent = totalForca;
-            }
-            
-            function calcularTotalDestreza() {
-                const destrezaValor = parseInt(document.getElementById("destreza").value);
-                const destrezaRacial = parseInt(document.getElementById("dex_racial").value);
-                const destrezaOutros = parseInt(document.getElementById("dex_outros").value);
-                const totalDestreza = destrezaValor + destrezaRacial + destrezaOutros;
-                document.getElementById("total_destreza").textContent = totalDestreza;
-            }
-            
-            function calcularTotalConstituicao() {
-                const constituicaoValor = parseInt(document.getElementById("constituicao").value);
-                const constituicaoRacial = parseInt(document.getElementById("con_racial").value);
-                const constituicaoOutros = parseInt(document.getElementById("con_outros").value);
-                const totalConstituicao = constituicaoValor + constituicaoRacial + constituicaoOutros;
-                document.getElementById("total_constituicao").textContent = totalConstituicao;
-            }
-            
-            function calcularTotalInteligencia() {
-                const inteligenciaValor = parseInt(document.getElementById("inteligencia").value);
-                const inteligenciaRacial = parseInt(document.getElementById("int_racial").value);
-                const inteligenciaOutros = parseInt(document.getElementById("int_outros").value);
-                const totalInteligencia = inteligenciaValor + inteligenciaRacial + inteligenciaOutros;
-                document.getElementById("total_inteligencia").textContent = totalInteligencia;
-            }
-            
-            function calcularTotalSabedoria() {
-                const sabedoriaValor = parseInt(document.getElementById("sabedoria").value);
-                const sabedoriaRacial = parseInt(document.getElementById("sab_racial").value);
-                const sabedoriaOutros = parseInt(document.getElementById("sab_outros").value);
-                const totalSabedoria = sabedoriaValor + sabedoriaRacial + sabedoriaOutros;
-                document.getElementById("total_sabedoria").textContent = totalSabedoria;
-            }
-            
-            function calcularTotalCarisma() {
-                const carismaValor = parseInt(document.getElementById("carisma").value);
-                const carismaRacial = parseInt(document.getElementById("car_racial").value);
-                const carismaOutros = parseInt(document.getElementById("car_outros").value);
-                const totalCarisma = carismaValor + carismaRacial + carismaOutros;
-                document.getElementById("total_carisma").textContent = totalCarisma;
-            }
-            
-            
-            function calcularPontosDisponiveis() {
-                const togglePontos = document.getElementById("togglePontos");
-                const pontosInput = document.getElementById("pontosInput");
-                let pontosDisponiveis = togglePontos.checked
-                ? Number(pontosInput.value) || 0
-                : 10;
-                
-                if (!togglePontos.checked) {
-                    // Se o toggle estiver desativado, calcular os pontos disponíveis normalmente
-                    const atributos = ["forca", "destreza", "constituicao", "inteligencia", "sabedoria", "carisma"];
-                    let pontosGastos = 0;
-                    
-                    for (const atributo of atributos) {
-                        const valor = parseInt(document.getElementById(atributo).value);
-                        switch (valor) {
-                            case -1:
-                            pontosGastos += 1;
-                            break;
-                            case 1:
-                            pontosGastos -= 1;
-                            break;
-                            case 2:
-                            pontosGastos -= 1; // Correção: Subtrair 1 ponto quando o valor for 2
-                            break;
-                            case 3:
-                            pontosGastos -= 4;
-                            break;
-                            case 4:
-                            pontosGastos -= 7;
-                            break;
-                            default:
-                            break;
-                        }
-                    }
-                    
-                    pontosDisponiveis += pontosGastos;
-                }else{
-                    const atributos = ["forca", "destreza", "constituicao", "inteligencia", "sabedoria", "carisma"];
-                    let pontosGastos = 0;
-                    
-                    for (const atributo of atributos) {
-                        const valor = parseInt(document.getElementById(atributo).value);
-                        switch (valor) {
-                            case -1:
-                            pontosGastos += 1;
-                            break;
-                            case 1:
-                            pontosGastos -= 1;
-                            break;
-                            case 2:
-                            pontosGastos -= 1; // Correção: Subtrair 1 ponto quando o valor for 2
-                            break;
-                            case 3:
-                            pontosGastos -= 4;
-                            break;
-                            case 4:
-                            pontosGastos -= 7;
-                            break;
-                            default:
-                            break;
-                        }
-                    }
-                    
-                    pontosDisponiveis += pontosGastos;
-                    
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script>
+    function calcularTotalForca() {
+        const forcaValor = parseInt(document.getElementById("forca").value);
+        const forcaRacial = parseInt(document.getElementById("for_racial").value);
+        const forcaOutros = parseInt(document.getElementById("for_outros").value);
+        const totalForca = forcaValor + forcaRacial + forcaOutros;
+        document.getElementById("total_forca").textContent = totalForca;
+    }
+
+    function calcularTotalDestreza() {
+        const destrezaValor = parseInt(document.getElementById("destreza").value);
+        const destrezaRacial = parseInt(document.getElementById("dex_racial").value);
+        const destrezaOutros = parseInt(document.getElementById("dex_outros").value);
+        const totalDestreza = destrezaValor + destrezaRacial + destrezaOutros;
+        document.getElementById("total_destreza").textContent = totalDestreza;
+    }
+
+    function calcularTotalConstituicao() {
+        const constituicaoValor = parseInt(document.getElementById("constituicao").value);
+        const constituicaoRacial = parseInt(document.getElementById("con_racial").value);
+        const constituicaoOutros = parseInt(document.getElementById("con_outros").value);
+        const totalConstituicao = constituicaoValor + constituicaoRacial + constituicaoOutros;
+        document.getElementById("total_constituicao").textContent = totalConstituicao;
+    }
+
+    function calcularTotalInteligencia() {
+        const inteligenciaValor = parseInt(document.getElementById("inteligencia").value);
+        const inteligenciaRacial = parseInt(document.getElementById("int_racial").value);
+        const inteligenciaOutros = parseInt(document.getElementById("int_outros").value);
+        const totalInteligencia = inteligenciaValor + inteligenciaRacial + inteligenciaOutros;
+        document.getElementById("total_inteligencia").textContent = totalInteligencia;
+    }
+
+    function calcularTotalSabedoria() {
+        const sabedoriaValor = parseInt(document.getElementById("sabedoria").value);
+        const sabedoriaRacial = parseInt(document.getElementById("sab_racial").value);
+        const sabedoriaOutros = parseInt(document.getElementById("sab_outros").value);
+        const totalSabedoria = sabedoriaValor + sabedoriaRacial + sabedoriaOutros;
+        document.getElementById("total_sabedoria").textContent = totalSabedoria;
+    }
+
+    function calcularTotalCarisma() {
+        const carismaValor = parseInt(document.getElementById("carisma").value);
+        const carismaRacial = parseInt(document.getElementById("car_racial").value);
+        const carismaOutros = parseInt(document.getElementById("car_outros").value);
+        const totalCarisma = carismaValor + carismaRacial + carismaOutros;
+        document.getElementById("total_carisma").textContent = totalCarisma;
+    }
+
+    function exibirCaracteristicas() {
+        var racaSelect = document.getElementById("raca");
+        var caracteristicasAberrante = document.getElementById("caracteristicasAberrante");
+
+        // Verifica se "aberrant" está selecionado
+        if (racaSelect.value === "aberrant") {
+            caracteristicasAberrante.style.display = "block"; // Mostra a div
+        } else {
+            caracteristicasAberrante.style.display = "none"; // Oculta a div
+        }
+    }
+
+
+    function calcularPontosDisponiveis() {
+        const togglePontos = document.getElementById("togglePontos");
+        const pontosInput = document.getElementById("pontosInput");
+        let pontosDisponiveis = togglePontos.checked
+            ? Number(pontosInput.value) || 0
+            : 10;
+
+        if (!togglePontos.checked) {
+            // Se o toggle estiver desativado, calcular os pontos disponíveis normalmente
+            const atributos = ["forca", "destreza", "constituicao", "inteligencia", "sabedoria", "carisma"];
+            let pontosGastos = 0;
+
+            for (const atributo of atributos) {
+                const valor = parseInt(document.getElementById(atributo).value);
+                switch (valor) {
+                    case -1:
+                        pontosGastos += 1;
+                        break;
+                    case 1:
+                        pontosGastos -= 1;
+                        break;
+                    case 2:
+                        pontosGastos -= 2;
+                        break;
+                    case 3:
+                        pontosGastos -= 4;
+                        break;
+                    case 4:
+                        pontosGastos -= 7;
+                        break;
+                    default:
+                        break;
                 }
-                
-                // Salvar o estado do toggle antes de atualizar os pontos disponíveis
-                const toggleState = togglePontos.checked;
-                
-                // Atualizar o valor exibido na página e a cor do texto
-                const pontosDisponiveisElement = document.getElementById("pontos_disponiveis");
-                pontosDisponiveisElement.textContent = pontosDisponiveis;
-                pontosDisponiveisElement.style.color = pontosDisponiveis < 0 ? "red" : "black";
-                
-                // Restaurar o estado do toggle após a atualização
-                togglePontos.checked = toggleState;
             }
-            
-            
-            function Valor_atributos() {
-                // O restante do código da função
-                
-                calcularPontosDisponiveis(); // Adicione esta linha para recalcular os pontos disponíveis
+
+            pontosDisponiveis += pontosGastos;
+        } else {
+            const atributos = ["forca", "destreza", "constituicao", "inteligencia", "sabedoria", "carisma"];
+            let pontosGastos = 0;
+
+            for (const atributo of atributos) {
+                const valor = parseInt(document.getElementById(atributo).value);
+                switch (valor) {
+                    case -1:
+                        pontosGastos += 1;
+                        break;
+                    case 1:
+                        pontosGastos -= 1;
+                        break;
+                    case 2:
+                        pontosGastos -= 2;
+                        break;
+                    case 3:
+                        pontosGastos -= 4;
+                        break;
+                    case 4:
+                        pontosGastos -= 7;
+                        break;
+                    default:
+                        break;
+                }
             }
-            
-            function calcularTotais() {
-                calcularTotalForca();
-                calcularTotalDestreza();
-                calcularTotalConstituicao();
-                calcularTotalInteligencia();
-                calcularTotalSabedoria();
-                calcularTotalCarisma();
-            }
-            
-            
-            
-            window.onload = function() {
-                // Inicializar os totais ao carregar a página
-                calcularTotais();
-                
-                // Exibir os bônus raciais de humano
-                exibirBonusRaca();
-                
-                // Chamar a função para calcular os pontos disponíveis ao carregar a página
+
+            pontosDisponiveis += pontosGastos;
+
+        }
+
+        // Salvar o estado do toggle antes de atualizar os pontos disponíveis
+        const toggleState = togglePontos.checked;
+
+        // Atualizar o valor exibido na página e a cor do texto
+        const pontosDisponiveisElement = document.getElementById("pontos_disponiveis");
+        pontosDisponiveisElement.textContent = pontosDisponiveis;
+        pontosDisponiveisElement.style.color = pontosDisponiveis < 0 ? "red" : "black";
+
+        // Restaurar o estado do toggle após a atualização
+        togglePontos.checked = toggleState;
+    }
+
+
+    function Valor_atributos() {
+        // O restante do código da função
+
+        calcularPontosDisponiveis(); // Adicione esta linha para recalcular os pontos disponíveis
+    }
+
+    function calcularTotais() {
+        calcularTotalForca();
+        calcularTotalDestreza();
+        calcularTotalConstituicao();
+        calcularTotalInteligencia();
+        calcularTotalSabedoria();
+        calcularTotalCarisma();
+    }
+
+
+
+    window.onload = function () {
+        // Inicializar os totais ao carregar a página
+        calcularTotais();
+
+        configurarAtributosRaciaisPorRaca();
+
+        // Chamar a função para calcular os pontos disponíveis ao carregar a página
+        calcularPontosDisponiveis();
+
+        // Adicionar eventos onchange para atualizar os valores dos atributos e pontos disponíveis ao alterar os inputs
+        const inputs = document.querySelectorAll("input");
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('change', function () {
+                Valor_atributos();
                 calcularPontosDisponiveis();
-                
-                // Adicionar eventos onchange para atualizar os valores dos atributos e pontos disponíveis ao alterar os inputs
-                const inputs = document.querySelectorAll("input");
-                for (let i = 0; i < inputs.length; i++) {
-                    inputs[i].addEventListener('change', function() {
-                        Valor_atributos();
-                        calcularPontosDisponiveis();
-                    });
-                }
-            };
-            
-            
-            function exibirBonusRaca() {
-                const racaSelect = document.getElementById("raca");
-                const caracteristicasGolem = document.getElementById("caracteristicasGolem");
-                
-                if (racaSelect.value === "golem") {
-                    caracteristicasGolem.style.display = "block"; // Exibir as caixas de seleção do Golem
-                    limparValoresRaciais();
-                    aplicarBonusRacialGolem();
-                } else {
-                    caracteristicasGolem.style.display = "none";
-                    limparValoresRaciais();
-                    
-                    if (racaSelect.value === "humano") {
-                        aplicarBonusRacialHumano(1);
-                        // ...
-                    } else if (racaSelect.value === "elfo") {
-                        aplicarBonusRacialElfo();
-                    } else {
-                        // Limpar valores da coluna "Racial" e desbloquear os inputs
-                        limparValoresRaciais();
-                        
-                        // Limpar a mensagem de bônus raciais
-                        const bonusMessage = document.getElementById("bonusMessage");
-                        bonusMessage.textContent = "";
-                    }
-                }
-                
-                // Calcular todos os totais após as alterações
-                calcularTotais();
-            }
-            
-            
-            function aplicarBonusRacialHumano(maximo) {
-                const atributosRaciais = ["for_racial", "dex_racial", "con_racial", "int_racial", "sab_racial", "car_racial"];
-                let somaAtributos = 0;
+            });
+        }
+    };
+
+
+    function exibirBonusRaca() {
+        const racaSelect = document.getElementById("raca");
+        const caracteristicasGolem = document.getElementById("caracteristicasGolem");
+
+
+        if (racaSelect.value === "golem") {
+            caracteristicasGolem.style.display = "block"; // Exibir as caixas de seleção do Golem
+            limparValoresRaciais();
+            aplicarBonusRacialGolem();
+        } else {
+            caracteristicasGolem.style.display = "none";
+            limparValoresRaciais();
+
+            if (racaSelect.value === "humano") {
+                configurarAtributosRaciaisPorRaca();
                 const bonusMessage = document.getElementById("bonusMessage");
-                document.getElementById("bonusMessage").innerHTML = "+1 em Três Atributos Diferentes.<br><span style='display: block;'>Versátil.</span>";
-                
-                for (const atributo of atributosRaciais) {
-                    const atributoInput = document.getElementById(atributo);
-                    atributoInput.setAttribute("max", maximo);
-                    atributoInput.setAttribute("min", "0");
-                    atributoInput.value = Math.min(maximo, atributoInput.value);
-                    
-                    somaAtributos += parseFloat(atributoInput.value) || 0;
-                }
-                
-                for (const atributo of atributosRaciais) {
-                    const atributoInput = document.getElementById(atributo);
-                    if (parseFloat(atributoInput.value) === 0) {
-                        atributoInput.disabled = somaAtributos >= 3;
-                    }
-                }
-            }
-            
-            
-            function aplicarBonusRacialElfo() {
-                // Exibir mensagem de bônus raciais
+                document.getElementById("bonusMessage").innerHTML = "+1 em Três Atributos Diferentes<br><span style='display: block;'>Versátil</span>";
+
+                // ...
+            } else if (racaSelect.value === "elfo") {
+                aplicarBonusRacial("elfo");
+
+            } else if (racaSelect.value === "dwarf") {
+                aplicarBonusRacial("dwarf");
+
+            } else if (racaSelect.value === "driad") {
+                aplicarBonusRacial("driad");;
+
+            } else if (racaSelect.value === "goblin") {
+                aplicarBonusRacial("goblin");;
+
+            } else if (racaSelect.value === "corrompido") {
+                configurarAtributosRaciaisPorRaca();
                 const bonusMessage = document.getElementById("bonusMessage");
-                document.getElementById("bonusMessage").innerHTML = "Inteligência +2, Destreza +1, Constituição -1<br><span style='display: block;'>Graça de Glórienn</span><span>Sangue Mágico</span><br><span>Sentidos Élficos<span>";
-                    
-                    // Definir os valores dos atributos raciais para Elfo
-                    const forRacaInput = document.getElementById("for_racial");
-                    const dexRacaInput = document.getElementById("dex_racial");
-                    const conRacaInput = document.getElementById("con_racial");
-                    const intRacaInput = document.getElementById("int_racial");
-                    const sabRacaInput = document.getElementById("sab_racial");
-                    const carRacaInput = document.getElementById("car_racial");
-                    
-                    forRacaInput.value = "0";
-                    dexRacaInput.value = "1";
-                    conRacaInput.value = "-1";
-                    intRacaInput.value = "2";
-                    sabRacaInput.value = "0";
-                    carRacaInput.value = "0";
-                    
-                    // Bloquear os campos de input dos atributos raciais
-                    forRacaInput.disabled = true;
-                    dexRacaInput.disabled = true;
-                    conRacaInput.disabled = true;
-                    intRacaInput.disabled = true;
-                    sabRacaInput.disabled = true;
-                    carRacaInput.disabled = true;
-                    
-                    
-                }
-                
-                function aplicarBonusRacialGolem() {
-                    // Obter os valores selecionados nas caixas de seleção
-                    const chassiSelect = document.getElementById("chassi");
-                    const chassiValue = chassiSelect.value;
-                    const fonteEnergiaSelect = document.getElementById("fonteEnergia");
-                    const fonteEnergiaValue = fonteEnergiaSelect.value;
-                    const tamanhoSelect = document.getElementById("tamanho");
-                    const tamanhoValue = tamanhoSelect.value;
-                    
-                    // Exibir mensagem de bônus raciais
-                    const bonusMessage = document.getElementById("bonusMessage");
-                    if (chassiValue === "bronze") {
-                        const outrosColumn = document.querySelectorAll(".outros-col");
-                        outrosColumn.forEach((cell) => cell.classList.add("show"));
-                        bonusMessage.innerHTML = "Força +1, Carisma -1<br><span style='display: block;'>Chassi de Bronze: +1 em dois atributos a sua escolha." + "<br>Fonte de Energia: " + fonteEnergiaValue + "<br>Tamanho: " + tamanhoValue + "</span>";
-                    } else if (chassiValue === "ferro") {
-                        const outrosColumn = document.querySelectorAll(".outros-col");
-                        outrosColumn.forEach((cell) => cell.classList.remove("show"));
-                        bonusMessage.innerHTML = "Força +1, Carisma -1<br><span style='display: block;'>Chassi de Ferro: Força +1 e Constituição +1." + "<br>Fonte de Energia: " + fonteEnergiaValue + "<br>Tamanho: " + tamanhoValue + "</span>";
-                    } else if (chassiValue === "carne") {
-                        const outrosColumn = document.querySelectorAll(".outros-col");
-                        outrosColumn.forEach((cell) => cell.classList.remove("show"));
-                        bonusMessage.innerHTML = "Força +1, Carisma -1<br><span style='display: block;'>Chassi de Carne: Constituição +2, Força +1, Carisma –1." + "<br>Fonte de Energia: " + fonteEnergiaValue + "<br>Tamanho: " + tamanhoValue + "</span>";
-                    } else {
-                        const outrosColumn = document.querySelectorAll(".outros-col");
-                        outrosColumn.forEach((cell) => cell.classList.remove("show"));
-                        bonusMessage.textContent = "";
-                    }
-                    
-                    // Definir os valores dos atributos raciais para Golem com base nas escolhas
-                    const forRacaInput = document.getElementById("for_racial");
-                    const dexRacaInput = document.getElementById("dex_racial");
-                    const conRacaInput = document.getElementById("con_racial");
-                    const intRacaInput = document.getElementById("int_racial");
-                    const sabRacaInput = document.getElementById("sab_racial");
-                    const carRacaInput = document.getElementById("car_racial");
-                    
-                    forRacaInput.value = chassiValue === "ferro" ? "2" : (chassiValue === "carne" ? "2" : "1");
-                    dexRacaInput.value = tamanhoValue === "Pequeno" ? "1" : (tamanhoValue === "Grande" ? "-1" : "0");
-                    conRacaInput.value = chassiValue === "carne" ? "2" : (chassiValue === "ferro" ? "1" : "0");
-                    intRacaInput.value = "0";
-                    sabRacaInput.value = "0";
-                    carRacaInput.value = chassiValue === "carne" ? "-2" : "-1";
-                    
-                    // Desbloquear os campos de input dos atributos raciais
-                    forRacaInput.disabled = true;
-                    dexRacaInput.disabled = true;
-                    conRacaInput.disabled = true;
-                    intRacaInput.disabled = true;
-                    sabRacaInput.disabled = true;
-                    carRacaInput.disabled = true;
-                }
-                
-                function limparValoresRaciais() {
-                    const atributosRaciais = ["for_racial", "dex_racial", "con_racial", "int_racial", "sab_racial", "car_racial"];
-                    
-                    for (const atributo of atributosRaciais) {
-                        const atributoInput = document.getElementById(atributo);
-                        atributoInput.value = "0";
-                        atributoInput.disabled = false;
-                    }
-                }
-                
-                
-                function resetarValores() {
-                    // Recarregar a página para resetar todos os valores
-                    window.location.reload();
-                }
-                
-                // Função para exibir ou ocultar a caixa de opções
-                function exibirOpcoes() {
-                    var opcoes = document.getElementById("opcoes");
-                    if (opcoes.style.display === "none") {
-                        opcoes.style.display = "block";
-                    } else {
-                        opcoes.style.display = "none";
-                    }
-                }
-                
-                function toggleOutrosColumn() {
-                    const toggleOutrosInput = document.getElementById("toggleOutrosInput");
-                    const outrosCells = document.querySelectorAll(".outros-col"); // Selecionar todas as células da coluna "Outros"
-                    
-                    if (toggleOutrosInput.checked) {
-                        // Exibir todas as células da coluna "Outros"
-                        outrosCells.forEach((cell) => {
-                            cell.classList.add("show");
-                            cell.classList.remove("hide");
-                        });
-                    } else {
-                        // Ocultar todas as células da coluna "Outros"
-                        outrosCells.forEach((cell) => {
-                            cell.classList.add("hide");
-                            cell.classList.remove("show");
-                        });
-                    }
-                }
-                
-                // Adicionar evento onchange para o toggle switch de "Outros"
-                const toggleOutrosInput = document.getElementById("toggleOutrosInput");
-                toggleOutrosInput.addEventListener('change', toggleOutrosColumn);
-                
-                function exibirPontosInput() {
-                    const pontosInput = document.getElementById("pontosInput");
-                    const togglePontos = document.getElementById("togglePontos");
-                    
-                    if (togglePontos.checked) {
-                        // Mostrar o campo de entrada quando o toggle estiver ativado
-                        pontosInput.style.display = "inline";
-                    } else {
-                        // Ocultar o campo de entrada quando o toggle estiver desativado
-                        pontosInput.style.display = "none";
-                    }
-                }
-                
-                // Adicionar evento onchange para o toggle dos pontos disponíveis
-                const togglePontos = document.getElementById("togglePontos");
-                togglePontos.addEventListener('change', exibirPontosInput);
-                
-                function togglePontosInput() {
-                    const pontosInput = document.getElementById("pontosInput");
-                    const salvarPontosBtn = document.getElementById("salvarPontos");
-                    const togglePontos = document.getElementById("togglePontos");
-                    
-                    if (togglePontos.checked) {
-                        // Quando o toggle estiver marcado (ativado), exibir o input e o botão "Salvar"
-                        pontosInput.style.display = "inline";
-                        salvarPontosBtn.style.display = "inline";
-                        // Atualizar o valor do input com o valor atual dos pontos disponíveis
-                        pontosInput.value = parseInt(document.getElementById("pontos_disponiveis").textContent);
-                    } else {
-                        // Quando o toggle estiver desmarcado (desativado), ocultar o input e o botão "Salvar"
-                        pontosInput.style.display = "none";
-                        salvarPontosBtn.style.display = "none";
-                    }
-                }
-                
-                function atualizarPontosDisponiveis() {
-                    const pontosInput = document.getElementById("pontosInput");
-                    const pontosDisponiveis = document.getElementById("pontos_disponiveis");
-                    
-                    const novoValor = parseInt(pontosInput.value);
-                    if (!isNaN(novoValor)) {
-                        // Se o valor inserido for um número válido, atualizar os pontos disponíveis
-                        pontosDisponiveis.textContent = novoValor;
-                        // Ocultar o input e o botão "Salvar" após a atualização
-                        pontosInput.style.display = "none";
-                        document.getElementById("salvarPontos").style.display = "none";
-                        // Desmarcar o toggle após salvar o valor
-                        document.getElementById("togglePontos").checked = true;
-                        // Recalcular os totais após a atualização dos pontos disponíveis
-                        calcularTotais();
-                    } else {
-                        // Caso o valor inserido não seja um número válido, exibir um alerta
-                        alert("Por favor, insira um valor numérico válido.");
-                    }
-                }
-                
-                
-                // Adicionar funcionalidade de arrastar à caixa de opções
-                const optionsBox = document.querySelector('.options-box');
-                let isDragging = false;
-                let offset = { x: 0, y: 0 };
-                
-                optionsBox.addEventListener('mousedown', (e) => {
-                    isDragging = true;
-                    offset = {
-                        x: e.clientX - optionsBox.getBoundingClientRect().left,
-                        y: e.clientY - optionsBox.getBoundingClientRect().top
-                    };
-                });
-                
-                document.addEventListener('mousemove', (e) => {
-                    if (!isDragging) return;
-                    
-                    optionsBox.style.left = `${e.clientX - offset.x}px`;
-                    optionsBox.style.top = `${e.clientY - offset.y}px`;
-                });
-                
-                document.addEventListener('mouseup', () => {
-                    isDragging = false;
-                });
-                
-            
-                
-            </script>
-            <script>
-                const prompts = {
-            humano: {
-                gender: ["masculino", "feminino"],
-                role: ["guerreiro", "mago", "clérigo", "arqueiro", "ladrão", "alquimista"],
-                attire: ["armadura", "roupas de mago", "roupas simples", "vestimentas cerimoniais", "trajes extravagantes", "uniforme militar"],
-                scene: ["pintura", "oceano", "igreja", "floresta", "rua movimentada", "castelo em ruínas"],
-                emotion: ["tristeza", "pesar", "felicidade", "raiva", "surpresa", "medo"],
-                weapon: ["cajado", "espada", "maça", "arco e flecha", "adaga", "besta"],
-                location: ["parque", "cemitério", "taberna", "castelo", "bosque encantado", "cidade subterrânea"]
-            },
-            elfo: {
-                gender: ["masculino", "feminino", "androgino"],
-                role: ["ranger", "mago", "clérigo", "arqueiro", "druida", "bardo"],
-                attire: ["armadura élfica", "vestes da natureza", "roupas elegantes", "vestimentas folhosas", "trajes élficos finos", "roupas simples"],
-                scene: ["floresta encantada", "clareira à luz da lua", "ruína antiga", "lago cristalino", "cidade élfica", "céu estrelado"],
-                emotion: ["nostalgia", "serenidade", "alegria", "mistério", "anseio", "admiração"],
-                weapon: ["arco longo", "cajado", "adaga", "espada", "lança", "cristais mágicos"],
-                location: ["aldeia élfica", "clareira sagrada", "santuário silvestre", "reino etéreo", "templo antigo"]
-            },
-            golem: {
-                purpose: ["guardião", "trabalhador", "artilharia", "explorador", "erudito", "entretenimento"],
-                ability: ["força", "velocidade", "resiliência", "agilidade", "inteligência", "poder elemental"],
-                environment: ["cidade", "floresta", "montanhas", "caverna", "deserto", "ruínas"],
-                action: ["protegendo", "construindo", "contemplando", "vagueando", "aprendendo", "entretendo"]
-            }
-        };
+                document.getElementById("bonusMessage").innerHTML = "+1 em Três Atributos Diferentes (exceto Carisma)<br>Carisma -1<br><span style='display: block;'>Cria da Tormenta</span><span>Deformidade</span><br>";
 
-        const fixedCharacteristics = "4k, ultra detalhado, Detalhes intrincados, muito realista, iluminação cinematográfica, iluminação volumétrica, fotográfico, motor Unreal, estilo anime ";
+            } else if (racaSelect.value === "minotaur") {
+                aplicarBonusRacial("minotaur");;
 
-        const racaSelector = document.getElementById("raca");
-        const promptGerado = document.getElementById("promptGerado");
-        const gerarPromptBtn = document.getElementById("gerarPrompt");
-        const copiarPromptBtn = document.getElementById("copiarPrompt");
+            } else if (racaSelect.value === "tattooed") {
+                aplicarBonusRacial("tattooed");;
 
-        function generateRandomPrompt(raca) {
-            if (raca === "golem") {
-                
-                const purpose = prompts[raca].purpose[Math.floor(Math.random() * prompts[raca].purpose.length)];
-                const ability = prompts[raca].ability[Math.floor(Math.random() * prompts[raca].ability.length)];
-                const environment = prompts[raca].environment[Math.floor(Math.random() * prompts[raca].environment.length)];
-                const action = prompts[raca].action[Math.floor(Math.random() * prompts[raca].action.length)];
-                const tamanhoSelect = document.getElementById("tamanho");
-                const tamanhoValue = tamanhoSelect.value;
-                const chassiSelect = document.getElementById("chassi");
-                const chassiValue = chassiSelect.value;
-                const fonteEnergiaSelect = document.getElementById("fonteEnergia");
-                const fonteEnergiaValue = fonteEnergiaSelect.value;
+            } else if (racaSelect.value === "hobbit") {
+                aplicarBonusRacial("hobbit");
 
-                return `Um golem ${tamanhoValue} de feito de ${chassiValue} e alimentado por energia ${fonteEnergiaValue}, de formato humanóide, projetado como ${purpose}, ${action} em um ${environment}, exibindo sua ${ability}, ${fixedCharacteristics}`;
+            } else if (racaSelect.value === "greatgnome") {
+                aplicarBonusRacial("greatgnome");
+
+            } else if (racaSelect.value === "medusa") {
+                aplicarBonusRacial("medusa");
+
+            } else if (racaSelect.value === "skeleton") {
+                configurarAtributosRaciaisPorRaca();
+                const bonusMessage = document.getElementById("bonusMessage");
+                document.getElementById("bonusMessage").innerHTML = "+1 em Três Atributos Diferentes (exceto Constituição)<br>Constituição -1<br><span style='display: block;'>Armadura Óssea</span><span>Memória Póstuma</span><br><span>Natureza Esquelética</span><br><span>Preço da Não Vida</span><br>";
+
+            } else if (racaSelect.value === "siren") {
+                configurarAtributosRaciaisPorRaca();
+                const bonusMessage = document.getElementById("bonusMessage");
+                document.getElementById("bonusMessage").innerHTML = "+1 em Três Atributos Diferentes<br><span style='display: block;'>Canção dos Mares</span><span>Mestre do Tridente</span><br><span>Transformação Anfíbia</span><br>";
+
+            } else if (racaSelect.value === "fairy") {
+                aplicarBonusRacial("fairy");
+
+            } else if (racaSelect.value === "lizardfolk") {
+                aplicarBonusRacial("lizardfolk");
+
+            } else if (racaSelect.value === "aasimar") {
+                aplicarBonusRacial("aasimar");
+
+            } else if (racaSelect.value === "tiefling") {
+                aplicarBonusRacial("tiefling");
+
+            } else if (racaSelect.value === "dwarves") {
+                aplicarBonusRacial("dwarves");
+
+            } else if (racaSelect.value === "elves") {
+                aplicarBonusRacial("elves");
+
+            } else if (racaSelect.value === "giant") {
+                aplicarBonusRacial("giant");
+
+            } else if (racaSelect.value === "hobgobling") {
+                aplicarBonusRacial("hobgobling");
+
+            } else if (racaSelect.value === "halfelf") {
+                configurarAtributosRaciaisPorRaca();
+                const bonusMessage = document.getElementById("bonusMessage");
+                document.getElementById("bonusMessage").innerHTML = "Carisma +2,<br> +1 em outro atributo<br><span style='display: block;'>Longa Infância</span><span>Sentidos Ancestrais</span>";
+
+            } else if (racaSelect.value === "aberrant") {
+                atualizarAtributosRaciais();
+                aberrantSelect();
+                const bonusMessage = document.getElementById("bonusMessage");
+                document.getElementById("bonusMessage").innerHTML = "Carisma -2,<br>Mutação</span>";
+
+            } else if (racaSelect.value === "halforc") {
+                configurarAtributosRaciaisPorRaca();
+                const bonusMessage = document.getElementById("bonusMessage");
+                document.getElementById("bonusMessage").innerHTML = "Força +2, +1 em outro atributo (exceto Carisma)<br><span style='display: block;'>Criatura das Profundezas</span>\nAdaptável\n<span>Sangue Orc</span>";
+
+            } else if (racaSelect.value === "orc") {
+                aplicarBonusRacial("orc");
+
+            } else if (racaSelect.value === "frogpeople") {
+                aplicarBonusRacial("frogpeople");
+
+            } else if (racaSelect.value === "ogre") {
+                aplicarBonusRacial("ogre");
+
+            } else if (racaSelect.value === "bugbear") {
+                aplicarBonusRacial("bugbear");
+
+            } else if (racaSelect.value === "hobgoblin_militaristic") {
+                aplicarBonusRacial("hobgoblin_militaristic");
+
+            } else if (racaSelect.value === "gnoll") {
+                aplicarBonusRacial("gnoll");
+
             } else {
-                const gender = prompts[raca].gender[Math.floor(Math.random() * prompts[raca].gender.length)];
-                const role = prompts[raca].role[Math.floor(Math.random() * prompts[raca].role.length)];
-                const attire = prompts[raca].attire[Math.floor(Math.random() * prompts[raca].attire.length)];
-                const scene = prompts[raca].scene[Math.floor(Math.random() * prompts[raca].scene.length)];
-                const emotion = prompts[raca].emotion[Math.floor(Math.random() * prompts[raca].emotion.length)];
-                const weapon = prompts[raca].weapon[Math.floor(Math.random() * prompts[raca].weapon.length)];
-                const location = prompts[raca].location[Math.floor(Math.random() * prompts[raca].location.length)];
+                // Limpar valores da coluna "Racial" e desbloquear os inputs
+                limparValoresRaciais();
 
-                return `Um ${raca} ${gender} ${role} vestindo ${attire}, olhando para um ${scene} com ${emotion}, segurando um ${weapon} em um ${location}, ${fixedCharacteristics}`;
+                // Limpar a mensagem de bônus raciais
+                const bonusMessage = document.getElementById("bonusMessage");
+                bonusMessage.textContent = "";
             }
         }
 
-        gerarPromptBtn.addEventListener("click", () => {
-            const racaSelecionada = racaSelector.value;
-            const promptGeradoTexto = generateRandomPrompt(racaSelecionada);
-            promptGerado.textContent = `Prompt: ${promptGeradoTexto}`;
-        });
+        // Calcular todos os totais após as alterações
+        calcularTotais();
+    }
 
-        copiarPromptBtn.addEventListener("click", () => {
-            const promptText = promptGerado.textContent;
-            if (promptText) {
-                const textarea = document.createElement("textarea");
-                textarea.value = promptText;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand("copy");
-                document.body.removeChild(textarea);
-                alert("Prompt copiado!");
+
+    function aplicarBonusRacial(racaSelecionada) {
+        const racas = {
+            elfo: {
+                bonus: "Inteligência +2, Destreza +1, Constituição -1<br>Graça de Glórienn<br>Sangue Mágico<br>Sentidos Élficos",
+                valores: { for_racial: 0, dex_racial: 1, con_racial: -1, int_racial: 2, sab_racial: 0, car_racial: 0 }
+            },
+            dwarf: {
+                bonus: "Constituição +2, Sabedoria +1, Destreza -1<br><span style='display: block;'>Conhecimento das Rochas</span><span>Devagar e Sempre</span><br><span>Duro como Pedra</span><br><span>Tradição de Heredrimm</span>",
+                valores: { for_racial: 0, dex_racial: -1, con_racial: 2, int_racial: 0, sab_racial: 1, car_racial: 0 }
+            },
+            driad: {
+                bonus: "Sabedoria +2, Destreza +1, Inteligência –1<br><span style='display: block;'>Amiga das Plantas</span><span>Armadura de Allihanna</span><br><span>Empatia Selvagem</span>",
+                valores: { for_racial: 0, dex_racial: 1, con_racial: 0, int_racial: -1, sab_racial: 2, car_racial: 0 }
+            },
+            goblin: {
+                bonus: "Destreza +2, Inteligência +1, Carisma –1<br><span style='display: block;'>Engenhoso</span><span>Espelunqueiro</span><br><span>Peste Esguia</span><br><span>Rato das Ruas</span>",
+                valores: { for_racial: 0, dex_racial: 2, con_racial: 0, int_racial: 1, sab_racial: 0, car_racial: -1 }
+            },
+            minotaur: {
+                bonus: "Força +2, Constituição +1, Sabedoria –1<br><span style='display: block;'>Chifres</span><span>Couro Rígido</span><br><span>Faro</span><br><span>Medo de Altura</span>",
+                valores: { for_racial: 2, dex_racial: 0, con_racial: 1, int_racial: 0, sab_racial: -1, car_racial: 0 }
+            },
+            tattooed: {
+                bonus: "Carisma +2, Inteligência +1, Sabedoria –1<br><span style='display: block;'>Desejos</span><span>Resistência Elemental</span><br><span>Tatuagem Mística</span>",
+                valores: { for_racial: 0, dex_racial: 0, con_racial: 0, int_racial: 1, sab_racial: -1, car_racial: 2 }
+            },
+            hobbit: {
+                bonus: "Destreza +2, Carisma +1, Força –1<br><span style='display: block;'>Arremessador</span><span>Pequeno e Rechonchudo</span><br><span>Sorte Salvadora</span>",
+                valores: { for_racial: -1, dex_racial: 2, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 1 }
+            },
+            greatgnome: {
+                bonus: "Inteligência +2, Carisma +1, Força –1<br><span style='display: block;'>Híbrido</span><span>Engenhosidade</span><br><span>Ossos Frágeis</span><br><span>Vanguardista</span>",
+                valores: { for_racial: -1, dex_racial: 0, con_racial: 0, int_racial: 2, sab_racial: 0, car_racial: 1 }
+            },
+
+            medusa: {
+                bonus: "Destreza +2, Carisma +1<br><span style='display: block;'>Cria de Megalokk</span><span>Natureza Venenosa</span><br><span>Olhar Atordoante</span>",
+                valores: { for_racial: 0, dex_racial: 2, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 1 }
+            },
+
+            fairy: {
+                bonus: "Carisma +2, Destreza +1,<br>Força –2.<br><span style='display: block;'>Asas de Borboleta</span><span>Espírito da Natureza</span><br><span>Magia das Fadas</span>",
+                valores: { for_racial: -2, dex_racial: 1, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 2 }
+            },
+
+            lizardfolk: {
+                bonus: "Constituição +2, Força +1,<br>Inteligência –1.<br><span style='display: block;'>Mau Cheiro</span><span>Mordida</span><br><span>Reptiliano</span><br><span>Sangue Frio</span>",
+                valores: { for_racial: 1, dex_racial: 0, con_racial: 2, int_racial: -1, sab_racial: 0, car_racial: 0 }
+            },
+
+            aasimar: {
+                bonus: "Sabedoria +2, Carisma +1<br><span style='display: block;'>Herança Divina</span><span>Luz Sagrada (aggelus)</span>",
+                valores: { for_racial: 0, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 2, car_racial: 1 }
+            },
+
+            tiefling: {
+                bonus: "Destreza +2, Inteligência +1<br><span style='display: block;'>Herança Divina</span><span>Sombras Profanas (sulfure)</span>",
+                valores: { for_racial: 0, dex_racial: 2, con_racial: 0, int_racial: 1, sab_racial: 0, car_racial: 0 }
+            },
+
+            dwarves: {
+                bonus: "Constituição +2, Inteligência +1, Carisma -1<br><span style='display: block;'>Busca pela Perfeição</span><span>Devagar e Sempre</span><br><span>Moldado nas Rochas</span>",
+                valores: { for_racial: 0, dex_racial: 0, con_racial: 2, int_racial: 1, sab_racial: 0, car_racial: -1 }
+            },
+
+            elves: {
+                bonus: "Sabedoria +2, Destreza +1,<br>Constituição –1.<br><span style='display: block;'>Armas da Floresta</span><span>Magia Antiga</span><span><br>Passo Leve</span><br><span>Sentidos Élficos<br></span><span>Sentimentos Conflitantes</span>",
+                valores: { for_racial: 0, dex_racial: 1, con_racial: -1, int_racial: 0, sab_racial: 2, car_racial: 0 }
+            },
+
+            giant: {
+                bonus: "Força +3, Constituição +2, Inteligência –2, Sabedoria –1, Carisma –1.<br><span style='display: block;'>Grandão</span><span>Primitivo</span>",
+                valores: { for_racial: 3, dex_racial: 0, con_racial: 2, int_racial: -2, sab_racial: -1, car_racial: -1 }
+            },
+
+            hobgobling: {
+                bonus: "Força +1, Destreza +1, Constituição +1, Carisma –1<br><span style='display: block;'>Couro Duro</span><span>Dependência de Liderança</span><br><span>Militarista</span><br><span>Natureza Bestial</span>",
+                valores: { for_racial: 1, dex_racial: 1, con_racial: 1, int_racial: 0, sab_racial: 0, car_racial: -1 }
+            },
+
+            orc: {
+                bonus: "Força +2, Constituição +1, Inteligência –1<br><span style='display: block;'>Feroz</span><span>Habitante das Cavernas</span><br><span>Vigor Brutal</span>",
+                valores: { for_racial: 2, dex_racial: 0, con_racial: 1, int_racial: -1, sab_racial: 0, car_racial: 0 }
+            },
+
+            frogpeople: {
+                bonus: "Constituição +2, Força +1, Carisma –1<br><span>Batráquio</span><br><span>Linguarudo</span>\n<span>Saltador</span>",
+                valores: { for_racial: 1, dex_racial: 0, con_racial: 2, int_racial: 0, sab_racial: 0, car_racial: -1 }
+            },
+
+            ogre: {
+                bonus: "Força +2, Constituição +1, Inteligência –1, Carisma –1<br><span style='display: block;'>Quanto Maior o Tamanho...</span><span>…Maior a Porrada</span><br><span>Camada de Ingenuidade</span>",
+                valores: { for_racial: 2, dex_racial: 0, con_racial: 1, int_racial: -1, sab_racial: 0, car_racial: -1 }
+            },
+
+            bugbear: {
+                bonus: "Força +2, Destreza +1,<br> Carisma –1<br><span style='display: block;'>Empunhadura Poderosa</span><span>Saborear Pavor</span><br><span>Sentidos de Predador</span>",
+                valores: { for_racial: 2, dex_racial: 1, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: -1 }
+            },
+
+            hobgoblin_militaristic: {
+                bonus: "Constituição +2, Destreza +1, Carisma –1<br><span style='display: block;'>Arte da Guerra</span><span>Metalurgia Hobgoblin</span><br><span>Táticas de Guerrilha</span>",
+                valores: { for_racial: 0, dex_racial: 1, con_racial: 2, int_racial: 0, sab_racial: 0, car_racial: -1 }
+            },
+
+            gnoll: {
+                bonus: "Constituição +2, Sabedoria +1, Inteligência –1<br><span style='display: block;'>Faro</span><span>Mordida</span><br><span>Oportunista</span><br>Rendição",
+                valores: { for_racial: 0, dex_racial: 0, con_racial: 2, int_racial: -1, sab_racial: 1, car_racial: 0 }
+            },
+
+            // Adicione mais raças conforme necessário
+        };
+
+        const bonusMessage = document.getElementById("bonusMessage");
+        const atributos = ["for_racial", "dex_racial", "con_racial", "int_racial", "sab_racial", "car_racial"];
+
+        if (racaSelecionada in racas) {
+            bonusMessage.innerHTML = `${racas[racaSelecionada].bonus}<br>`;
+            atributos.forEach((atributo) => {
+                const valor = racas[racaSelecionada].valores[atributo];
+                document.getElementById(atributo).value = valor;
+            });
+        } else {
+            bonusMessage.innerHTML = "";
+            atributos.forEach((atributo) => {
+                document.getElementById(atributo).value = "0";
+            });
+        }
+
+        // Bloquear os campos de input dos atributos raciais
+        atributos.forEach((atributo) => {
+            document.getElementById(atributo).disabled = true;
+        });
+    }
+
+
+    const bonusMessage = document.getElementById("bonusMessage");
+    const atributos = ["for_racial", "dex_racial", "con_racial", "int_racial", "sab_racial", "car_racial"];
+
+    if (racaSelecionada in racas) {
+        bonusMessage.innerHTML = racas[racaSelecionada].bonus;
+        atributos.forEach((atributo) => {
+            document.getElementById(atributo).value = racas[racaSelecionada].valores[atributo];
+        });
+    } else {
+        bonusMessage.innerHTML = "";
+        atributos.forEach((atributo) => {
+            document.getElementById(atributo).value = "0";
+        });
+    }
+
+    // Bloquear os campos de input dos atributos raciais
+    atributos.forEach((atributo) => {
+        document.getElementById(atributo).disabled = true;
+    });
+
+    function aplicarBonusRacialGolem() {
+        // Obter os valores selecionados nas caixas de seleção
+        const chassiSelect = document.getElementById("chassi");
+        const chassiValue = chassiSelect.value;
+        const fonteEnergiaSelect = document.getElementById("fonteEnergia");
+        const fonteEnergiaValue = fonteEnergiaSelect.value;
+        const tamanhoSelect = document.getElementById("tamanho");
+        const tamanhoValue = tamanhoSelect.value;
+
+        // Exibir mensagem de bônus raciais
+        const bonusMessage = document.getElementById("bonusMessage");
+        if (chassiValue === "bronze") {
+            const outrosColumn = document.querySelectorAll(".outros-col");
+            outrosColumn.forEach((cell) => cell.classList.add("show"));
+            bonusMessage.innerHTML = "Força +1, Carisma -1<br><span style='display: block;'>Chassi de Bronze: +1 em dois atributos a sua escolha." + "<br>Fonte de Energia: " + fonteEnergiaValue + "<br>Tamanho: " + tamanhoValue + "</span>";
+        } else if (chassiValue === "ferro") {
+            const outrosColumn = document.querySelectorAll(".outros-col");
+            outrosColumn.forEach((cell) => cell.classList.remove("show"));
+            bonusMessage.innerHTML = "Força +1, Carisma -1<br><span style='display: block;'>Chassi de Ferro: Força +1 e Constituição +1." + "<br>Fonte de Energia: " + fonteEnergiaValue + "<br>Tamanho: " + tamanhoValue + "</span>";
+        } else if (chassiValue === "carne") {
+            const outrosColumn = document.querySelectorAll(".outros-col");
+            outrosColumn.forEach((cell) => cell.classList.remove("show"));
+            bonusMessage.innerHTML = "Força +1, Carisma -1<br><span style='display: block;'>Chassi de Carne: Constituição +2, Força +1, Carisma –1." + "<br>Fonte de Energia: " + fonteEnergiaValue + "<br>Tamanho: " + tamanhoValue + "</span>";
+        } else {
+            const outrosColumn = document.querySelectorAll(".outros-col");
+            outrosColumn.forEach((cell) => cell.classList.remove("show"));
+            bonusMessage.textContent = "";
+        }
+
+        // Definir os valores dos atributos raciais para Golem com base nas escolhas
+        const forRacaInput = document.getElementById("for_racial");
+        const dexRacaInput = document.getElementById("dex_racial");
+        const conRacaInput = document.getElementById("con_racial");
+        const intRacaInput = document.getElementById("int_racial");
+        const sabRacaInput = document.getElementById("sab_racial");
+        const carRacaInput = document.getElementById("car_racial");
+
+        forRacaInput.value = chassiValue === "ferro" ? "2" : (chassiValue === "carne" ? "2" : "1");
+        dexRacaInput.value = tamanhoValue === "Pequeno" ? "1" : (tamanhoValue === "Grande" ? "-1" : "0");
+        conRacaInput.value = chassiValue === "carne" ? "2" : (chassiValue === "ferro" ? "1" : "0");
+        intRacaInput.value = "0";
+        sabRacaInput.value = "0";
+        carRacaInput.value = chassiValue === "carne" ? "-2" : "-1";
+
+        // Desbloquear os campos de input dos atributos raciais
+        forRacaInput.disabled = true;
+        dexRacaInput.disabled = true;
+        conRacaInput.disabled = true;
+        intRacaInput.disabled = true;
+        sabRacaInput.disabled = true;
+        carRacaInput.disabled = true;
+    }
+
+    function limparValoresRaciais() {
+        const atributosRaciais = ["for_racial", "dex_racial", "con_racial", "int_racial", "sab_racial", "car_racial"];
+
+        for (const atributo of atributosRaciais) {
+            const atributoInput = document.getElementById(atributo);
+            atributoInput.value = "0";
+            atributoInput.disabled = false;
+        }
+    }
+
+
+    function resetarValores() {
+        // Recarregar a página para resetar todos os valores
+        window.location.reload();
+    }
+
+    // Função para exibir ou ocultar a caixa de opções
+    function exibirOpcoes() {
+        var opcoes = document.getElementById("opcoes");
+        if (opcoes.style.display === "none") {
+            opcoes.style.display = "block";
+        } else {
+            opcoes.style.display = "none";
+        }
+    }
+
+    function toggleOutrosColumn() {
+        const toggleOutrosInput = document.getElementById("toggleOutrosInput");
+        const outrosCells = document.querySelectorAll(".outros-col"); // Selecionar todas as células da coluna "Outros"
+
+        if (toggleOutrosInput.checked) {
+            // Exibir todas as células da coluna "Outros"
+            outrosCells.forEach((cell) => {
+                cell.classList.add("show");
+                cell.classList.remove("hide");
+            });
+        } else {
+            // Ocultar todas as células da coluna "Outros"
+            outrosCells.forEach((cell) => {
+                cell.classList.add("hide");
+                cell.classList.remove("show");
+            });
+        }
+    }
+
+    // Adicionar evento onchange para o toggle switch de "Outros"
+    const toggleOutrosInput = document.getElementById("toggleOutrosInput");
+    toggleOutrosInput.addEventListener('change', toggleOutrosColumn);
+
+    function exibirPontosInput() {
+        const pontosInput = document.getElementById("pontosInput");
+        const togglePontos = document.getElementById("togglePontos");
+
+        if (togglePontos.checked) {
+            // Mostrar o campo de entrada quando o toggle estiver ativado
+            pontosInput.style.display = "inline";
+        } else {
+            // Ocultar o campo de entrada quando o toggle estiver desativado
+            pontosInput.style.display = "none";
+        }
+    }
+
+    // Adicionar evento onchange para o toggle dos pontos disponíveis
+    const togglePontos = document.getElementById("togglePontos");
+    togglePontos.addEventListener('change', exibirPontosInput);
+
+    function togglePontosInput() {
+        const pontosInput = document.getElementById("pontosInput");
+        const salvarPontosBtn = document.getElementById("salvarPontos");
+        const togglePontos = document.getElementById("togglePontos");
+
+        if (togglePontos.checked) {
+            // Quando o toggle estiver marcado (ativado), exibir o input e o botão "Salvar"
+            pontosInput.style.display = "inline";
+            salvarPontosBtn.style.display = "inline";
+            // Atualizar o valor do input com o valor atual dos pontos disponíveis
+            pontosInput.value = parseInt(document.getElementById("pontos_disponiveis").textContent);
+        } else {
+            // Quando o toggle estiver desmarcado (desativado), ocultar o input e o botão "Salvar"
+            pontosInput.style.display = "none";
+            salvarPontosBtn.style.display = "none";
+        }
+    }
+
+    function atualizarPontosDisponiveis() {
+        const pontosInput = document.getElementById("pontosInput");
+        const pontosDisponiveis = document.getElementById("pontos_disponiveis");
+
+        const novoValor = parseInt(pontosInput.value);
+        if (!isNaN(novoValor)) {
+            // Se o valor inserido for um número válido, atualizar os pontos disponíveis
+            pontosDisponiveis.textContent = novoValor;
+            // Ocultar o input e o botão "Salvar" após a atualização
+            pontosInput.style.display = "none";
+            document.getElementById("salvarPontos").style.display = "none";
+            // Desmarcar o toggle após salvar o valor
+            document.getElementById("togglePontos").checked = true;
+            // Recalcular os totais após a atualização dos pontos disponíveis
+            calcularTotais();
+        } else {
+            // Caso o valor inserido não seja um número válido, exibir um alerta
+            alert("Por favor, insira um valor numérico válido.");
+        }
+    }
+
+
+    // Adicionar funcionalidade de arrastar à caixa de opções
+    const optionsBox = document.querySelector('.options-box');
+    let isDragging = false;
+    let offset = { x: 0, y: 0 };
+
+    optionsBox.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offset = {
+            x: e.clientX - optionsBox.getBoundingClientRect().left,
+            y: e.clientY - optionsBox.getBoundingClientRect().top
+        };
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+
+        optionsBox.style.left = `${e.clientX - offset.x}px`;
+        optionsBox.style.top = `${e.clientY - offset.y}px`;
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+
+    function configurarAtributosRaciaisPorRaca() {
+        const racaSelect = document.getElementById("raca");
+        const pontosMaximosPorRaca = {
+            humano: 3,
+            corrompido: 2,
+            skeleton: 2,
+            siren: 3,
+            halfelf: 3,
+            halforc: 3,
+            halfdragon: 2,
+            // Adicione outras raças e seus totais de pontos disponíveis conforme necessário
+        };
+        const valorMaximoAtributosRaciais = {
+            humano: 1, // Valor máximo para a raça "humano"
+            corrompido: 1,
+            skeleton: 1,
+            siren: 1,
+            halfelf: 1,
+            halforc: 1,
+            halfdragon: 2,
+            // Adicione outras raças e seus valores máximos conforme necessário
+        };
+
+        const atributosRaciais = ["for_racial", "dex_racial", "con_racial", "int_racial", "sab_racial", "car_racial"];
+
+        racaSelect.addEventListener("change", () => {
+            const racaSelecionada = racaSelect.value;
+            const pontosMaximos = pontosMaximosPorRaca[racaSelecionada];
+            const valorMaximo = valorMaximoAtributosRaciais[racaSelecionada];
+
+            // Defina o valor máximo para os atributos raciais
+            for (const atributo of atributosRaciais) {
+                const atributoInput = document.getElementById(atributo);
+                atributoInput.max = valorMaximo;
+            }
+
+            // Lidar com as características específicas das raças "Lefou" (Corrompido) e "Skeleton"
+            if (racaSelecionada === "corrompido") {
+                const carRacialInput = document.getElementById("car_racial");
+                carRacialInput.value = "-1";
+                carRacialInput.disabled = true;
+            } else if (racaSelecionada === "skeleton") {
+                const conRacialInput = document.getElementById("con_racial");
+                conRacialInput.value = "-1";
+                conRacialInput.disabled = true;
+            } else if (racaSelecionada === "halfelf") {
+                const carRacialInput = document.getElementById("car_racial");
+                carRacialInput.value = "2";
+                carRacialInput.disabled = true;
+
+            } else if (racaSelecionada === "halforc") {
+                const carRacialInput = document.getElementById("car_racial");
+                const forRacialInput = document.getElementById("for_racial");
+                carRacialInput.value = "0";
+                carRacialInput.disabled = true;
+                forRacialInput.value = "2";
+                forRacialInput.disabled = true;
+            }
+            // Quando um atributo racional é modificado, verifique se excede o valor máximo
+            for (const atributo of atributosRaciais) {
+                const atributoInput = document.getElementById(atributo);
+
+                atributoInput.addEventListener("change", () => {
+                    const pontosGastos = atributosRaciais.reduce((total, atributo) => {
+                        const valor = parseInt(document.getElementById(atributo).value);
+                        return total + (isNaN(valor) ? 0 : valor);
+                    }, 0);
+
+                    // Verifique se a raça é "halfdragon" e se já foram gastos 2 pontos
+                    if (racaSelecionada === "halfdragon" && pontosGastos >= 2) {
+                        // Permitir a alteração dos valores, mas desabilite a adição de mais pontos
+                        for (const atributo of atributosRaciais) {
+                            const atributoInput = document.getElementById(atributo);
+                            atributoInput.disabled = parseInt(atributoInput.value) === 0;
+                        }
+                    } else {
+                        // Desabilite outros atributos quando o valor máximo for atingido
+                        for (const atributo of atributosRaciais) {
+                            const atributoInput = document.getElementById(atributo);
+                            if (racaSelecionada === "corrompido" && atributo === "car_racial") {
+                                // Carisma sempre é -1 para a raça "Lefou" (Corrompido)
+                                atributoInput.value = "-1";
+                                atributoInput.disabled = true;
+                            } else if (racaSelecionada === "skeleton" && atributo === "con_racial") {
+                                // Constituição sempre é -1 para a raça "Skeleton"
+                                atributoInput.value = "-1";
+                                atributoInput.disabled = true;
+                            } else if (racaSelecionada === "halfelf" && atributo === "car_racial") {
+                                // Carisma sempre é +2 para a raça "halfelf"
+                                atributoInput.value = "2";
+                                atributoInput.disabled = true;
+                            } else if (racaSelecionada === "halforc" && atributo === "car_racial") {
+                                const forRacialInput = document.getElementById("for_racial");
+
+                                atributoInput.value = "0";
+                                atributoInput.disabled = true;
+
+                                forRacialInput.value = "2"; // Define Força como 2
+                                forRacialInput.disabled = true; // Desabilita Força
+                            } else {
+                                // Para outros atributos e raças, use a lógica padrão
+                                atributoInput.disabled = pontosGastos >= pontosMaximos && parseInt(atributoInput.value) === 0;
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
+</script>
+<script>
+    function aberrantSelect() {
+        var racaSelect = document.getElementById("raca");
+        var caracteristicasAberrante = document.getElementById("caracteristicasAberrante");
+
+        // Verifica se "aberrant" está selecionado
+        if (racaSelect.value === "aberrant") {
+            caracteristicasAberrante.style.display = "block"; // Mostra a div
+        } else {
+            caracteristicasAberrante.style.display = "none"; // Oculta a div
+        }
+    }
+
+    function atualizarAtributosRaciais() {
+        let sabedoriaBonus = 0;
+        let forcaBonus = 0;
+        let constituicaoBonus = 0;
+        let destrezaBonus = 0;
+        let inteligenciaBonus = 0;
+        let carismaBonus = -2;
+        const mutacoesSelecionadas = [];
+        const checkboxes = [
+            mutacaoAscetico,
+            mutacaoMagiaBizarra,
+            mutacaoCouroRochoso,
+            mutacaoMetamorfose,
+            mutacaoMordida,
+            mutacaoMusculoso,
+            mutacaoResistente,
+            mutacaoSentidosAguçados,
+            mutacaoVeloz,
+            mutacaoVenenoso
+        ];
+
+        // Verificar mutações selecionadas e calcular os bônus
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                if (mutacoesSelecionadas.length >= 4) {
+                    checkbox.checked = false; // Desmarcar se já houver 4 seleções
+                } else {
+                    switch (checkbox.id) {
+                        case "mutacaoAscetico":
+                            sabedoriaBonus += 1;
+                            mutacoesSelecionadas.push("Ascético");
+                            break;
+                        case "mutacaoMagiaBizarra":
+                            mutacoesSelecionadas.push("Magia Bizarra");
+                            break;
+                        case "mutacaoCouroRochoso":
+                            mutacoesSelecionadas.push("Couro Rochoso");
+                            break;
+                        case "mutacaoMetamorfose":
+                            mutacoesSelecionadas.push("Metamorfose");
+                            break;
+                        case "mutacaoMordida":
+                            mutacoesSelecionadas.push("Mordida");
+                            break;
+                        case "mutacaoMusculoso":
+                            forcaBonus += 1;
+                            mutacoesSelecionadas.push("Musculoso");
+                            break;
+                        case "mutacaoResistente":
+                            constituicaoBonus += 1;
+                            mutacoesSelecionadas.push("Resistente");
+                            break;
+                        case "mutacaoSentidosAguçados":
+                            mutacoesSelecionadas.push("Sentidos Aguçados");
+                            break;
+                        case "mutacaoVeloz":
+                            destrezaBonus += 1;
+                            mutacoesSelecionadas.push("Veloz");
+                            break;
+                        case "mutacaoVenenoso":
+                            mutacoesSelecionadas.push("Venenoso");
+                            break;
+                    }
+                }
             }
         });
 
+        // Construir a mensagem com base nas mutações selecionadas
+        let mensagem = "";
+        if (mutacoesSelecionadas.length === 0) {
+            mensagem = "Carisma -2 Nenhuma mutação selecionada.";
+        } else {
+            mensagem = "Carisma -2 Mutações selecionadas: " + mutacoesSelecionadas.join(", ");
+        }
+
+        // Atualizar os valores dos atributos raciais
+        const sabedoriaRacialInput = document.getElementById('sab_racial');
+        const forcaRacialInput = document.getElementById('for_racial');
+        const constituicaoRacialInput = document.getElementById('con_racial');
+        const destrezaRacialInput = document.getElementById('dex_racial');
+        const inteligenciaRacialInput = document.getElementById('int_racial');
+        const carismaRacialInput = document.getElementById('car_racial');
+
+        // Atualizar os valores dos atributos raciais com os bônus calculados
+        sabedoriaRacialInput.value = sabedoriaBonus;
+        forcaRacialInput.value = forcaBonus;
+        constituicaoRacialInput.value = constituicaoBonus;
+        destrezaRacialInput.value = destrezaBonus;
+        inteligenciaRacialInput.value = inteligenciaBonus;
+        carismaRacialInput.value = carismaBonus;
+
+        sabedoriaRacialInput.disabled = true;
+        forcaRacialInput.disabled = true;
+        constituicaoRacialInput.disabled = true;
+        destrezaRacialInput.disabled = true;
+        inteligenciaRacialInput.disabled = true;
+        carismaRacialInput.disabled = true;
+
+        const bonusMessage = document.getElementById('bonusMessage');
+        bonusMessage.textContent = mensagem;
+    }
+
+    // Adicionar um ouvinte de evento de mudança a todas as caixas de seleção de mutação
+    const checkboxes = [
+        mutacaoAscetico,
+        mutacaoMagiaBizarra,
+        mutacaoCouroRochoso,
+        mutacaoMetamorfose,
+        mutacaoMordida,
+        mutacaoMusculoso,
+        mutacaoResistente,
+        mutacaoSentidosAguçados,
+        mutacaoVeloz,
+        mutacaoVenenoso
+    ];
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            atualizarAtributosRaciais();
+        });
+    });
 
 
-    </script>
+
+
+</script>
+
+
+<script>
+    const prompts = {
+        humano: {
+            gender: ["masculino", "feminino"],
+            role: ["guerreiro", "mago", "clérigo", "arqueiro", "ladrão", "alquimista"],
+            attire: ["armadura", "roupas de mago", "roupas simples", "vestimentas cerimoniais", "trajes extravagantes", "uniforme militar"],
+            scene: ["pintura", "oceano", "igreja", "floresta", "rua movimentada", "castelo em ruínas"],
+            emotion: ["tristeza", "pesar", "felicidade", "raiva", "surpresa", "medo"],
+            weapon: ["cajado", "espada", "maça", "arco e flecha", "adaga", "besta"],
+            location: ["parque", "cemitério", "taberna", "castelo", "bosque encantado", "cidade subterrânea"]
+        },
+
+        elfo: {
+            gender: ["masculino", "feminino", "androgino"],
+            role: ["ranger", "mago", "clérigo", "arqueiro", "druida", "bardo"],
+            attire: ["armadura élfica", "vestes da natureza", "roupas elegantes", "vestimentas folhosas", "trajes élficos finos", "roupas simples"],
+            scene: ["floresta encantada", "clareira à luz da lua", "ruína antiga", "lago cristalino", "cidade élfica", "céu estrelado"],
+            emotion: ["nostalgia", "serenidade", "alegria", "mistério", "anseio", "admiração"],
+            weapon: ["arco longo", "cajado", "adaga", "espada", "lança", "cristais mágicos"],
+            location: ["aldeia élfica", "clareira sagrada", "santuário silvestre", "reino etéreo", "templo antigo"]
+        },
+
+        dwarf: {
+            gender: ["masculino", "feminino"],
+            role: ["guerreiro", "mineiro", "ferreiro", "arqueiro", "cavaleiro", "alquimista"],
+            attire: ["armadura de aço", "roupas robustas", "vestimentas de ferreiro", "trajes tradicionais", "uniforme de guilda", "roupas de explorador"],
+            scene: ["minas profundas", "forja crepitante", "salão do trono anão", "montanhas majestosas", "taverna aconchegante", "rachaduras nas rochas"],
+            emotion: ["determinação", "orgulho de clã", "sede por aventura", "resistência inabalável", "lealdade aos amigos", "sabedoria antiga"],
+            weapon: ["machado de batalha", "martelo de guerra", "besta de repetição", "lança de aço", "escudo impenetrável", "machadinha de arremesso"],
+            location: ["fortaleza anã", "minas profundas", "taverna de anões", "cidade subterrânea", "forja ancestral", "trilhas nas montanhas"]
+        },
+
+        driad: {
+            gender: ["uma driade feminina"],
+            role: ["Guardiã da Natureza", "Curandeira", "Protetora da Floresta", "Sábia dos Bosques", "Druida", "Arqueira"],
+            attire: ["Vestes feitas de folhas", "túnicas naturais", "ornamentos de flores", "roupas leves e flexíveis, sapatos de casca"],
+            scene: ["Floresta densa e antiga", "clareira ensolarada", "riachos cristalinos", "jardins mágicos", "bosques encantados", "copas das árvores"],
+            emotion: ["Conexão profunda com a natureza", "serenidade", "empatia com todas as criaturas", "devoção à preservação ambiental", "paz interior", "harmonia com o mundo natural"],
+            weapon: ["Arco longo de madeira", "adaga de pedra", "arremesso de dardos de folha", "lança de madeira entalhada", "bastão de raiz", "bordão de videira"],
+            location: ["aldeia no coração da floresta", "refúgio escondido nas árvores", "templo natural oculto", "santuário sagrado da natureza", "clareira cerimonial", "caverna mágica subterrânea"]
+        },
+
+        corrompido: {
+            gender: ["masculino", "feminino"],
+            aspecto: ["olhos vermelhos", "antenas", "pele avermelhada", "bolhas sangrentas"],
+            papel: ["guerreiro", "feiticeiro", "clérigo", "qualquer coisa"],
+            vestimenta: ["vestes vermelhas", "trajes manchados", "ornamentos bizarros", "roupas com bolhas"],
+            cena: ["em meio à Tormenta", "noite sombria", "templo profano", "laboratório macabro", "cidadela corrompida", "portal para o caos"],
+            emoção: ["loucura sussurrante", "desejo de poder sombrio", "fé na Tormenta", "conhecimento proibido", "vontade inquebrável", "negação da humanidade"],
+            arma: ["espada de sangue", "cetro profano", "toque maldito", "livro de invocações", "cifras da loucura", "relíquia corrupta"],
+            local: ["refúgio nas entranhas da Tormenta", "covil entre dimensões", "altar profano", "abismo interdimensional", "nexus do caos", "labirinto sombrio"]
+        },
+
+        goblin: {
+            gender: ["masculino", "feminino"],
+            role: ["selvagem", "Ladrão Furtivo", "Engenheiro Inventivo", "Criador de Engenhocas", "Xamã Primitivo", "Caçador Astuto"],
+            attire: ["peles e trapos", "roupas escuras e camufladas", "avental sujo de óleo e graxa", "traje com muitos bolsos", "ornamentos de metal enferrujado", "capuz e máscara"],
+            scene: ["acampamento na floresta", "beco escuro da cidade", "oficina cheia de engenhocas", "caverna subterrânea", "clareira misteriosa", "esconderijo secreto nas montanhas"],
+            emotion: ["astúcia inigualável", "sede de riquezas", "paixão por invenções", "natureza desconfiada", "espírito brincalhão", "conexão com os espírito"],
+            weapon: ["faca de lâmina curva", "besta pequena e silenciosa", "pistola de engenho", "armadilha astuciosa", "clava dentada", "dardo envenenado"],
+            location: ["esconderijo nas árvores", "toca subterrânea", "oficina de engenharia", "acampamento nas montanhas", "beco escuro da cidade", "caverna com tochas piscantes"]
+        },
+
+        tattooed: {
+            gender: ["masculino", "feminino"],
+            role: ["Mago Encantador", "Bardo Cantor", "Curandeiro Místico", "Bruxo Astuto", "Alquimista Criativo", "Adivinho das Estrelas"],
+            attire: ["Vestes Místicas", "Roupas Coloridas", "Manto com Símbolos Arcanos", "Amuletos Encantados", "Chapéu Pontudo", "Tatuagens Brilhantes"],
+            scene: ["Academia de Magia", "Biblioteca Antiga", "Floresta Encantada", "Mercado de Poções", "Salão de Festas Mágicas", "Torre da Magia"],
+            emotion: ["Alegria Contagiante", "Fala Rápida e Empolgada", "Amabilidade Extrema", "Fascínio pela Magia", "Curiosidade Infinita", "Habilidade Social Única"],
+            weapon: ["Cajado de Cristal", "Livro de Feitiços", "Poções Misteriosas", "Varinha Entalhada", "Orbe Arcano", "Tomo Antigo de Magia"],
+            location: ["Cidade Encantada", "Torre de Magia", "Casa da Magia", "Biblioteca Mágica", "Templo da Deusa da Magia", "Academia Arcana"],
+        },
+
+        minotaur: {
+            gender: ["masculino"], // Os Minotauros são uma raça exclusivamente masculina. Deixe essa opção fixa.
+            role: ["Guerreiro Gladiador", "Senador Legislador", "Arquiteto Renomado", "Legionário", "Sacerdote Devoto", "Comandante das Legiões"],
+            attire: ["Toga Adornada", "Armadura de Legionário", "Túnica Senatorial", "Elmo de Centurião", "Sandálias Típicas", "Manto Púrpura"],
+            scene: ["Coliseu Enorme", "Fórum Romano", "Templo dos Deuses", "Cidadela Imponente", "Vila na Campina", "Arena de Batalhas"],
+            emotion: ["Orgulho de sua grandiosidade", "Responsabilidade da tradição", "Sede por glória", "Devoção aos deuses", "Força inabalável", "Senso de honra"],
+            weapon: ["Gládio Afiado", "Escudo de Bronze", "Lança Tridente", "Espada Curta", "Chariot de Guerra", "Rede de Combate"],
+            location: ["Cidade-Estado Gloriosa", "Coliseu Majestoso", "Templo dos Deuses", "Planícies de Batalha", "Vila na Montanha", "Arena de Treinamento"],
+        },
+
+        hobbit: {
+            gender: ["masculino", "feminino"],
+            role: ["Agricultor", "Fazendeiro", "Pescador", "Ferreiro", "Cozinheiro", "Músico"],
+            attire: ["Vestes confortáveis", "Roupas simples", "Sapatos aconchegantes", "Chapéu de palha", "Colete colorido", "Cachimbo"],
+            scene: ["Toca aconchegante", "Horta bem cuidada", "Festa no campo", "Festival da colheita", "Encontro no Salão Verde", "Ponte do rio tranquilo"],
+            emotion: ["Alegria na simplicidade", "Amor pela comida farta", "Hospitalidade calorosa", "Curiosidade pelas histórias", "Vida despreocupada", "Canto e dança"],
+            weapon: ["Estilingue", "Faca de bolso", "Machado de jardim", "Ferro de passar roupa", "Instrumento musical improvisado", "Panela de pressão"],
+            location: ["Condado", "Toca", "Vila no campo", "Ponte do Brandevin", "Inn do Pônei Saltitante", "Campo de cevada"],
+        },
+
+        greatgnome: {
+            gender: ["masculino", "feminino"],
+            role: ["Steampunk", "Engenhoqueiro", "Inventor", "Piloto"],
+            attire: ["Roupas de engenheiro", "Óculos de proteção", "Chapéu com engrenagens", "Luvas de couro", "Botas reforçadas", "Ferramentas de precisão"],
+            scene: ["Oficina movimentada", "Vapor no ar", "Invenções estranhas", "Ponte suspensa", "Céu com dirigíveis", "Sons de engrenagens"],
+            emotion: ["Fascínio pela máquina", "Criatividade a todo vapor", "Intriga por novas invenções", "Paixão por aventuras aéreas"],
+            weapon: ["Chave de fenda gigante", "Canhão de bolhas", "Arma de arpão", "Dispositivo de propulsão a vapor"],
+            location: ["Cidade das Engrenagens", "Hangar de Dirigíveis", "Torre das Invenções", "Porto Aéreo"],
+        },
+
+        medusa: {
+            gender: ["feminina"],
+            role: ["Feiticeira", "Swashbuckler", "Barda", "Arqueira", "Druida"],
+            attire: ["Túnicas encantadas", "Vestes mágicas", "Elegância serpentina", "Adornos hipnóticos"],
+            scene: ["Santuário sombrio", "Floresta encantada", "Cavernas ocultas", "Templos antigos"],
+            emotion: ["Sabedoria ancestral", "Mistério da magia", "Poder hipnótico", "Conexão com a natureza"],
+            weapon: ["Arco élfico", "Varinha mágica", "Espada serpentina", "Magia encantadora"],
+            location: ["Reino das Serpentes", "Floresta das Medusas", "Templo da Magia Arcana"],
+        },
+
+        siren: {
+            gender: ["Male", "Female"],
+            role: ["Guardian of the Deep Seas", "Enchanting Songstress", "Master of Aquatic Magic", "Explorer of Oceanic Wonders", "Sovereign of the Underwater Realm"],
+            attire: ["Seashell Adornments", "Flowing Seaweed Garments", "Coral-Encrusted Accessories", "Sapphire-Crested Crowns", "Pearl-Studded Robes"],
+            scene: ["Underwater Grotto", "Enchanted Coral Forest", "Abyssal Palace", "Crystal Caverns", "Shipwrecked Treasure"],
+            emotion: ["Deep Connection to the Ocean", "Mesmerizing Enchantment", "Curiosity for Surface World", "Protective of Underwater Kingdom"],
+            weapon: ["Trident of the Depths", "Conch Shell Horn", "Enchanted Seaweed Whip", "Aquatic Staff", "Coral Dagger", "Pearl-Handled Harpoon"],
+            location: ["Kingdom Beneath the Waves", "Siren's Song Cove", "Pearl-Adorned Throne", "Sunken Ship Graveyard", "Abyssal Abyss"]
+        },
+
+
+        skeleton: {
+            gender: ["Male", "Female"],
+            role: ["Navigator of the Dark Seas", "Crypt Guardian", "Ruins Explorer", "Cursed Relic Hunter", "Haunter of Subterranean Passages", "Master of Necromantic Enchantments", "Chamber Keeper of the Crypt"],
+            attire: ["Ancient and Corroded Armor", "Decrepit Mage Robes", "Gleaming Amulets and Relics", "Faceless Warrior Helms", "Spectral Chainmail", "Rusty Irons", "Runed Staves"],
+            scene: ["Ancestral Tomb", "Haunted Grove", "Castle in Ruins", "Chamber of Arcane Knowledge", "Subterranean Cavern"],
+            emotion: ["Nostalgia for Bygone Times", "Determination Beyond Death", "Thirst for Revenge", "Curiosity About the Afterlife"],
+            weapon: ["Time-Worn Sword", "Spectral Bow", "Darkened Staff", "Ancient Spear", "Bone Dagger", "Spectral Axe", "Scepter of Souls"],
+            location: ["Cemetery of Lost Souls", "Shadowy Necropolis", "Tower of the Ancient Lich"]
+        },
+
+        fairy: {
+            gender: ["Masculino", "Feminino"],
+            role: ["Protector of the Enchanted Forest", "Mystical Spellweaver", "Guardian of Secret Glades", "Curious Explorer of Nature", "Harmony Bringer to the Woods"],
+            attire: ["Petite Leafy Garments", "Butterfly-Wing Shawls", "Crystal-Adorned Accessories", "Floral Crowns", "Tiny Enchanted Robes"],
+            scene: ["Whimsical Meadow", "Glowing Mushroom Grove", "Ethereal Waterfall", "Ancient Tree Hollow", "Hidden Flower Blossom"],
+            emotion: ["Innate Connection to Nature", "Eternal Childlike Wonder", "Benevolent Protector of the Forest", "Playful Mischief in the Glades"],
+            weapon: ["Enchanted Wand", "Fairy Dust Pouch", "Nature's Staff", "Blossom Petal Darts", "Crystal Dagger", "Tiny Bow and Arrow"],
+            location: ["Enchanted Woodland Realm", "Fairy Ring Clearing", "Glimmering Tree Canopy", "Gossamer Mushroom Hamlet", "Crystal-Lit Cavern"]
+        },
+
+        lizardfolk: {
+            gender: ["Male", "Female"],
+            role: ["Tribal Shaman", "Skilled Hunter", "Ancient Lorekeeper", "Warrior Chief", "Mystic Healer", "Swamp Scout", "Guardian of Sacred Marshes"],
+            attire: ["Scales and Bone Accessories", "Leather Tribal Garb", "Feathered Headdresses", "Ceremonial Paint", "Mud-Caked Armor"],
+            scene: ["Misty Swamp Village", "Murky Bayou", "Hidden Jungle Temple", "Marshland Ritual Grounds", "Riverbank Fishing Spot"],
+            emotion: ["Deep Connection to Tribal Traditions", "Instinctual Understanding of Nature", "Loyalty to the Swamp Tribe", "Fierce Protector of the Marshes"],
+            weapon: ["Poisoned Blowdart", "Serrated Bone Dagger", "Ancient Totem Club", "Thrown Bolas", "Spear of the Marshlands", "Wooden Shield with Swamp Charms"],
+            location: ["Tribal Swamp Village", "Mystical Bayou Shrine", "Ancient Jungle Temple", "Marshland Homestead", "Riverbank Campsite"]
+        },
+
+        aasimar: {
+            gender: ["Male", "Female"],
+            role: ["Celestial Emissary", "Blessed Healer", "Protector of the Righteous", "Bearer of Divine Light", "Guardian of the Sacred", "Stellar Watcher", "Envoy of the Gods"],
+            attire: ["Angelical Garments", "Embroidered Divine Symbols", "Radiant Helm", "Ethereal Wings", "Sacred Amulets"],
+            scene: ["Celestial City", "Divine Sanctuary", "Temple of Light", "Sacred Altars", "Celestial Portal"],
+            emotion: ["Unwavering Devotion to the Gods", "Infinite Compassion for Mortals", "Understanding of Divine Wills", "Determination in the Fight Against Evil"],
+            weapon: ["Celestial Sword", "Staff of Divinity", "Bow of Grace", "Blessed Hammer", "Shield of Angels", "Spear of Justice"],
+            location: ["Celestial Plane", "Sacred Shrine", "Temple of Divine Glory", "Realms of the Gods", "Interdimensional Gateway"]
+        },
+
+
+        tiefling: {
+            gender: ["Male", "Female"],
+            role: ["Servant of Hell", "Profane Flame Mage", "Cultist of Darkness", "Tormented Exorcist", "Infernal Diplomat", "Repentant Heretic", "Knight of Shadows"],
+            attire: ["Diabolic Attire", "Demonic Horns", "Flaming Eyes", "Infernal Tattoos", "Profane Symbols"],
+            scene: ["Burning Inferno", "Obscure Ritual", "Corrupted City", "Gates of the Abyss", "Profane Temple"],
+            emotion: ["Internal Conflict", "Thirst for Infernal Power", "Defying the Curse", "Vengeance against Hell"],
+            weapon: ["Cursed Sword", "Staff of Shadows", "Infernal Blades", "Profane Magic", "Infernal Trident", "Scepter of Chaos"],
+            location: ["Infernal Plane", "Cursed City", "Demoniac Altar", "Refuge of the Damned", "Abyss Chamber"]
+        },
+
+        elves: {
+            gender: ["masculino", "feminino", "androgino"],
+            role: ["ranger", "mago", "clérigo", "arqueiro", "druida", "bardo"],
+            attire: ["armadura élfica", "vestes da natureza", "roupas elegantes", "vestimentas folhosas", "trajes élficos finos", "roupas simples"],
+            scene: ["floresta encantada", "clareira à luz da lua", "ruína antiga", "lago cristalino", "cidade élfica", "céu estrelado"],
+            emotion: ["nostalgia", "serenidade", "alegria", "mistério", "anseio", "admiração"],
+            weapon: ["arco longo", "cajado", "adaga", "espada", "lança", "cristais mágicos"],
+            location: ["aldeia élfica", "clareira sagrada", "santuário silvestre", "reino etéreo", "templo antigo"]
+        },
+
+        giant: {
+            gender: ["Male", "Female"],
+            role: ["Primitive Warrior", "Shamanistic Druid", "Nature's Guardian", "Elemental Shaman", "Mountain King", "Giant Shaman"],
+            attire: ["Fur-Clad Armor", "Primitive Tribal Garb", "Stone Jewelry", "Weathered Totem Adornments", "Mountain-Woven Cloaks", "Giant's Skin Garments"],
+            scene: ["Rugged Mountain Peak", "Ancient Forest Clearing", "Savage Wilderness", "Elemental Confluence", "Giant's Campsite", "Mystical Megaliths"],
+            emotion: ["Wild Ferocity", "Mystical Connection to Nature", "Ancient Wisdom", "Protector of the Land", "Spiritual Insights", "Primal Strength"],
+            weapon: ["Massive Club", "Stone-Tipped Spear", "Nature's Wrath Hammer", "Elemental Totem Staff", "Giant's Battle Axe", "Mystic Earthshaker Drum"],
+            location: ["Savage Mountain Stronghold", "Druidic Grove", "Elemental Nexus", "Giant's Tribal Village", "Ancient Megalithic Circle"]
+        },
+
+        halfelf: {
+            gender: ["Charismatic Male Half-Elf", "Cheerful Female Half-Elf", "Androgynous Half-Elf", "Half-Elf of Mysterious Origin", "Eternal Seeker of Truth", "Adventurous Half-Elf", "Frontier Explorer"],
+            role: ["Versatile Performer", "Master of Many Trades", "Bringer of Cheer", "Skilled Diplomat", "Master of Words", "Protector of Nature", "Compassionate Healer"],
+            attire: ["Stylish and Practical Wardrobe", "Elegance Meets Functionality", "Stylish and Practical Wardrobe", "Guardian of the Forest", "Versatile Artist", "Enchanting Magical Garb"],
+            scene: ["Festive Celebration", "Diplomatic Encounter", "Encounter with Ancient Spirits", "Starry Night in the Woods", "Union Celebration", "Treaty Negotiation"],
+            emotion: ["Radiant Charisma", "Contagious Joy", "Unwavering Compassion", "Infinite Determination", , "Team Spirit", "Infectious Joy"],
+            weapon: ["Adaptable Arsenal", "Enchanting Combat Style", "Rune-Wielding Expert", "Master of Arcane Arts", "Enchanted Dual Blades", "Guardian of Ancient Secrets"],
+            location: ["Heart of the City", "Crossroads of Cultures", "Village on the Border of Elven Lands", "Sanctuary in the Human City", "Temple of the Stars", "Library of the Elders"]
+        },
+
+        aberrant: {
+            gender: ["Monstrous Male Aberrant", "Hideous Female Aberrant", "Grotesque Androgynous Aberrant"],
+            role: ["Rejected Outcast", "Mysterious Pariah", "Monstrous Survivor"],
+            attire: ["Tattered and Filthy Rags", "Makeshift Coverings", "Unsettling Appearances"],
+            scene: ["Dark and Forsaken Alleyway", "Abandoned Underground Lair", "Haunted Cursed Ruins"],
+            emotion: ["Eternal Loneliness", "Inherent Alienation", "Survival Instinct"],
+            weapon: ["Crudely Forged Weapons", "Twisted Appendages", "Biological Anomalies"],
+            location: ["Hiding in the Shadows", "Forgotten Catacombs", "Isolated Aberrant Enclave"]
+        },
+
+        frogpeople: {
+            gender: ["Amphibious Male Frog Person", "Amphibious Female Frog Person"],
+            role: ["Tribal Chieftain", "Swamp Shaman", "Giant Toad Rider", "Marsh Hunter", "Mystic Raincaller", "Bog Defender"],
+            attire: ["Mossy Swamp Garb", "Toad-Skin Cloak", "Nature-Inspired Tattoos", "Tribal Totems", "Waterlogged Beads", "Bulging Eye Ornaments"],
+            scene: ["Misty Marshlands", "Toad-Riding Expedition", "Swamp Shaman's Hut", "Bog Hunter's Ambush", "Rainy Ritual Site", "Toad-Rider's Campfire"],
+            emotion: ["Amphibious Wisdom", "Swampy Serenity", "Toad Rider's Bond", "Mystic Connection", "Bog Defender's Resolve", "Marsh Hunter's Cunning"],
+            weapon: ["Toxin-Tipped Blowdarts", "Thorned Spear", "Swampy Ritual Staff", "Giant Toad Mounts", "Water-Enchanted Arrows", "Bog Blades"],
+            location: ["Mud-Hut Frog Village", "Giant Toad Stables", "Sacred Swamp Shrine", "Bog Defender's Stronghold", "Raincaller's Gathering", "Misty Marsh Wilderness"]
+        },
+
+        halforc: {
+            gender: ["Brutal Male Half-Orc", "Imposing Female Half-Orc", "Impressive Androgynous Half-Orc"],
+            role: ["Rejected Outcast", "Mysterious Pariah", "Monstrous Survivor"],
+            attire: ["Dirty and Tattered Rags", "Makeshift Garments", "Disturbing Appearances"],
+            scene: ["Dark and Abandoned Alleyway", "Deserted Underground Lair", "Haunted and Cursed Ruins"],
+            emotion: ["Eternal Loneliness", "Inherent Alienation", "Survival Instinct"],
+            weapon: ["Crudely Forged Weapons", "Twisted Appendages", "Biological Anomalies"],
+            location: ["Hidden in the Shadows", "Forgotten Catacombs", "Isolated Half-Orc Enclave"]
+        },
+
+        orc: {
+            gender: ["Savage Male Orc", "Ferocious Female Orc", "Ruthless Androgynous Orc"],
+            role: ["Brutal Raider", "Bloodthirsty Chieftain", "Savage Marauder"],
+            attire: ["Primitive War Paint", "Torn Battle Garb", "Barbaric Accessories"],
+            scene: ["Ravaged Tribal Camp", "Blood-Soaked Battlefield", "Ancient Orcish Altar"],
+            emotion: ["Unbridled Fury", "Feral Instincts", "Savage Pride"],
+            weapon: ["Serrated Battle Axe", "Crude Bone Club", "Vicious Spiked Mace"],
+            location: ["Hidden Orcish Stronghold", "Untamed Wilderness", "Desolate Orcish Wasteland"]
+        },
+
+        hobgobling: {
+            gender: ["great goblin male", "great goblin Female"],
+            role: ["Warlord", "Shaman", "Assassin", "Beast Tamer", "Warmaster", "Bloodreaver"],
+            attire: ["Blood-Stained Armor", "Bone Accessories", "War Paint", "Tribal Insignias", "Savage Tattoos", "Ragged Cloaks"],
+            scene: ["Brutal Battlefield", "Dark Shamanic Ritual", "Savage Hunting Grounds", "Warlord's War Camp", "Assassin's Hideout", "Beast Tamer's Lair"],
+            emotion: ["Battle Fury", "Shamanic Connection", "Hunter's Cunning", "Warmaster's Authority", "Assassin's Guile", "Beast Tamer's Bond"],
+            weapon: ["Barbed Spear", "Wicked Scimitar", "Poisoned Dagger", "War Hammer", "Throwing Axes", "Ferocious Beast Companions"],
+            location: ["Hobgoblin War Encampment", "Shamanic Tribal Grounds", "Assassin's Cavern", "Warlord's Citadel", "Beast Tamer's Arena", "Savage Wilderness"]
+        },
+
+        ogre: {
+            gender: ["Hulking Male Ogre", "Massive Female Ogre"],
+            role: ["Solitary Brute", "Primitive Giant", "Reluctant Minion", "Fierce Enforcer", "Dim-Witted Guard", "Savage Marauder"],
+            attire: ["Torn and Filthy Garb", "Scavenged Armor", "Bare-Chested and Feral", "Rudimentary Accessories", "Brutal Tattoos", "Cruel Weaponry"],
+            scene: ["Savage Feast Site", "Lair of Primitive Might", "Dark and Rustic Hideout", "Confrontation with a Brute", "Cultist's Manipulation", "Ogre's Rampage"],
+            emotion: ["Mindless Fury", "Primal Instincts", "Reluctant Obedience", "Enforced Loyalty", "Gullible Nature", "Savage Bloodlust"],
+            weapon: ["Crudely Crafted Club", "Improvised Bludgeon", "Bone-Shattering Hammer", "Primitive Maul", "Savage Axe", "Brutal Grab-and-Smash"],
+            location: ["Desolate Ogre's Den", "Rugged Wilderness", "Cultist's Hidden Temple", "Bandit's Camp", "Marauder's Ravaged Territory", "Dark and Savage Cavern"]
+        },
+
+        bugbear: {
+            description: "Huge and brutish beings, Bugbears appear almost sluggish, their massive bodies seemingly on the verge of collapsing over their disproportionately short legs. They don't appear to pose a significant challenge, as their immense bodies seem unwieldy, supported by their deceptively short limbs. This image is deceptive: giant goblins are quicker than they seem, more agile than an average human. But their clumsy, misleading movements suggest otherwise. Even the stupid, bestial expression is false, concealing an intelligence superior to that of a human.",
+            gender: ["Hulking Male Bugbear", "Massive Female Bugbear"],
+            role: ["Stealthy Stalker", "Cunning Ambusher", "Savage Marauder", "Relentless Pursuer", "Mighty Enforcer", "Brutal Assassin"],
+            attire: ["Primitive Hide Armor", "Scavenged Weapons", "Camouflaged Garments", "Tribal Markings", "Savage Insignias", "Blood-Splattered Cloaks"],
+            scene: ["Ambush in the Shadows", "Stalking Prey", "Savage Wilderness Raid", "Marauding Bugbear Camp", "Stealthy Assassin's Den", "Bloodthirsty Hunt"],
+            emotion: ["Savage Ferocity", "Deceptive Cunning", "Relentless Pursuit", "Cunning Ambush", "Brutal Bloodlust", "Hunter's Patience"],
+            weapon: ["Massive Morningstar", "Wicked Scythe", "Venomous Dagger", "Savage Flail", "Throwing Javelins", "Vicious Beast Companions"],
+            location: ["Bugbear Hideout", "Wilderness Lair", "Ambush Site", "Savage Camp", "Assassin's Den", "Deceptive Wilderness"]
+        },
+
+        hobgoblin_militaristic: {
+            gender: ["male", "Female"],
+            role: ["Warlord", "Tribal Shaman", "Relentless Assassin", "Beast Tamer", "Master of Warfare", "Bloodreaver"],
+            attire: ["Blood-Stained Armor", "Bone Accessories", "War Paint", "Tribal Insignias", "Savage Tattoos", "Ragged Cloaks"],
+            scene: ["Brutal Battlefield", "Dark Shamanic Ritual", "Savage Hunting Grounds", "Warlord's War Camp", "Assassin's Hideout", "Beast Tamer's Lair"],
+            emotion: ["Battle Fury", "Shamanic Connection", "Hunter's Cunning", "Warmaster's Authority", "Assassin's Guile", "Beast Tamer's Bond"],
+            weapon: ["Barbed Spear", "Wicked Scimitar", "Poisoned Dagger", "War Hammer", "Throwing Axes", "Ferocious Beast Companions"],
+            location: ["Hobgoblin War Encampment", "Shamanic Tribal Grounds", "Assassin's Cavern", "Warlord's Citadel", "Beast Tamer's Arena", "Savage Wilderness"]
+        },
+
+        gnoll: {
+            description: "These humanoid creatures with hyena-like traits inhabit desolate regions and are known for being hunters and raiders. They often ambush less-protected trade routes, and although dangerous, they are often considered a 'lesser' problem by rulers and other authorities. Gnolls are known for stealing and pillaging, but they rarely kill unless the victim shows resistance. Therefore, typically only novice (or inexpensive) adventurers are hired to deal with them.",
+            gender: ["Male Gnoll with Hyena-like Aspect", "Female Gnoll with Hyena-like Aspect"],
+            role: ["Ambush Leader", "Silent Stalker", "Road Menace", "Skillful Pillager", "Stealthy Hunter", "Master of Traps"],
+            attire: ["Tattered Clothes", "Animal Skins", "Tooth Necklaces", "Tribal Tattoos", "Trophy Heads", "Tattered Hoods"],
+            scene: ["Ambushed Trade Route", "Hideout in Ancient Ruins", "Bandit Camp", "Underground Den", "Gnoll Hunting Territory", "Deserted Road"],
+            emotion: ["Bloodlust", "Unquenchable Hunger", "Predatory Cunning", "Sadistic Leadership", "Amused Cruelty", "Pack Loyalty"],
+            weapon: ["Serrated Blade", "Fanged Bow", "Axe Thrower", "Heavy Club", "Deadly Traps", "Sharp Hyena's Fang"],
+            location: ["Gnoll Camp", "Hidden Lair", "Ransacked Ancient Ruin", "Road Checkpoint", "Gnoll Hunting Grounds", "Underground Hideout"]
+        },
+
+        halfdragon: {
+            gender: ["Male Halfdragon with Robust Scales", "Female Halfdragon with Robust Scales"],
+            role: ["Winged Warrior", "Elemental Sorcerer", "Dragon Rider", "Battle Strategist", "Guardian of Ancient Lore", "Scorched Earth Pyromancer"],
+            attire: ["Scaled Armor", "Dragonhide Robes", "Horned Helmets", "Clawed Gauntlets", "Winged Cloaks", "Inscribed Scales"],
+            scene: ["Dragon's Roost", "Elemental Nexus", "Skies of Conquest", "War Council Chamber", "Ancient Library", "Volcanic Battlefield"],
+            emotion: ["Draconic Fury", "Elemental Mastery", "Aerial Dominance", "Tactical Brilliance", "Guardian's Wisdom", "Inferno's Wrath"],
+            weapon: ["Dragon's Breath Staff", "Searing Blade", "Wyrmrider Lance", "Molten Mace", "Elemental Grimoire", "Scorching Talons"],
+            location: ["Halfdragon Citadel", "Elemental Sanctum", "Dragon Aerie", "War Room", "Ancient Archives", "Volcanic Stronghold"]
+        },
+
+        Kamen: {
+            gender: ["Male Kamen with Insectoid Features", "Female Kamen with Insectoid Features"],
+            role: ["Stormbound Harbinger", "Tormentous Predator", "Chaosbringer", "Venomous Weaver", "Tempest Stalker", "Abyssal Vanguard"],
+            attire: ["Tattered Shells", "Insectile Carapaces", "Chitin Plates", "Glyph-Engraved Antennae", "Wing Adornments", "Resonating Chitin Veils"],
+            scene: ["Tormented Stormscape", "Abyssal Nest", "Chaos-infested Crater", "Venomous Lair", "Eerie Abyssal Forest", "Windswept Wasteland"],
+            emotion: ["Unyielding Tempest", "Ravenous Hunger", "Chaos-fueled Cunning", "Venomous Dominance", "Stoic Ferocity", "Abyssal Loyalty"],
+            weapon: ["Stormweaver Staff", "Venomous Barb", "Chaos-infused Blades", "Tempest Whip", "Abyssal Fangs", "Glyph-etched Pincers"],
+            location: ["Stormbound Citadel", "Abyssal Hive", "Chaos-cratered Abyss", "Venomous Sanctum", "Eldritch Forest", "Tempest-ravaged Abyssal Stronghold"]
+        },
+
+        Kappa: {
+            gender: ["Male Kappa with Watery Features", "Female Kappa with Watery Features"],
+            role: ["River Guardian", "Mischief Maker", "Aquatic Trickster", "Pond Haunter", "Waterborne Sage", "Loyal Servant of Waters"],
+            attire: ["Algae-Adorned Garb", "Water-Weaved Robes", "Seashell Accessories", "Ceremonial Water Glyphs", "Mossy Headwear", "Reflective Water Cloaks"],
+            scene: ["Mystical Riverside", "Watery Realm", "Hidden Pondside Shrine", "Riverbank Mischief", "Underwater Cavern", "Peaceful Lakeside"],
+            emotion: ["Watery Serenity", "Mischievous Laughter", "Trickster's Wit", "Pond Protector's Resolve", "Rippling Calm", "Loyal Devotion to Waters"],
+            weapon: ["Rushing Current Staff", "Muddy Puddle Traps", "Aquatic Glyph Scrolls", "Tidal Flow Dagger", "Watery Tricks", "Moss-Covered Stone"],
+            location: ["Sacred River Sanctuary", "Enchanted Pond", "Mystical Waterfall Grotto", "Trickster's Pond", "Submerged Cavern", "Serene Lakeside Shrine"]
+        },
+
+        golem: {
+            purpose: ["guardião", "trabalhador", "artilharia", "explorador", "erudito", "entretenimento"],
+            ability: ["força", "velocidade", "resiliência", "agilidade", "inteligência", "poder elemental"],
+            environment: ["cidade", "floresta", "montanhas", "caverna", "deserto", "ruínas"],
+            action: ["protegendo", "construindo", "contemplando", "vagueando", "aprendendo", "entretendo"]
+        }
+    };
+
+    const fixedCharacteristics = "4k, ultra detalhado, Detalhes intrincados, muito realista, iluminação cinematográfica, iluminação volumétrica, fotográfico, motor Unreal, estilo anime ";
+
+    const racaSelector = document.getElementById("raca");
+    const promptGerado = document.getElementById("promptGerado");
+    const gerarPromptBtn = document.getElementById("gerarPrompt");
+    const copiarPromptBtn = document.getElementById("copiarPrompt");
+
+    function generateRandomPrompt(raca) {
+        if (raca === "golem") {
+
+            const purpose = prompts[raca].purpose[Math.floor(Math.random() * prompts[raca].purpose.length)];
+            const ability = prompts[raca].ability[Math.floor(Math.random() * prompts[raca].ability.length)];
+            const environment = prompts[raca].environment[Math.floor(Math.random() * prompts[raca].environment.length)];
+            const action = prompts[raca].action[Math.floor(Math.random() * prompts[raca].action.length)];
+            const tamanhoSelect = document.getElementById("tamanho");
+            const tamanhoValue = tamanhoSelect.value;
+            const chassiSelect = document.getElementById("chassi");
+            const chassiValue = chassiSelect.value;
+            const fonteEnergiaSelect = document.getElementById("fonteEnergia");
+            const fonteEnergiaValue = fonteEnergiaSelect.value;
+
+            return `Um golem ${tamanhoValue} de feito de ${chassiValue} e alimentado por energia ${fonteEnergiaValue}, de formato humanóide, projetado como ${purpose}, ${action} em um ${environment}, exibindo sua ${ability}, ${fixedCharacteristics}`;
+        } else {
+            const gender = prompts[raca].gender[Math.floor(Math.random() * prompts[raca].gender.length)];
+            const role = prompts[raca].role[Math.floor(Math.random() * prompts[raca].role.length)];
+            const attire = prompts[raca].attire[Math.floor(Math.random() * prompts[raca].attire.length)];
+            const scene = prompts[raca].scene[Math.floor(Math.random() * prompts[raca].scene.length)];
+            const emotion = prompts[raca].emotion[Math.floor(Math.random() * prompts[raca].emotion.length)];
+            const weapon = prompts[raca].weapon[Math.floor(Math.random() * prompts[raca].weapon.length)];
+            const location = prompts[raca].location[Math.floor(Math.random() * prompts[raca].location.length)];
+
+            return `Um ${raca} ${gender} ${role} vestindo ${attire}, olhando para um ${scene} com ${emotion}, segurando um ${weapon} em um ${location}, ${fixedCharacteristics}`;
+        }
+    }
+
+    gerarPromptBtn.addEventListener("click", () => {
+        const racaSelecionada = racaSelector.value;
+        const promptGeradoTexto = generateRandomPrompt(racaSelecionada);
+        promptGerado.textContent = `Prompt: ${promptGeradoTexto}`;
+    });
+
+    copiarPromptBtn.addEventListener("click", () => {
+        const promptText = promptGerado.textContent;
+        if (promptText) {
+            const textarea = document.createElement("textarea");
+            textarea.value = promptText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            alert("Prompt copiado!");
+        }
+    });
+
+
+
+
+
+</script>
+
 </html>
