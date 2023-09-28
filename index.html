@@ -261,7 +261,7 @@
 
                         <label for="raca">Raça:</label>
                         <select id="raca"
-                            onchange="limparValoresRaciais(), exibirBonusRaca(), aberrantSelect(), dragonSelect(), moreuSelect()">
+                            onchange="limparValoresRaciais(), exibirBonusRaca(), aberrantSelect(), dragonSelect(), moreuSelect(), koboldSelect()">
                             <option value="outros" selected>Outros</option>
                             <option value="humano">Humano/Humana</option>
                             <option value="elfo">Elfo/Elfa</option>
@@ -293,6 +293,7 @@
                             <option value="ogre" class="ameacas">Ogro (Ameaças)</option>
                             <option value="bugbear" class="ameacas">Bugbear (Ameaças)</option>
                             <option value="hobgoblin_militaristic" class="ameacas">Hobgoblin (Ameaças)</option>
+                            <option value="centaur" class="ameacas">Centauro (Ameaças)</option>
                             <option value="gnoll" class="ameacas">Gnoll (Ameaças)</option>
                             <option value="halfdragon" class="ameacas">Kallyanach (Ameaças)</option>
                             <option value="kamen" class="ameacas">Kaijin (Ameaças)</option>
@@ -300,6 +301,7 @@
                             <option value="ratman" class="ameacas">Nezumi (Ameaças)</option>
                             <option value="crowman" class="ameacas">Tengu (Ameaças)</option>
                             <option value="halfminotaur" class="ameacas">Minauro (Ameaças)</option>
+                            <option value="kobold" class="ameacas">Kobolds (Ameaças)</option>
                             <option value="harpy" class="ameacas">Harpia (Ameaças)</option>
                             <option value="triceratopsman" class="ameacas">Ceratops (Ameaças)</option>
                             <option value="pterodactylman" class="ameacas">Pteros (Ameaças)</option>
@@ -313,6 +315,11 @@
                             <option value="paleman" class="ameacas">Fintroll (Ameaças)</option>
                             <option value="frozenskeleton" class="ameacas">Soterrado (Ameaças)</option>
                         </select>
+
+                        <h3
+                            style="color: rgb(82, 3, 3); font-weight: bold; font-family: Tormenta; font-size: 24    px;">
+                            Habilidades de Raça</h3>
+                        <p id="bonusMessage" class="destaque-mensagem"></p>
 
                         <!-- Div para as caixas de seleção do Golem (inicialmente oculta) -->
                         <div id="caracteristicasGolem" style="display: none;">
@@ -419,11 +426,50 @@
                             </select>
                         </div>
 
+                        <div id="talentosKobold" style="display: none;">
+                            <div id="koboldAmontoadoRow">
+                                <label for="koboldAmontoado">Amontoados</label>
+                                <input type="checkbox" id="koboldAmontoado" value="amontoado">
+                            </div>
+                            <div id="koboldAArmadilhaRow">
+                                <label for="koboldAArmadilha">Armadilha Terrível</label>
+                                <input type="checkbox" id="koboldAArmadilha" value="armadilha">
+                            </div>
+                            <div id="koboldDiferentaoRow">
+                                <label for="koboldDiferentao">Diferentão</label>
+                                <input type="checkbox" id="koboldDiferentao" value="diferentao">
+                            </div>
+                            <div id="koboldExFamiliarRow">
+                                <label for="koboldExFamiliar">Ex-Familiar</label>
+                                <input type="checkbox" id="koboldExFamiliar" value="exfamiliar">
+                            </div>
+                            <div id="koboldOusadoRow">
+                                <label for="koboldOusado">O Ousado</label>
+                                <input type="checkbox" id="koboldOusado" value="ousado">
+                            </div>
+                            <div id="koboldFundaoRow" style="display: none;">
+                                <label for="koboldFundao">Os do Fundo</label>
+                                <input type="checkbox" id="koboldFundao" value="fundo">
+                            </div>
+                            <div id="koboldOrganizadoRow">
+                                <label for="koboldOrganizado">Organizadinhos</label>
+                                <input type="checkbox" id="koboldOrganizado" value="organizadinhos">
+                            </div>
+                            <div id="koboldOportunistaRow">
+                                <label for="koboldOportunista">Pestes Oportunistas</label>
+                                <input type="checkbox" id="koboldOportunista" value="oportunistas">
+                            </div>
+                            <div id="koboldExplosivoRow">
+                                <label for="koboldExplosivo">Somos Explosivos</label>
+                                <input type="checkbox" id="koboldExplosivo" value="explosivos">
+                            </div>
+                            <div id="koboldEnxameRow" style="display: none;">
+                                <label for="koboldEnxame">Tática de Enxame</label>
+                                <input type="checkbox" id="koboldEnxame" value="enxame">
+                            </div>
+                        </div>
 
-                        <h3
-                            style="color: rgb(82, 3, 3); font-weight: bold; font-family: Tormenta; font-size: 24    px;">
-                            Habilidades de Raça</h3>
-                        <p id="bonusMessage" class="destaque-mensagem"></p>
+
 
                     </div>
                     <div class="column" style="width: 55%;">
@@ -602,19 +648,6 @@
         const totalCarisma = carismaValor + carismaRacial + carismaOutros;
         document.getElementById("total_carisma").textContent = totalCarisma;
     }
-
-    function exibirCaracteristicas() {
-        var racaSelect = document.getElementById("raca");
-        var caracteristicasAberrante = document.getElementById("caracteristicasAberrante");
-
-        // Verifica se "aberrant" está selecionado
-        if (racaSelect.value === "aberrant") {
-            caracteristicasAberrante.style.display = "block"; // Mostra a div
-        } else {
-            caracteristicasAberrante.style.display = "none"; // Oculta a div
-        }
-    }
-
 
     function calcularPontosDisponiveis() {
         const togglePontos = document.getElementById("togglePontos");
@@ -888,6 +921,13 @@
                 const bonusMessage = document.getElementById("bonusMessage");
                 document.getElementById("bonusMessage").innerHTML = "+1 em Três Atributos Diferentes (exceto Constituição)<br>Constituição -1<br><span style='display: block;'>Abraço Gélido</span><span>Esquife de Gelo</span><br><span>Natureza Esquelética</span><br><span>Preço da Não Vida</span><br>";
 
+            } else if (racaSelect.value === "kobold") {
+                aplicarBonusRacial("kobold");
+                atualizarAtributosKobold();
+
+            } else if (racaSelect.value === "centaur") {
+                aplicarBonusRacial("centaur");
+
             } else {
                 // Limpar valores da coluna "Racial" e desbloquear os inputs
                 limparValoresRaciais();
@@ -1076,6 +1116,16 @@
             paleman: {
                 bonus: "Inteligência +2, Constituição +1, Força -1,<br>Cauda<br>Natureza Vegetal<br>Presença Arcana<br>Regeneração Vegetal<br>Sensibilidade a luz",
                 valores: { for_racial: -1, dex_racial: 0, con_racial: 1, int_racial: 2, sab_racial: 0, car_racial: 0 }
+            },
+
+            kobold: {
+                bonus: "Destreza +2, Força -1,<br>Enxame Escamoso<br>Praga Monstruosa<br>Sensibilidade a Luz<br>Talentos do Bando",
+                valores: { for_racial: -1, dex_racial: 2, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 0 }
+            },
+
+            centaur: {
+                bonus: "Sabedoria +2, Força +1, Inteligência –1<br>Avantajado<br>Cascos<br>Ginete Natural<br>Medo de Altura",
+                valores: { for_racial: 1, dex_racial: 0, con_racial: 0, int_racial: -1, sab_racial: 2, car_racial: 0 }
             },
 
             // Adicione mais raças conforme necessário
@@ -1612,12 +1662,7 @@
     });
 
 
-
-
-</script>
-
-<script>
-
+    // funcao halfdragon
     function dragonSelect() {
         var racaSelect = document.getElementById("raca");
         var caracteristicasHalfDragon = document.getElementById("dragonType");
@@ -1679,7 +1724,7 @@
             }
         });
 
-        // Construir a mensagem com base nas mutações selecionadas
+        // Construir a mensagem com base nas bencaos selecionadas
         let mensagem = "";
         if (bencaosSelecionadas.length === 0) {
             mensagem = "+2 em um atributo a sua escolha ou +1 em dois atributos a sua escolha. _________ Herança Dracônica: " + herancaElemental.textContent + ". Nenhuma benção selecionada.";
@@ -1742,13 +1787,137 @@
     });
 
 
+    //Função dos kobolds
+    function koboldSelect() {
+        var racaSelect = document.getElementById("raca");
+        var caracteristicasKobolds = document.getElementById("talentosKobold");
+
+        // Verifica se "kobold" está selecionado
+        if (racaSelect.value === "kobold") {
+            caracteristicasKobolds.style.display = "block"; // Mostra a div
+        } else {
+            caracteristicasKobolds.style.display = "none"; // Oculta a div
+        }
+    }
+
+
+    function atualizarAtributosKobold() {
+
+
+        const talentosSelecionado = [];
+        const checkboxs = [
+            koboldAmontoado,
+            koboldAArmadilha,
+            koboldDiferentao,
+            koboldExFamiliar,
+            koboldOusado,
+            koboldFundao,
+            koboldOrganizado,
+            koboldOportunista,
+            koboldExplosivo,
+            koboldEnxame,
+        ];
+
+        // Verificar mutações selecionadas e calcular os bônus
+        checkboxs.forEach(checkbox => {
+            if (checkbox.checked) {
+                if (talentosSelecionado.length >= 2) {
+                    checkbox.checked = false; // Desmarcar se já houver 2 seleções
+                } else {
+                    switch (checkbox.id) {
+                        case "koboldAmontoado":
+                            talentosSelecionado.push("Amontoados");
+                            break;
+                        case "koboldAArmadilha":
+                            talentosSelecionado.push("Armadilha Terrível");
+                            break;
+                        case "koboldDiferentao":
+                            talentosSelecionado.push("Diferentão");
+                            break;
+                        case "koboldExFamiliar":
+                            talentosSelecionado.push("Ex-Familiar");
+                            break;
+                        case "koboldOusado":
+                            talentosSelecionado.push("O Ousado");
+                            break;
+                        case "koboldFundao":
+                            talentosSelecionado.push("Os do Fundo");
+                            break;
+                        case "koboldOrganizado":
+                            talentosSelecionado.push("Organizadinhos");
+                            break;
+                        case "koboldOportunista":
+                            talentosSelecionado.push("Pestes Oportunistas");
+                            break;
+                        case "koboldExplosivo":
+                            talentosSelecionado.push("Somos Explosivos");
+                            break;
+                        case "koboldEnxame":
+                            talentosSelecionado.push("Tática de Enxame");
+                            break;
+
+                    }
+                }
+            }
+        });
+
+        // Construir a mensagem com base nos talentos selecionadas
+        let mensagem = "";
+        if (talentosSelecionado.length === 0) {
+            mensagem = "Destreza +2, Força -1 .   Enxame Escamoso, Praga Monstruosa, Sensibilidade a Luz, Talentos do Bando.";
+        } else {
+            mensagem = "Destreza +2, Força -1 .   Enxame Escamoso, Praga Monstruosa, Sensibilidade a Luz,  Talentos de Bando: " + talentosSelecionado.join(", ");
+        }
+
+        const bonusMessage = document.getElementById('bonusMessage');
+        bonusMessage.textContent = mensagem;
+    }
+
+    const checkboxs = [
+        koboldAmontoado,
+        koboldAArmadilha,
+        koboldDiferentao,
+        koboldExFamiliar,
+        koboldOusado,
+        koboldFundao,
+        koboldOrganizado,
+        koboldOportunista,
+        koboldExplosivo,
+        koboldEnxame,
+    ];
+
+
+    checkboxs.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            atualizarAtributosKobold();
+        });
+    });
+
+    const koboldAmontoadoCheckbox = document.getElementById("koboldAmontoado");
+    const koboldFundaoRow = document.getElementById("koboldFundaoRow");
+    const koboldOrganizadoCheckbox = document.getElementById("koboldOrganizado");
+    const koboldEnxameRow = document.getElementById("koboldEnxameRow");
+
+    koboldOrganizadoCheckbox.addEventListener('change', function () {
+        if (koboldOrganizadoCheckbox.checked) {
+            koboldFundaoRow.style.display = "block"; // Mostrar a linha inteira (rótulo + checkbox)
+        } else {
+            koboldFundaoRow.style.display = "none"; // Esconder a linha inteira (rótulo + checkbox)
+        }
+    });
+
+    koboldAmontoadoCheckbox.addEventListener('change', function () {
+        if (koboldAmontoadoCheckbox.checked) {
+            koboldEnxameRow.style.display = "block"; // Mostrar a linha inteira (rótulo + checkbox)
+        } else {
+            koboldEnxameRow.style.display = "none"; // Esconder a linha inteira (rótulo + checkbox)
+        }
+    });
 
 
 
-</script>
 
-<script>
-
+    //funçaõ Moreu
     function moreuSelect() {
         var racaSelect = document.getElementById("raca");
         var caracteristicasMoreu = document.getElementById("herancasMoreu");
@@ -1869,11 +2038,6 @@
         atributosRacaMoreus(); // Chama a função quando a seleção muda
     });
 
-
-
-</script>
-
-<script>
 
     const prompts = {
         humano: {
@@ -2291,16 +2455,6 @@
             location: ["Savanna Camps", "Grassland Dwellings", "Tribal Savanna Village", "Open Grasslands", "Encampment", "Savanna Shrine Network"]
         },
 
-        halfcyborg: {
-            gender: ["Male", "Female"],
-            role: ["Cybernetic Warrior", "Tech Savant", "Bionic Infiltrator", "Augmented Defender", "Cyber Spy", "Cybernetic Maverick"],
-            attire: ["Cyber Armor Suit", "Tech-enhanced Outfit", "Stealthy Cyber Camouflage", "Augmented Cyber Exoskeleton", "Tech Accessories", "Cybernetic Headgear"],
-            scene: ["Tech Showdown", "Cyber Espionage Mission", "Underground Cybernetic Gathering", "High-tech Defense Operation", "Cyber Infiltration", "Cyber Revolution Headquarters"],
-            emotion: ["Battle-hardened Resolve", "Tech Connection", "Bionic Enhancement Focus", "Defensive Vigilance", "Stealthy Infiltration", "Cybernetic Wisdom"],
-            weapon: ["Cyber Blade", "Energy Blaster", "Bionic Grappling Hook", "Stealthy Holographic Decoy", "Enhanced Cyber Punch", "EMP Grenade"],
-            location: ["High-tech Cyber Facilities", "Underground Bionic Labs", "City of Augmentations", "Cybernetic Infiltration Points", "Tech-enhanced Safehouses", "Cybernetic Ruins"]
-        },
-
 
         moreu: {
             gender: ["Male", "Female", "androginous"],
@@ -2372,6 +2526,25 @@
             location: ["Frozen Wastes", "Icy Caverns", "Glacial Fortresses", "Snowy Tundras", "Hidden Ice Caves", "Ancient Frost Ruins"]
         },
 
+        kobold: {
+            gender: ["Male", "Female"],
+            role: ["Serpent Chieftain", "Venomous Shaman", "Underground Dweller", "Jungle Sentinel", "Stealthy Hunter", "Ancient Serpent Sage"],
+            attire: ["Scales Garb", "Snake Skin Adornments", "Venomous Accessories", "Jungle Camouflage Robes", "Serpentine Headdress", "Stealthy Snake Hide"],
+            scene: ["Serpent's Den", "Jungle Ritual Site", "Serpent Council Gathering", "Underground Expedition", "Stealthy Ambush", "Ancient Serpent Temple"],
+            emotion: ["Chieftain's Authority", "Serpent's Connection", "Venomous Mysticism", "Sentinel's Vigilance", "Hunter's Cunning", "Ancient Serpent Wisdom"],
+            weapon: ["Serpent Staff", "Venomous Blades", "Coiled Whip", "Jungle Ambush Tactics", "Serpent Strike", "Serpent Totem"],
+            location: ["Serpent Nests", "Jungle Caves", "Underground Caverns", "Jungle Canopy Villages", "Hidden Swamp Lairs", "Ancient Serpent Ruins"]
+        },
+
+        centaur: {
+            gender: ["Male", "Female"],
+            role: ["Tribal Chief", "Spirit Walker", "Swift Scout", "Herbalist Healer", "Guardian of the Grove", "Diplomatic Ambassador"],
+            attire: ["Natural Leaf and Vine Garments", "Leather Armor Embellished with Feathers", "Woven Grass Skirts and Tunic", "Decorative Beads and Jewelry", "Herbal Pouches and Satchels", "Cloaks Made from Animal Pelts"],
+            scene: ["Centaur Council Meeting in the Sacred Grove", "A Centaur Hunt in the Pristine Forest", "Shamanic Ritual by Moonlight", "Centaur Children Playing in the Meadow", "Centaur Warriors Preparing for Battle", "Peaceful Gathering at a River's Edge"],
+            emotion: ["Reverence for the Natural World", "Bond with Ancestral Spirits", "Fierce Loyalty to the Tribe", "Wistful Nostalgia for a Simpler Time", "Protective Instinct Towards the Young", "Deep Connection with the Land"],
+            weapon: ["Elongated Bow Carved from a Single Branch", "Enchanted Stone-tipped Spears", "Curved Tribal Swords", "Throwing Tomahawks", "Wooden Staves Adorned with Runes", "Favored Weapons Passed Down Through Generations"],
+            location: ["Sacred Clearing in the Ancient Forest", "Centaur Tribal Village Hidden in the Hills", "Serene Riverbanks of Their Homeland", "Mystic Glade Surrounded by Enchanted Trees", "Rocky Plateau Overlooking the Plains", "Deep Caverns Beneath the Earth's Surface"]
+        },
 
         golem: {
             purpose: ["guardião", "trabalhador", "artilharia", "explorador", "erudito", "entretenimento"],
@@ -2487,9 +2660,6 @@
     }
 
 
-
-</script>
-<script>
     window.onload = function () {
         exibirRacas();
         calcularTotais();
