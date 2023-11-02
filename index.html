@@ -9,199 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abibas&display=swap">
-    <style>
-        body {
-            font-family: 'Times New Roman', serif;
-            font-size: 20px;
-            background-image: url('https://img.freepik.com/vetores-gratis/fundo-branco-e-cinza-brilhante-com-linhas-onduladas_1017-25101.jpg?w=2000');
-            background-size: contain;
-            resize: both;
-            transform: scale(1.0);
-
-
-        }
-
-        .custom-container {
-            width: 80%;
-            max-width: 650px;
-            margin: 0 auto;
-            height: 50%;
-        }
-
-        /* Estilos para o botão seletor */
-        .selector-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-        }
-
-        .selector-icon {
-            width: 30px;
-            height: 30px;
-            /* Adicionando animação de rotação ao hover */
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* Aplicar rotação ao hover */
-        .selector-button:hover .selector-icon {
-            transform: rotate(360deg);
-        }
-
-        /* Estilos para a caixa de opções */
-        .options-box {
-            display: none;
-            position: fixed;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            background-color: #e0debf;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: move;
-            /* Tornar o cursor de seleção */
-        }
-
-        /* Estilos para o switch toggle */
-        .toggle {
-            position: relative;
-            display: inline-block;
-            width: 40px;
-            height: 20px;
-            margin-right: 10px;
-        }
-
-        .toggle input[type="checkbox"] {
-            display: none;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            border-radius: 20px;
-            transition: .4s;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            border-radius: 50%;
-            transition: .4s;
-        }
-
-        input[type="checkbox"]:checked+.slider {
-            background-color: #007bff;
-            /* Cor quando o toggle está ativo */
-        }
-
-        input[type="checkbox"]:checked+.slider:before {
-            transform: translateX(20px);
-            /* Posição da bola quando o toggle está ativo */
-        }
-
-        .outros-col {
-            display: none;
-            height: auto;
-            width: 10px;
-
-        }
-
-        .outros-col.hide {
-            display: none;
-        }
-
-        /* Estilos para a coluna "Outros" quando o toggle está marcado */
-        .outros-col.show {
-            display: table-cell;
-            height: auto;
-            width: 10px;
-        }
-
-        @font-face {
-            font-family: 'Tormenta';
-            src: url('Tormenta.ttf') format('truetype');
-        }
-
-        .destaque-mensagem {
-            background-color: #000000;
-            /* Cor de fundo */
-            padding: 10px;
-            /* Espaçamento interno */
-            color: white;
-            font-size: 18px;
-            /* Tamanho da fonte */
-            font-weight: bold;
-            /* Texto em negrito */
-        }
-
-        .table {
-            margin-top: 20px;
-            background-color: transparent;
-            /* Fundo transparente */
-
-        }
-
-        .table th,
-        .table td {
-            padding: 8px;
-            text-align: center;
-            border: 1px solid transparent;
-            /* Bordas transparentes */
-            border-radius: 20px;
-            background-color: transparent;
-            /* Fundo das células transparente */
-            width: 10px;
-        }
-
-
-        .container.custom-container {
-            background-color: #f5f5f56e;
-            /* Cor de fundo desejada */
-            padding: 20px;
-            border-radius: 10px;
-            /* Valor de arredondamento desejado */
-
-        }
-
-        .total-col {
-            font-weight: bold;
-            font-size: 24px;
-        }
-
-        .close-button {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background-color: transparent;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            z-index: 1;
-            /* Certifique-se de que o botão esteja acima do conteúdo da caixa */
-        }
-
-        .close-button:hover {
-            color: red;
-            /* Mudar a cor quando o botão é hover */
-        }
-    </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/deeplearn/tfjs.js"></script>
 
 </head>
 
@@ -237,8 +44,7 @@
                 <h1 class="text-center"
                     style="color: rgb(82, 3, 3); font-weight: bold; font-family: Tormenta; font-size: 48px;">Calculadora
                     de Atributos</h1>
-                <script id="embedai" src="https://embedai.thesamur.ai/embedai.js"
-                    data-id="calculadora-de-atributos-t20"></script>
+
 
                 <div class="container" style="display: flex; flex-direction: row;">
 
@@ -260,8 +66,7 @@
                         <!-- Coluna do botão seletor até pontos disponíveis -->
 
                         <label for="raca">Raça:</label>
-                        <select id="raca"
-                            onchange="limparValoresRaciais(), exibirBonusRaca(), aberrantSelect(), dragonSelect(), moreuSelect(), koboldSelect()">
+                        <select id="raca" onchange="handleOnChange()">
                             <option value="outros" selected>Outros</option>
                             <option value="humano">Humano/Humana</option>
                             <option value="elfo">Elfo/Elfa</option>
@@ -359,6 +164,7 @@
                             </div>
 
                             <label for="tamanho">Tamanho:</label>
+                            <span id="tamanhoMedio" style="display: none;">Médio</span>
                             <select id="tamanho" onchange="exibirBonusRaca()">
                                 <option value="">Selecione</option>
                                 <option value="Pequeno">Pequeno</option>
@@ -497,74 +303,87 @@
                                 <tr>
                                     <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-01.png"
                                             alt="simbolo de forca" height="40px" width="auto"></td>
-                                    <td>FOR</td>
+                                    <td
+                                        style="background-color: rgba(231, 226, 226, 0.5); font-weight: bold; font-size: 30px;">
+                                        FOR</td>
                                     <td><input type="number" id="forca" value="0" min="-1" max="4"
                                             onchange="calcularTotalForca(); calcularPontosDisponiveis();"></td>
                                     <td><input type="number" id="for_racial" min="0" value="0"
                                             onchange="calcularTotalForca()" style="width: 75px;"></td>
                                     <td class="outros-col"><input type="number" min="0" id="for_outros" value="0"
                                             onchange="calcularTotalForca()" style="width: 75px;"></td>
-                                    <td id="total_forca">0</td>
+                                    <td id="total_forca" style="font-weight: bold; font-size: 30px;">0</td>
+
                                 </tr>
                                 <tr>
                                     <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-02.png"
                                             alt="simbolo de destreza" height="40px" width="auto"></td>
-                                    <td>DES</td>
+                                    <td
+                                        style="background-color: rgba(231, 226, 226, 0.5); font-weight: bold; font-size: 30px;">
+                                        DES</td>
                                     <td><input type="number" id="destreza" value="0" min="-1" max="4"
                                             onchange="calcularTotalDestreza(); calcularPontosDisponiveis();"></td>
                                     <td><input type="number" id="dex_racial" min="0" value="0"
                                             onchange="calcularTotalDestreza()" style="width: 75px;"></td>
                                     <td class="outros-col"><input type="number" min="0" id="dex_outros" value="0"
                                             onchange="calcularTotalDestreza()" style="width: 75px;"></td>
-                                    <td id="total_destreza">0</td>
+                                    <td id="total_destreza" style="font-weight: bold; font-size: 30px;">0</td>
                                 </tr>
                                 <tr>
                                     <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-03.png"
                                             alt="simbolo de constituicao" height="40px" width="auto"></td>
-                                    <td>CON</td>
+                                    <td
+                                        style="background-color: rgba(231, 226, 226, 0.5); font-weight: bold; font-size: 30px;">
+                                        CON</td>
                                     <td><input type="number" id="constituicao" value="0" min="-1" max="4"
                                             onchange="calcularTotalConstituicao(); calcularPontosDisponiveis();"></td>
                                     <td><input type="number" id="con_racial" min="0" value="0"
                                             onchange="calcularTotalConstituicao()" style="width: 75px;"></td>
                                     <td class="outros-col"><input type="number" min="0" id="con_outros" value="0"
                                             onchange="calcularTotalConstituicao()" style="width: 75px;"></td>
-                                    <td id="total_constituicao">0</td>
+                                    <td id="total_constituicao" style="font-weight: bold; font-size: 30px;">0</td>
                                 </tr>
                                 <tr>
                                     <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-05.png"
                                             alt="simbolo de inteligencia" height="40px" width="auto"></td>
-                                    <td>INT</td>
+                                    <td
+                                        style="background-color: rgba(231, 226, 226, 0.5); font-weight: bold; font-size: 30px;">
+                                        INT</td>
                                     <td><input type="number" id="inteligencia" value="0" min="-1" max="4"
                                             onchange="calcularTotalInteligencia(); calcularPontosDisponiveis();"></td>
                                     <td><input type="number" id="int_racial" min="0" value="0"
                                             onchange="calcularTotalInteligencia()" style="width: 75px;"></td>
                                     <td class="outros-col"><input type="number" min="0" id="int_outros" value="0"
                                             onchange="calcularTotalInteligencia()" style="width: 75px;"></td>
-                                    <td id="total_inteligencia">0</td>
+                                    <td id="total_inteligencia" style="font-weight: bold; font-size: 30px;">0</td>
                                 </tr>
                                 <tr>
                                     <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-04.png"
                                             alt="simbolo de sabedoria" height="40px" width="auto"></td>
-                                    <td>SAB</td>
+                                    <td
+                                        style="background-color: rgba(231, 226, 226, 0.5); font-weight: bold; font-size: 30px;">
+                                        SAB</td>
                                     <td><input type="number" id="sabedoria" value="0" min="-1" max="4"
                                             onchange="calcularTotalSabedoria(); calcularPontosDisponiveis();"></td>
                                     <td><input type="number" id="sab_racial" min="0" value="0"
                                             onchange="calcularTotalSabedoria()" style="width: 75px;"></td>
                                     <td class="outros-col"><input type="number" min="0" id="sab_outros" value="0"
                                             onchange="calcularTotalSabedoria()" style="width: 75px;"></td>
-                                    <td id="total_sabedoria">0</td>
+                                    <td id="total_sabedoria" style="font-weight: bold; font-size: 30px;">0</td>
                                 </tr>
                                 <tr>
                                     <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-06.png"
                                             alt="simbolo de carisma" height="40px" width="auto"></td>
-                                    <td>CAR</td>
+                                    <td
+                                        style="background-color: rgba(231, 226, 226, 0.5); font-weight: bold; font-size: 30px;">
+                                        CAR</td>
                                     <td><input type="number" id="carisma" value="0" min="-1" max="4"
                                             onchange="calcularTotalCarisma(); calcularPontosDisponiveis();"></td>
                                     <td><input type="number" id="car_racial" min="0" value="0"
                                             onchange="calcularTotalCarisma()" style="width: 75px;"></td>
                                     <td class="outros-col"><input type="number" min="0" id="car_outros" value="0"
                                             onchange="calcularTotalCarisma()" style="width: 75px;"></td>
-                                    <td id="total_carisma">0</td>
+                                    <td id="total_carisma" style="font-weight: bold; font-size: 30px;">0</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -588,8 +407,8 @@
                 <p>
                     <hr>
                     Para criar a imagem, recomendo duas IA gratuitas:<br>
-                    <a href="https://lensgo.ai/creatImage" target="_blank">Criar Imagem
-                        (Lensgo)</a><br>
+                    <a href="https://clipdrop.co/stable-diffusion" target="_blank">Criar Imagem
+                        (stable-diffusion)</a><br>
                     <a href="https://ideogram.ai/" target="_blank">Criar Imagem (Ideogram)</a>
                 </p>
 
@@ -1034,8 +853,8 @@
             },
 
             ogre: {
-                bonus: "Força +2, Constituição +1, Inteligência –1, Carisma –1<br><span style='display: block;'>Quanto Maior o Tamanho...</span><span>…Maior a Porrada</span><br><span>Camada de Ingenuidade</span>",
-                valores: { for_racial: 2, dex_racial: 0, con_racial: 1, int_racial: -1, sab_racial: 0, car_racial: -1 }
+                bonus: "Força +3, Constituição +2, Inteligência –1, Carisma –1<br><span style='display: block;'>Quanto Maior o Tamanho...</span><span>…Maior a Porrada</span><br><span>Camada de Ingenuidade</span>",
+                valores: { for_racial: 3, dex_racial: 0, con_racial: 2, int_racial: -1, sab_racial: 0, car_racial: -1 }
             },
 
             bugbear: {
@@ -1154,6 +973,81 @@
     }
 
 
+    function imagem_racial() {
+
+        const racaSelect = document.getElementById("raca"); // Substitua pelo seletor real do seu menu suspenso
+        const racaSelecionada = raca.value;
+        // Defina o objeto de imagem de fundo com base na raça selecionada
+        const imagensDeFundo = {
+            humano: "https://mir-s3-cdn-cf.behance.net/project_modules/hd/35632a15313421.562935084072e.jpg",
+            elfo: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cef8bec6-8423-4466-8f92-d545315fe995/dg8n3s5-b089a5a6-580e-47e7-a7bc-022108c2c4e6.jpg/v1/fill/w_900,h_900,q_75,strp/elven_couple_2_by_ecvcm_dg8n3s5-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2NlZjhiZWM2LTg0MjMtNDQ2Ni04ZjkyLWQ1NDUzMTVmZTk5NVwvZGc4bjNzNS1iMDg5YTVhNi01ODBlLTQ3ZTctYTdiYy0wMjIxMDhjMmM0ZTYuanBnIiwiaGVpZ2h0IjoiPD05MDAiLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLndhdGVybWFyayJdLCJ3bWsiOnsicGF0aCI6Ilwvd21cL2NlZjhiZWM2LTg0MjMtNDQ2Ni04ZjkyLWQ1NDUzMTVmZTk5NVwvZWN2Y20tNC5wbmciLCJvcGFjaXR5Ijo5NSwicHJvcG9ydGlvbnMiOjAuNDUsImdyYXZpdHkiOiJjZW50ZXIifX0.Ks16EvDOI4JfP5wFRihFWRjh8cbEs-QnoVdFcHTCH5o",
+            dwarf: "https://i.pinimg.com/236x/3e/93/b4/3e93b4bf276ec9bc90a80db061c79a79.jpg",
+            driad:"https://www.pathfinder-fr.org/Wiki/public/upload/Illustrations/P1/Tiressia.jpg",
+            goblin:"https://static.wikia.nocookie.net/tsrd/images/e/e1/CollageMaker_20200726_202208191.jpg/revision/latest/scale-to-width-down/1080?cb=20200726232910&path-prefix=pt-br",
+            corrompido:"https://static.wikia.nocookie.net/tsrd/images/1/10/CollageMaker_20200726_202222762.jpg/revision/latest?cb=20200726233838&path-prefix=pt-br",
+            minotaur:"https://scontent-gig4-1.xx.fbcdn.net/v/t39.30808-6/260489667_3011315209086450_5790902256969536677_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeG0JmxEo5yuiVSbEhRQV--wP8SpfyDb73o_xKl_INvvevjkjuj1Fzd1fycF9OIDNEeat5XrjGyVq3yjTZOg-iKM&_nc_ohc=pscFauTYycwAX_2WbCX&_nc_ht=scontent-gig4-1.xx&oh=00_AfDyMSt9Yt0PgorfDX4hXIYxWx1QHB2PbGmkBlxOOgRaOA&oe=6547723C",
+            tattooed: "https://scontent-gig4-1.xx.fbcdn.net/v/t39.30808-6/251741709_2996523377232300_1883198604808900119_n.jpg?stp=dst-jpg_p526x296&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFBAtR897aKgicj7doO3NPVJqvNISObSzcmq80hI5tLN1hlIhU1QqohLz5Oo1wdLpXpu8X_0jUC9pz5oCAm1w62&_nc_ohc=4kz2Q5Hf1vYAX-w46YI&_nc_ht=scontent-gig4-1.xx&oh=00_AfBo9-RdPONT06QzVMyb4IC1o8gbjpCY8LzN0Nsu0vKvqA&oe=6548D3F1",
+            golem:"https://static.wikia.nocookie.net/tsrd/images/c/cd/B79aa21107b450a05b00f139d110f543.jpg/revision/latest?cb=20200718203600&path-prefix=pt-br",
+            hobbit:"https://www.d30rpg.com.br/wp-content/uploads/2017/10/halfling.jpg",
+            greatgnome:"https://149844032.v2.pressablecdn.com/wp-content/uploads/2021/03/gnome_wizard_explorer_by_savedra_dbqo04i-fullview.jpg",
+            medusa:"https://i.pinimg.com/550x/a3/9b/68/a39b68e16b68402086c7d275465a45ee.jpg",
+            skeleton:"https://storage.googleapis.com/pai-images/f800c6a49e5f4aaf9325c52c5e680f9b.jpeg",
+            siren:"https://cdn.openart.ai/uploads/image_bGV-TWI9_1688846443625_512.webp",
+            fairy:"https://i.pinimg.com/474x/f7/31/41/f73141b1d9b41e53b92dbd3b8cf7dbc6.jpg",
+            lizardfolk:"https://i.pinimg.com/736x/79/c4/aa/79c4aacfa5456fa5dd0b1f22bbc5837c.jpg",
+            tiefling:"https://static.wikia.nocookie.net/tsrd/images/d/d9/F2403ab2180174623f4065dd195ca924.jpg/revision/latest?cb=20180624234554&path-prefix=pt-br",
+            aasimar:"https://static.wikia.nocookie.net/iccarion/images/0/06/Aasimar.jpg/revision/latest?cb=20210219213805&path-prefix=pt-br",
+            dwarves:"https://static.wikia.nocookie.net/rpg-granant/images/b/b2/Dwargo%2C_o_capa_vermelha.jpg/revision/latest?cb=20210429122712&path-prefix=pt-br",
+            elves:"https://static.wikia.nocookie.net/tsrd/images/0/08/Elfo_Ghanor.png/revision/latest?cb=20230126124324&path-prefix=pt-br",
+            giant:"https://static.wikia.nocookie.net/tsrd/images/1/1a/Gigante_%28Ghanor%29.png/revision/latest?cb=20230126154524&path-prefix=pt-br",
+            hobgobling:"https://site.jamboeditora.com.br/wp-content/uploads/elementor/thumbs/ghanor-hobgoblin-q9jtemao0yacab15qdzwfs4evvydxkndrab366vj0g.png",
+            halfelf:"https://static.wikia.nocookie.net/tsrd/images/2/20/Meio-Elfo_%28Ghanor%29.png/revision/latest?cb=20230126162547&path-prefix=pt-br",
+            aberrant:"https://static.wikia.nocookie.net/tsrd/images/2/27/Aberrante_%28Ghanor%29.png/revision/latest?cb=20230126160439&path-prefix=pt-br",
+            SeaElf: "https://static.wixstatic.com/media/795b3d_30b2217b96054f67a7cb3912f6adc04a~mv2.png/v1/fill/w_870,h_870,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/Sea%20Elf.png",
+            halfcyborg:"https://i.pinimg.com/originals/fc/fa/54/fcfa548314a4648ae8639b0014671d4b.jpg",
+            triceratopsman:"https://static.marvelsnap.pro/art/Sauron.webp",
+            thundercat:"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/efdf6d64-1e6c-4d01-8cf4-b8113c474a53/dfy5d4e-29f3a83f-50ee-4a10-8fd2-f784a19bf17d.png/v1/fill/w_776,h_1030,q_70,strp/zahra_cheetah_monk_pugilist_by_titaniumdragon_dfy5d4e-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTIzMiIsInBhdGgiOiJcL2ZcL2VmZGY2ZDY0LTFlNmMtNGQwMS04Y2Y0LWI4MTEzYzQ3NGE1M1wvZGZ5NWQ0ZS0yOWYzYTgzZi01MGVlLTRhMTAtOGZkMi1mNzg0YTE5YmYxN2QucG5nIiwid2lkdGgiOiI8PTkyOCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.stExKgv5uwk66cuZx6lqIypjguc9rOsJaMgZ2sbk-Zs",
+            gazzeleman:"https://cdn.openart.ai/stable_diffusion/7f07ef6f9b413a914b5fd6c18aa92ad4d264a9d4_2000x2000.webp",
+            moreu:"https://static.wikia.nocookie.net/tsrd/images/2/2e/Moreau_Characters_Concept_3_by_FLP_Lopes.jpg/revision/latest?cb=20160207123326&path-prefix=pt-br",
+            snakeman: "https://i.imgur.com/Y7MDmX8.jpg?1",
+            pterodactylman:"https://static.marvelsnap.pro/art/Sauron.webp",
+            harpy:"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/684b442c-fb8d-45a7-a84f-d5c0fd6c0aac/d4yiaik-bd3a7f76-7d17-42ed-909b-b2db89f5269f.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzY4NGI0NDJjLWZiOGQtNDVhNy1hODRmLWQ1YzBmZDZjMGFhY1wvZDR5aWFpay1iZDNhN2Y3Ni03ZDE3LTQyZWQtOTA5Yi1iMmRiODlmNTI2OWYuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Eho-q3hA5U3nKipJ-rczFPBKYVAA8FI75xbMHV_RQH0",
+            kobold:"https://pm1.aminoapps.com/6500/5a8e6c2aa645d5ffb20ad74f268cee76cdb660b1_00.jpg",
+            halfminotaur:"https://i.redd.it/ak9vn6pz6ix91.png",
+            crowman:"https://i.pinimg.com/originals/59/88/7c/59887c49cff5452996eefc26f5dc31f8.png",
+            ratman:"https://www.giantbomb.com/a/uploads/scale_medium/21/213861/2564753-tumblr_md2rvqazmt1r6brt0o1_1280.jpg",
+            kappa:"https://i.pinimg.com/originals/98/02/7f/98027f7a5ede07c2ead99fe64569edbb.png",
+            kamen:"https://cdnb.artstation.com/p/assets/images/images/035/115/397/large/gun-gunawan-art-108-herald-of-crocell-logo-low.jpg?1614137173",
+            halfdragon:"https://pm1.aminoapps.com/6944/914cabd38f6dc11c629aa3a5409bb5273c085274r1-768-835v2_00.jpg",
+            gnoll:"https://static.wikia.nocookie.net/tsrd/images/7/76/Gnoll_Tormenta_RPG.jpg/revision/latest?cb=20160216172047&path-prefix=pt-br",
+            centaur: "https://i.pinimg.com/550x/b8/77/79/b87779c93fe55416d2ffcd2b6a994b49.jpg",
+            hobgoblin_militaristic:"https://i.pinimg.com/550x/b4/72/52/b472527d6e75e7194d29286ae9359947.jpg",
+            bugbear:"https://cdnb.artstation.com/p/assets/images/images/020/998/335/large/tom-perkins-bugbear-image.jpg?1569977309",
+            ogre:"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.behance.net%2Fgallery%2F105657465%2FButcher-Ogre-ManaRocks-Game&psig=AOvVaw2fZY34aSWq8kEDy72C8k10&ust=1699034984396000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjy0tf0pYIDFQAAAAAdAAAAABAb",
+            frogpeople:"https://pm1.aminoapps.com/6996/16b18cd0c923b0b621798dd9cd65f63d339507c5r1-600-800v2_uhq.jpg",
+            orc:"https://static.wikia.nocookie.net/ddbrasil/images/3/3d/Orc_Male.png/revision/latest?cb=20140219225249&path-prefix=pt",
+            halforc:"https://i0.wp.com/orbedosdragoes.com/wp-content/uploads/2015/07/rheia-meio-orc-meia-guerreira.jpg?resize=400%2C600&ssl=1",
+            snakewoman: "https://4.bp.blogspot.com/-wsodZ45lHv4/VLABX-j8xDI/AAAAAAAAAZ8/_9mGMrpupGA/s1600/naga_commission_by_paulabrams-d3an6vo.jpg",
+            paleman:"https://4.bp.blogspot.com/_wk10QIUJqTo/TPbmuB30nmI/AAAAAAAAAJQ/rN9ClDu1bKY/s1600/Finntroll.jpg",
+
+            frozenskeleton:"https://i.pinimg.com/originals/42/43/07/424307d943f8c736b437a46889929508.jpg"
+        };
+
+        // Selecione a tabela e defina a imagem de fundo com base na raça selecionada
+        const table = document.querySelector(".table");
+        if (racaSelecionada in imagensDeFundo) {
+            table.style.background = `url('${imagensDeFundo[racaSelecionada]}') no-repeat center center fixed`;
+            table.style.backgroundSize = "75% auto"; // Tamanho de imagem de fundo padrão
+            table.style.backgroundColor = 'rgba(255, 255, 255, 0.7)'; // Fundo branco semitransparente (ajuste o valor 0.7 conforme necessário)
+        } else {
+            // Caso não haja imagem correspondente para a raça selecionada, defina uma imagem padrão ou deixe em branco.
+            table.style.background = "";
+            table.style.backgroundSize = "75% auto"; // Tamanho de imagem de fundo padrão
+            table.style.backgroundColor = 'rgba(255, 255, 255, 1)'; // Fundo branco semitransparente (ajuste o valor 0.7 conforme necessário)
+        }
+
+    };
+
     const bonusMessage = document.getElementById("bonusMessage");
     const atributos = ["for_racial", "dex_racial", "con_racial", "int_racial", "sab_racial", "car_racial"];
 
@@ -1207,39 +1101,62 @@
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.add("show"));
             bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Bronze: +1 em dois atributos a sua escolha." + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.disabled = false;
         } else if (chassiValue === "ferro") {
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.disabled = false;
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.remove("show"));
             bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Ferro: Força +1 e Constituição +1." + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
         } else if (chassiValue === "mashin") {
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.add("show"));
-            bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Mashin: +1 em dois atributos a sua escolha.<br>Maravilha Mecânica" + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
+            bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Mashin: +1 em dois atributos a sua escolha.<br>Maravilha Mecânica" + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: Médio</span>Propósito de Criação";
+
+            // Definir o valor do tamanho como Médio e desabilitar a seleção
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.value = "Medio";
+            tamanhoSelect.disabled = true;
         } else if (chassiValue === "carne") {
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.disabled = false;
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.remove("show"));
             bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Carne: Constituição +2, Força +1, Carisma –1." + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
         } else if (chassiValue === "barro") {
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.disabled = false;
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.remove("show"));
             bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Barro: Constituição +2" + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
         } else if (chassiValue === "espelho") {
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.disabled = false;
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.remove("show"));
             bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Espelhos: Carisma +2, Sabedoria +1, Constituição -1" + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
         } else if (chassiValue === "gelo") {
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.disabled = false;
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.remove("show"));
             bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Gelo Eterno: Constituição +2" + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
         } else if (chassiValue === "pedra") {
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.disabled = false;
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.remove("show"));
             bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Pedra: Constituição +2" + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
         } else if (chassiValue === "sucata") {
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.disabled = false;
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.remove("show"));
             bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Sucata: Força +1, Constituição +1" + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
         } else {
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.disabled = false;
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.remove("show"));
             bonusMessage.textContent = "";
@@ -1374,6 +1291,7 @@
 
     function configurarAtributosRaciaisPorRaca() {
         const racaSelect = document.getElementById("raca");
+
         const pontosMaximosPorRaca = {
             humano: 3,
             corrompido: 2,
@@ -2683,6 +2601,16 @@
             });
         }
 
+    };
+
+    function handleOnChange() {
+        limparValoresRaciais();
+        exibirBonusRaca();
+        aberrantSelect();
+        dragonSelect();
+        moreuSelect();
+        koboldSelect();
+        imagem_racial();
     };
 </script>
 
