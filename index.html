@@ -129,6 +129,9 @@
                             <option value="paleman" class="ameacas">Fintroll (Ameaças)</option>
                             <option value="frozenskeleton" class="ameacas">Soterrado (Ameaças)</option>
                             <option value="duende" class="DHracas">Duende (Deuses e Herois)</option>
+                            <option value="highelf" class="DHracas">Eiradaan (Deuses e Herois)</option>
+                            <option value="halfgiant" class="DHracas">Galokk (Deuses e Herois)</option>
+                            <option value="halfelf2" class="DHracas">Meio-Elfo (Deuses e Herois)</option>
                         </select>
 
                         <h3
@@ -287,7 +290,7 @@
 
                         <div id="caracteristicasduende" style="display: none;">
                             </select><!-- Botão para seleção aleatória -->
-                            <button id="botaonimb"
+                            <button id="botaonimb" class="btn btn-primary"
                                 title="Esse botão irá gerar seu Duende todo aleatoriamente. Por sua ousadia, você recebe +2 PM">Sonhos
                                 Malucos (Modo Nimb)</button><br>
 
@@ -754,6 +757,11 @@
                 const bonusMessage = document.getElementById("bonusMessage");
                 document.getElementById("bonusMessage").innerHTML = "Carisma +2,<br> +1 em outro atributo<br><span style='display: block;'>Longa Infância</span><span>Sentidos Ancestrais</span>";
 
+            } else if (racaSelect.value === "halfelf2") {
+                configurarAtributosRaciaisPorRaca();
+                const bonusMessage = document.getElementById("bonusMessage");
+                document.getElementById("bonusMessage").innerHTML = "Inteligência +1,<br> +1 em dois atributos exceto Constituição<br><span style='display: block;'>Ambição Herdada</span><span>Entre Dois Mundos</span><span>Sangue Élfico</span>";
+
             } else if (racaSelect.value === "aberrant") {
                 atualizarAtributosAberrante();
                 aberrantSelect();
@@ -834,10 +842,18 @@
             } else if (racaSelect.value === "paleman") {
                 aplicarBonusRacial("paleman");
 
+            } else if (racaSelect.value === "highelf") {
+                aplicarBonusRacial("highelf");
+
             } else if (racaSelect.value === "frozenskeleton") {
                 configurarAtributosRaciaisPorRaca();
                 const bonusMessage = document.getElementById("bonusMessage");
                 document.getElementById("bonusMessage").innerHTML = "+1 em Três Atributos Diferentes (exceto Constituição)<br>Constituição -1<br><span style='display: block;'>Abraço Gélido</span><span>Esquife de Gelo</span><br><span>Natureza Esquelética</span><br><span>Preço da Não Vida</span><br>";
+
+            } else if (racaSelect.value === "halfgiant") {
+                configurarAtributosRaciaisPorRaca();
+                const bonusMessage = document.getElementById("bonusMessage");
+                document.getElementById("bonusMessage").innerHTML = "Força +1, Constituição +1, +1 em um Atributo,<br>Carisma -1<br><span style='display: block;'>Força dos Titans</span><span>Grandão</span><br><span>Infância Entre os Pequenos</span>";
 
             } else if (racaSelect.value === "kobold") {
                 aplicarBonusRacial("kobold");
@@ -1036,6 +1052,11 @@
                 valores: { for_racial: -1, dex_racial: 0, con_racial: 1, int_racial: 2, sab_racial: 0, car_racial: 0 }
             },
 
+            highelf: {
+                bonus: "Sabedoria +2, Carisma +1, Força -1,<br>Essência Feérica<br>Magia Instintiva<br>Sentidos Místicos<br>Canção da Melancolia",
+                valores: { for_racial: -1, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 2, car_racial: 1 }
+            },
+
             kobold: {
                 bonus: "Destreza +2, Força -1,<br>Enxame Escamoso<br>Praga Monstruosa<br>Sensibilidade a Luz<br>Talentos do Bando",
                 valores: { for_racial: -1, dex_racial: 2, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 0 }
@@ -1128,8 +1149,11 @@
             halforc: "https://i0.wp.com/orbedosdragoes.com/wp-content/uploads/2015/07/rheia-meio-orc-meia-guerreira.jpg?resize=400%2C600&ssl=1",
             snakewoman: "https://4.bp.blogspot.com/-wsodZ45lHv4/VLABX-j8xDI/AAAAAAAAAZ8/_9mGMrpupGA/s1600/naga_commission_by_paulabrams-d3an6vo.jpg",
             paleman: "https://4.bp.blogspot.com/_wk10QIUJqTo/TPbmuB30nmI/AAAAAAAAAJQ/rN9ClDu1bKY/s1600/Finntroll.jpg",
-
-            frozenskeleton: "https://i.pinimg.com/originals/42/43/07/424307d943f8c736b437a46889929508.jpg"
+            highelf: "https://i.redd.it/dzgkyaa1fj321.jpg",
+            halfgiant: "https://static.wikia.nocookie.net/hunted-roleplay/images/3/35/Half-giant.jpg",
+            halfelf2: "https://pathfinder2e.org/rpg/wp-content/uploads/2022/06/half-elf-race.webp",
+            frozenskeleton: "https://i.pinimg.com/originals/42/43/07/424307d943f8c736b437a46889929508.jpg",
+            duende: "https://vejasp.abril.com.br/wp-content/uploads/2017/01/51519_a-bela-e-a-fera-3.jpeg"
         };
 
         // Selecione a tabela e defina a imagem de fundo com base na raça selecionada
@@ -1391,155 +1415,131 @@
     function configurarAtributosRaciaisPorRaca() {
         const racaSelect = document.getElementById("raca");
 
+        // Definição das regras raciais
         const pontosMaximosPorRaca = {
-            humano: 3,
-            corrompido: 2,
-            skeleton: 2,
-            siren: 3,
-            halfelf: 3,
-            halforc: 3,
-            halfdragon: 2,
-            halfminotaur: 3,
-            halfcyborg: 1,
-            frozenskeleton: 2,
-
-            // Adicione outras raças e seus totais de pontos disponíveis conforme necessário
-        };
-        const valorMaximoAtributosRaciais = {
-            humano: 1, // Valor máximo para a raça "humano"
-            corrompido: 1,
-            skeleton: 1,
-            siren: 1,
-            halfelf: 1,
-            halforc: 1,
-            halfdragon: 2,
-            halfminotaur: 1,
-            halfcyborg: 1,
-            frozenskeleton: 1,
-            // Adicione outras raças e seus valores máximos conforme necessário
+            humano: 3, corrompido: 2, skeleton: 2, siren: 3, halfelf: 3,
+            halforc: 3, halfdragon: 2, halfminotaur: 3, halfcyborg: 1,
+            frozenskeleton: 2, halfelf2: 3, halfgiant: 2
         };
 
-        const atributosRaciais = ["for_racial", "dex_racial", "con_racial", "int_racial", "sab_racial", "car_racial"];
+        const valoresFixos = {
+            corrompido: { car_racial: -1 },
+            skeleton: { con_racial: -1 },
+            frozenskeleton: { con_racial: -1 },
+            halfcyborg: { car_racial: -2 },
+            halfelf: { car_racial: 2, con_racial: 0 },
+            halforc: { for_racial: 2, car_racial: 0 },
+            halfelf2: { con_racial: 0 }
+        };
+
+        const valoresMinimos = {
+            humano: { for_racial: 0, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 0 },
+            corrompido: { for_racial: 0, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: -1 },
+            skeleton: { for_racial: 0, dex_racial: 0, con_racial: -1, int_racial: 0, sab_racial: 0, car_racial: 0 },
+            siren: { for_racial: 0, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 0 },
+            halfelf: { for_racial: 0, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 2 },
+            halforc: { for_racial: 2, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 0 },
+            halfdragon: { for_racial: 0, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 0 },
+            halfminotaur: { dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 0 },
+            halfcyborg: { for_racial: 0, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: -2 },
+            frozenskeleton: { for_racial: 0, dex_racial: 0, con_racial: -1, int_racial: 0, sab_racial: 0, car_racial: 0 },
+            halfelf2: { for_racial: 0, dex_racial: 0, con_racial: 0, int_racial: 1, sab_racial: 0, car_racial: 0 },
+            halfgiant: { for_racial: 1, dex_racial: 0, con_racial: 1, int_racial: 0, sab_racial: 0, car_racial: -1 }
+        };
+
+        const valoresMaximos = {
+            humano: { for_racial: 1, dex_racial: 1, con_racial: 1, int_racial: 1, sab_racial: 1, car_racial: 1 },
+            corrompido: { for_racial: 1, dex_racial: 1, con_racial: 1, int_racial: 1, sab_racial: 1, car_racial: -1 },
+            skeleton: { for_racial: 1, dex_racial: 1, con_racial: -1, int_racial: 1, sab_racial: 1, car_racial: 1 },
+            siren: { for_racial: 1, dex_racial: 1, con_racial: 1, int_racial: 1, sab_racial: 1, car_racial: 1 },
+            halfelf: { for_racial: 1, dex_racial: 1, con_racial: 0, int_racial: 1, sab_racial: 1, car_racial: 2 },
+            halforc: { for_racial: 2, dex_racial: 1, con_racial: 1, int_racial: 1, sab_racial: 1, car_racial: 0 },
+            halfdragon: { for_racial: 2, dex_racial: 2, con_racial: 2, int_racial: 2, sab_racial: 2, car_racial: 2 },
+            halfminotaur: { dex_racial: 1, con_racial: 1, int_racial: 1, sab_racial: 1, car_racial: 1 },
+            halfcyborg: { for_racial: 1, dex_racial: 1, con_racial: 1, int_racial: 1, sab_racial: 1, car_racial: -2 },
+            frozenskeleton: { for_racial: 1, dex_racial: 1, con_racial: -1, int_racial: 1, sab_racial: 1, car_racial: 1 },
+            halfelf2: { for_racial: 1, dex_racial: 1, con_racial: 0, int_racial: 2, sab_racial: 1, car_racial: 1 },
+            halfgiant: { for_racial: 2, dex_racial: 1, con_racial: 2, int_racial: 1, sab_racial: 1, car_racial: 0 }
+        };
+
+
+        const atributos = ["for_racial", "dex_racial", "con_racial", "int_racial", "sab_racial", "car_racial"];
 
         racaSelect.addEventListener("change", () => {
             const racaSelecionada = racaSelect.value;
-            const pontosMaximos = pontosMaximosPorRaca[racaSelecionada];
-            const valorMaximo = valorMaximoAtributosRaciais[racaSelecionada];
+            const pontosDisponiveis = pontosMaximosPorRaca[racaSelecionada] || 0;
+            let pontosGastos = 0;
 
-            // Defina o valor máximo para os atributos raciais
-            for (const atributo of atributosRaciais) {
-                const atributoInput = document.getElementById(atributo);
-                atributoInput.max = valorMaximo;
+            // Lista de raças que devem chamar atualizarPontos()
+            const racasQueAtualizamPontos = ["humano", "corrompido", "skeleton", "siren", "halfelf", "halforc", "halfdragon", "halfminotaur", "halfcyborg", "frozenskeleton", "halfelf2", "halfgiant"];
+
+            // Reinicia atributos
+            atributos.forEach(attr => {
+                const input = document.getElementById(attr);
+                input.disabled = false;
+                input.value = 0;
+                input.removeAttribute("min");
+                input.removeAttribute("max");
+            });
+
+            // Aplica valores fixos
+            if (valoresFixos[racaSelecionada]) {
+                Object.entries(valoresFixos[racaSelecionada]).forEach(([attr, valor]) => {
+                    const input = document.getElementById(attr);
+                    input.value = valor;
+                    input.disabled = true;
+                });
             }
 
-            // Lidar com as características específicas das raças "Lefou" (Corrompido) e "Skeleton"
-            if (racaSelecionada === "corrompido") {
-                const carRacialInput = document.getElementById("car_racial");
-                carRacialInput.value = "-1";
-                carRacialInput.disabled = true;
-
-            } else if (racaSelecionada === "skeleton") {
-                const conRacialInput = document.getElementById("con_racial");
-                conRacialInput.value = "-1";
-                conRacialInput.disabled = true;
-
-            } else if (racaSelecionada === "halfelf") {
-                const carRacialInput = document.getElementById("car_racial");
-                carRacialInput.value = "2";
-                carRacialInput.disabled = true;
-
-            } else if (racaSelecionada === "halfcyborg") {
-                const carRacialInput = document.getElementById("car_racial");
-                carRacialInput.value = "-2";
-                carRacialInput.disabled = true;
-
-            } else if (racaSelecionada === "halforc") {
-                const carRacialInput = document.getElementById("car_racial");
-                const forRacialInput = document.getElementById("for_racial");
-                carRacialInput.value = "0";
-                carRacialInput.disabled = true;
-                forRacialInput.value = "2";
-                forRacialInput.disabled = true;
-
-            } else if (racaSelecionada === "halfminotaur") {
-                const forRacialInput = document.getElementById("for_racial");
-                forRacialInput.value = "1";
-
-            } else if (racaSelecionada === "frozenskeleton") {
-                const conRacialInput = document.getElementById("con_racial");
-                conRacialInput.value = "-1";
-                conRacialInput.disabled = true;
+            // Aplica valores mínimos
+            if (valoresMinimos[racaSelecionada]) {
+                Object.entries(valoresMinimos[racaSelecionada]).forEach(([attr, valor]) => {
+                    const input = document.getElementById(attr);
+                    input.value = valor;
+                    input.min = valor;
+                });
             }
 
-            // Quando um atributo racional é modificado, verifique se excede o valor máximo
-            for (const atributo of atributosRaciais) {
-                const atributoInput = document.getElementById(atributo);
+            // Aplica valores máximos
+            if (valoresMaximos[racaSelecionada]) {
+                Object.entries(valoresMaximos[racaSelecionada]).forEach(([attr, valor]) => {
+                    const input = document.getElementById(attr);
+                    input.max = valor;
+                });
+            }
 
-                atributoInput.addEventListener("change", () => {
-                    const pontosGastos = atributosRaciais.reduce((total, atributo) => {
-                        const valor = parseInt(document.getElementById(atributo).value);
-                        return total + (isNaN(valor) ? 0 : valor);
-                    }, 0);
+            // Atualiza a contagem de pontos gastos e limita gastos
+            function atualizarPontos() {
+                pontosGastos = atributos.reduce((total, attr) => {
+                    return total + (parseInt(document.getElementById(attr).value) || 0);
+                }, 0);
 
-                    // Verifique se a raça é "halfdragon" e se já foram gastos 2 pontos
-                    if (racaSelecionada === "halfdragon" && pontosGastos >= 2) {
-                        // Permitir a alteração dos valores, mas desabilite a adição de mais pontos
-                        for (const atributo of atributosRaciais) {
-                            const atributoInput = document.getElementById(atributo);
-                            atributoInput.disabled = parseInt(atributoInput.value) === 0;
+                atributos.forEach(attr => {
+                    const input = document.getElementById(attr);
+                    if (!input.disabled) {
+                        let maxPermitido = Math.max(0, pontosDisponiveis - (pontosGastos - parseInt(input.value)));
+                        if (valoresMaximos[racaSelecionada] && valoresMaximos[racaSelecionada][attr] !== undefined) {
+                            maxPermitido = Math.min(maxPermitido, valoresMaximos[racaSelecionada][attr]);
                         }
-                    } else {
-                        // Desabilite outros atributos quando o valor máximo for atingido
-                        for (const atributo of atributosRaciais) {
-                            const atributoInput = document.getElementById(atributo);
-                            if (racaSelecionada === "corrompido" && atributo === "car_racial") {
-                                // Carisma sempre é -1 para a raça "Lefou" (Corrompido)
-                                atributoInput.value = "-1";
-                                atributoInput.disabled = true;
-
-                            } else if (racaSelecionada === "skeleton" && atributo === "con_racial") {
-                                // Constituição sempre é -1 para a raça "Skeleton"
-                                atributoInput.value = "-1";
-                                atributoInput.disabled = true;
-
-                            } else if (racaSelecionada === "halfelf" && atributo === "car_racial") {
-                                // Carisma sempre é +2 para a raça "halfelf"
-                                atributoInput.value = "2";
-                                atributoInput.disabled = true;
-
-                            } else if (racaSelecionada === "halfcyborg" && atributo === "car_racial") {
-                                atributoInput.value = "-2";
-                                atributoInput.disabled = true;
-
-                            } else if (racaSelecionada === "halforc" && atributo === "car_racial") {
-                                const forRacialInput = document.getElementById("for_racial");
-
-                                atributoInput.value = "0";
-                                atributoInput.disabled = true;
-
-                                forRacialInput.value = "2"; // Define Força como 2
-                                forRacialInput.disabled = true; // Desabilita Força
-
-                                /* } else if (racaSelecionada === "halfminotaur" && atributo === "for_racial") {
-                                     atributoInput.value = "1";
-                                     atributoInput.disabled = true; */
-
-                            } else if (racaSelecionada === "frozenskeleton" && atributo === "con_racial") {
-                                // Constituição sempre é -1 para a raça "Skeleton"
-                                atributoInput.value = "-1";
-                                atributoInput.disabled = true;
-
-                            } else {
-                                // Para outros atributos e raças, use a lógica padrão
-                                atributoInput.disabled = pontosGastos >= pontosMaximos && parseInt(atributoInput.value) === 0;
-                            }
-                        }
+                        input.max = maxPermitido;
                     }
                 });
             }
-        });
-    }
 
+            atributos.forEach(attr => {
+                const input = document.getElementById(attr);
+                input.addEventListener("input", atualizarPontos);
+            });
+
+            // Verifica qual função chamar
+            if (racasQueAtualizamPontos.includes(racaSelecionada)) {
+                atualizarPontos();
+            } else {
+                exibirBonusRaca();
+            }
+        });
+
+    }
 
 
 
@@ -1928,8 +1928,6 @@
     });
 
 
-
-
     //funçaõ Moreu
     function moreuSelect() {
         var racaSelect = document.getElementById("raca");
@@ -2040,10 +2038,6 @@
             bonusMessage.innerHTML = mensagem;
         }
     }
-
-
-
-
 
     const herancaSelect = document.getElementById("herancaSelect");
 
@@ -2557,6 +2551,36 @@
             emotion: ["Reverence for the Natural World", "Bond with Ancestral Spirits", "Fierce Loyalty to the Tribe", "Wistful Nostalgia for a Simpler Time", "Protective Instinct Towards the Young", "Deep Connection with the Land"],
             weapon: ["Elongated Bow Carved from a Single Branch", "Enchanted Stone-tipped Spears", "Curved Tribal Swords", "Throwing Tomahawks", "Wooden Staves Adorned with Runes", "Favored Weapons Passed Down Through Generations"],
             location: ["Sacred Clearing in the Ancient Forest", "Centaur Tribal Village Hidden in the Hills", "Serene Riverbanks of Their Homeland", "Mystic Glade Surrounded by Enchanted Trees", "Rocky Plateau Overlooking the Plains", "Deep Caverns Beneath the Earth's Surface"]
+        },
+
+        duende: {
+            gender: ["Male", "Female", "Non-binary", "Mysterious"],
+            role: ["Prankster dos Bosques", "Trapaceiro das Folhas", "Guardião das Birutas", "Mestre das Travessuras", "Gourmet das Maravilhas", "Bobo da Corte Natural"],
+            attire: ["Túnicas de Folha Remendada", "Roupas de Musgo com Estilo", "Pedaços Aleatórios de Natureza", "Trajes com Brilho de Orvalho", "Roupas Artesanais de Galhos e Fibras", "Vestuário Excêntrico Feito de Elementos"],
+            scene: ["Duende em um Piquenique Sob a Luz da Lua", "Dança Maluca em um Círculo de Cogumelos", "Desfile de Travessuras no Bosque Encantado", "Ritual de Risadas em uma Encruzilhada Caótica", "Duende Competindo em Uma Corrida de Folhas", "Encontro Inusitado com uma Árvore que Ri"],
+            emotion: ["Alegria Irônica", "Sorriso Maroto", "Curiosidade Mística", "Encantamento Cômico", "Riso Contagiante", "Sutileza Sarcástica"],
+            weapon: ["Um Galho que Vira Bumerangue", "Estilingue Feito de Fita e Chiclete", "Catapulta de Tortas Inesperadas", "Varinha de Um Graveto Dobradiço", "Amuleto de Feitiços Absurdos", "Colher Mágica de Poder Surpresa"],
+            location: ["Clareira Escondida Repleta de Estranhezas", "Bosque Encantado de Risos Inesperados", "Caminho Torcido por uma Floresta Insólita", "Caverna Secreta Sob uma Árvore Risonha", "Prado Mágico de Flora Peculiar", "Recanto Místico que Desafia a Lógica"]
+        },
+
+        highelf: {
+            gender: ["Male", "Female"],
+            role: ["Forest Sage of the Lost Ages", "Mystic Seer of the Wild", "Arcane Wanderer", "Celestial Songweaver", "Guardian of the Forgotten Glade", "Melancholic Emissary"],
+            attire: ["Flowing Robes Embroidered with Moonlit Runes", "Silken Tunics in Hues of Twilight", "Ornate Vestments Adorned with Nature’s Emblems", "Cloaks of Mist and Starlight", "Garments Woven from the Threads of the Feywild", "Elegant Armor Laced with Vines and Arcane Symbols"],
+            scene: ["High Elf Council Under a Star-Studded Canopy", "Solitary Stroll Through a Moonlit Grove", "Ancient Ritual at the Edge of the Feywild", "Melancholic Gathering by a Crystal Lake", "Mystic Ceremony in a Hidden Glade", "Celestial Observatory at the Summit of an Enchanted Mountain"],
+            emotion: ["Gaze Filled with Timeless Wisdom", "Melancholy for a Bygone Golden Age", "Haunted by the Echoes of Lost Legends", "Solemn Contemplation of the Arcane", "Deep Reverence for Nature’s Secrets", "A Powerful Yet Bittersweet Aura"],
+            weapon: ["Elegant Longbow Carved from Ancient Oak", "Mystic Blades Forged in Moonlight", "Enchanted Staff Adorned with Glowing Runes", "Twin Swords of Ethereal Silver", "Arcane Daggers that Sparkle like Starlight", "Relics of Power Passed Through Generations"],
+            location: ["Mystic Glade Hidden Deep Within the Forest", "Ancient Ruins of a Lost Elven Kingdom", "Celestial Observatory Beneath a Starry Sky", "Moonlit Grove of the Elders", "Secret Sanctuary in the Heart of the Wild", "Ethereal Lake Reflecting Forgotten Legends"]
+        },
+
+        halfgiant: {
+            gender: ["Male", "Female"],
+            role: ["Rock-Born Guardian", "Stalwart Defender", "Mighty Wanderer", "Boulder Diplomat", "Gentle Giant of the Highlands", "Colossal Craftsman"],
+            attire: ["Rugged Tunics with Earthy Hues", "Simple Linen Garments Reinforced with Leather", "Armored Vests Adorned with Stone Accents", "Heavy Cloaks That Resemble Weathered Granite", "Work-Worn Garb with a Rough, Natural Texture", "Casual Attire Reflecting Raw Strength"],
+            scene: ["Half Giant at a Mountain Quarry Amidst Rugged Peaks", "Strolling Through a Rocky Pass Under a Vast Sky", "Celebration at a Stone Festival in a Craggy Valley", "Quiet Moment Beside a Massive Outcrop", "Training with Boulders in a Secluded Clearing", "Gathering at a Summit Overlooking Endless Lands"],
+            emotion: ["Steely Determination", "Quiet Confidence", "Unyielding Resilience", "A Proud Sense of Duty", "Gentle Strength Hidden in a Mighty Frame", "Ancient Wisdom in Every Glance"],
+            weapon: ["Massive War Hammer Carved from Bedrock", "Giant’s Club with a Craggy Surface", "Heavy Spear Forged in Raw Iron", "Boulder-Shaped Shield", "Enchanted Stone Axe", "Mighty Mace Echoing Like Thunder"],
+            location: ["At the Foot of Towering Mountains", "In a Rugged Valley Among Giant Rocks", "Overlooking a Vast, Rocky Expanse", "Dentro de um Forte Esculpido na Pedra", "Ao Lado de uma Cachoeira Majestosa nas Falésias", "Dentro de uma Fortaleza Ancestral e Craggy"]
         },
 
         golem: {
