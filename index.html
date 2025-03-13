@@ -9,6 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abibas&display=swap">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 
 </head>
 
@@ -58,6 +63,10 @@
                         <div id="ameacas">
                             <input type="checkbox" id="AmeacasCheckbox" onchange="exibirBonusRaca(); exibirRacas();">
                             Raças do Ameaças
+                        </div>
+                        <div id="racasDH">
+                            <input type="checkbox" id="DHCheckbox" onchange="exibirBonusRaca(); exibirRacas();">
+                            Raças do Deuses e Herois
                         </div>
 
                         </P>
@@ -119,6 +128,7 @@
                             <option value="snakewoman" class="ameacas">Nagah (Femea) (Ameaças)</option>
                             <option value="paleman" class="ameacas">Fintroll (Ameaças)</option>
                             <option value="frozenskeleton" class="ameacas">Soterrado (Ameaças)</option>
+                            <option value="duende" class="DHracas">Duende (Deuses e Herois)</option>
                         </select>
 
                         <h3
@@ -275,7 +285,96 @@
                             </div>
                         </div>
 
+                        <div id="caracteristicasduende" style="display: none;">
+                            </select><!-- Botão para seleção aleatória -->
+                            <button id="botaonimb"
+                                title="Esse botão irá gerar seu Duende todo aleatoriamente. Por sua ousadia, você recebe +2 PM">Sonhos
+                                Malucos (Modo Nimb)</button><br>
 
+                            <div id="seletoresExtras">
+                                <label for="subSeletor">Natureza:</label>
+                                <select id="subSeletor">
+                                    <option value="A">Animal</option>
+                                    <option value="B">Vegetal</option>
+                                    <option value="C">Mineral</option>
+                                </select>
+
+                                <label for="subSeletor2">Tamanho:</label>
+                                <select id="subSeletor2">
+                                    <option value="D">Minúsculo</option>
+                                    <option value="E">Pequeno</option>
+                                    <option value="F" selected>Médio</option>
+                                    <option value="G">Grande</option>
+                                </select>
+                            </div>
+
+                            <!-- Grupo de checkboxes: Dons -->
+                            <div id="checkboxContainer">
+                                <span>Dons:</span><br>
+                                <input type="checkbox" id="chk1" value="1">
+                                <label for="chk1">Força</label><br>
+                                <input type="checkbox" id="chk2" value="2">
+                                <label for="chk2">Destreza</label><br>
+                                <input type="checkbox" id="chk3" value="3">
+                                <label for="chk3">Constituição</label><br>
+                                <input type="checkbox" id="chk4" value="4">
+                                <label for="chk4">Inteligência</label><br>
+                                <input type="checkbox" id="chk5" value="5">
+                                <label for="chk5">Sabedoria</label><br>
+                                <input type="checkbox" id="chk6" value="6">
+                                <label for="chk6">Carisma</label>
+                            </div>
+
+                            <!-- Grupo de checkboxes: Magia e Caos -->
+                            <div id="checkboxContainer2">
+                                <span>Presentes de Magia e de Caos:</span><br>
+                                <input type="checkbox" id="chk_new_1" value="1">
+                                <label for="chk_new_1">Afinidade Elemental</label>
+                                <!-- Seletor extra para Afinidade Elemental -->
+                                <label for="extraSelector1" id="extraSelector1Label"></label>
+                                <select id="extraSelector1" class="hidden">
+                                    <option value="X1">Água</option>
+                                    <option value="X2">Fogo</option>
+                                    <option value="X3">Vegetação</option>
+                                </select><br>
+                                <input type="checkbox" id="chk_new_2" value="2">
+                                <label for="chk_new_2">Encantar Objetos</label><br>
+                                <input type="checkbox" id="chk_new_3" value="3">
+                                <label for="chk_new_3">Enfeitiçar</label><br>
+                                <input type="checkbox" id="chk_new_4" value="4">
+                                <label for="chk_new_4">Invisibilidade</label><br>
+                                <input type="checkbox" id="chk_new_5" value="5">
+                                <label for="chk_new_5">Língua da Natureza</label><br>
+                                <input type="checkbox" id="chk_new_6" value="6">
+                                <label for="chk_new_6">Maldição</label>
+                                <!-- Seletor extra para Maldição -->
+                                <label for="extraSelector2" id="extraSelector2Label"></label>
+                                <select id="extraSelector2" class="hidden">
+                                    <option value="Y1">Apatia Profunda</option>
+                                    <option value="Y2">Coração de Geléia</option>
+                                    <option value="Y3">Envelhecimento Súbito</option>
+                                    <option value="Y4">Loucura do Verão</option>
+                                    <option value="Y5">Mil Verrugas</option>
+                                    <option value="Y6">Ruína do Corpo</option>
+                                    <option value="Y7">Outra (permissão do mestre)</option>
+                                </select><br>
+                                <input type="checkbox" id="chk_new_7" value="7">
+                                <label for="chk_new_7">Metamorfose Animal</label><br>
+                                <input type="checkbox" id="chk_new_8" value="8">
+                                <label for="chk_new_8">Mudança de Tamanho</label><br>
+                                <input type="checkbox" id="chk_new_9" value="9">
+                                <label for="chk_new_9">Sonhos Proféticos</label><br>
+                                <input type="checkbox" id="chk_new_10" value="10">
+                                <label for="chk_new_10">Velocidade do Pensamento</label><br>
+                                <input type="checkbox" id="chk_new_11" value="11">
+                                <label for="chk_new_11">Visão Feérica</label><br>
+                                <input type="checkbox" id="chk_new_12" value="12">
+                                <label for="chk_new_12">Voo</label>
+                            </div>
+
+
+
+                        </div>
 
                     </div>
                     <div class="column" style="width: 55%;">
@@ -982,55 +1081,55 @@
             humano: "https://mir-s3-cdn-cf.behance.net/project_modules/hd/35632a15313421.562935084072e.jpg",
             elfo: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cef8bec6-8423-4466-8f92-d545315fe995/dg8n3s5-b089a5a6-580e-47e7-a7bc-022108c2c4e6.jpg/v1/fill/w_900,h_900,q_75,strp/elven_couple_2_by_ecvcm_dg8n3s5-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2NlZjhiZWM2LTg0MjMtNDQ2Ni04ZjkyLWQ1NDUzMTVmZTk5NVwvZGc4bjNzNS1iMDg5YTVhNi01ODBlLTQ3ZTctYTdiYy0wMjIxMDhjMmM0ZTYuanBnIiwiaGVpZ2h0IjoiPD05MDAiLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLndhdGVybWFyayJdLCJ3bWsiOnsicGF0aCI6Ilwvd21cL2NlZjhiZWM2LTg0MjMtNDQ2Ni04ZjkyLWQ1NDUzMTVmZTk5NVwvZWN2Y20tNC5wbmciLCJvcGFjaXR5Ijo5NSwicHJvcG9ydGlvbnMiOjAuNDUsImdyYXZpdHkiOiJjZW50ZXIifX0.Ks16EvDOI4JfP5wFRihFWRjh8cbEs-QnoVdFcHTCH5o",
             dwarf: "https://i.pinimg.com/236x/3e/93/b4/3e93b4bf276ec9bc90a80db061c79a79.jpg",
-            driad:"https://www.pathfinder-fr.org/Wiki/public/upload/Illustrations/P1/Tiressia.jpg",
-            goblin:"https://i.imgflip.com/85i9u0.jpg",
-            corrompido:"https://i.imgflip.com/85i9wx.jpg",
-            minotaur:"https://pm1.aminoapps.com/7689/c6f160b2d5f373daa7ee60cf1921957fe7c0b9b7r1-469-549v2_uhq.jpg",
+            driad: "https://www.pathfinder-fr.org/Wiki/public/upload/Illustrations/P1/Tiressia.jpg",
+            goblin: "https://i.imgflip.com/85i9u0.jpg",
+            corrompido: "https://i.imgflip.com/85i9wx.jpg",
+            minotaur: "https://pm1.aminoapps.com/7689/c6f160b2d5f373daa7ee60cf1921957fe7c0b9b7r1-469-549v2_uhq.jpg",
             tattooed: "https://i.imgflip.com/85ia09.jpg",
-            golem:"https://i.imgflip.com/85ia3p.jpg",
-            hobbit:"https://www.d30rpg.com.br/wp-content/uploads/2017/10/halfling.jpg",
-            greatgnome:"https://149844032.v2.pressablecdn.com/wp-content/uploads/2021/03/gnome_wizard_explorer_by_savedra_dbqo04i-fullview.jpg",
-            medusa:"https://i.pinimg.com/550x/a3/9b/68/a39b68e16b68402086c7d275465a45ee.jpg",
-            skeleton:"https://storage.googleapis.com/pai-images/f800c6a49e5f4aaf9325c52c5e680f9b.jpeg",
-            siren:"https://cdn.openart.ai/uploads/image_bGV-TWI9_1688846443625_512.webp",
-            fairy:"https://i.pinimg.com/474x/f7/31/41/f73141b1d9b41e53b92dbd3b8cf7dbc6.jpg",
-            lizardfolk:"https://i.pinimg.com/736x/79/c4/aa/79c4aacfa5456fa5dd0b1f22bbc5837c.jpg",
-            tiefling:"https://i.imgflip.com/85i9o7.jpg",
-            aasimar:"https://i.imgflip.com/85ia8t.jpg",
-            dwarves:"https://i.imgflip.com/85ib6x.jpg",
-            elves:"https://i.imgflip.com/85ib1d.jpg",
-            giant:"https://i.imgflip.com/85ib37.jpg",
-            hobgobling:"https://site.jamboeditora.com.br/wp-content/uploads/elementor/thumbs/ghanor-hobgoblin-q9jtemao0yacab15qdzwfs4evvydxkndrab366vj0g.png",
-            halfelf:"https://i.imgflip.com/85iaxx.jpg",
-            aberrant:"https://i.imgflip.com/85iauo.jpg",
+            golem: "https://i.imgflip.com/85ia3p.jpg",
+            hobbit: "https://www.d30rpg.com.br/wp-content/uploads/2017/10/halfling.jpg",
+            greatgnome: "https://149844032.v2.pressablecdn.com/wp-content/uploads/2021/03/gnome_wizard_explorer_by_savedra_dbqo04i-fullview.jpg",
+            medusa: "https://i.pinimg.com/550x/a3/9b/68/a39b68e16b68402086c7d275465a45ee.jpg",
+            skeleton: "https://storage.googleapis.com/pai-images/f800c6a49e5f4aaf9325c52c5e680f9b.jpeg",
+            siren: "https://cdn.openart.ai/uploads/image_bGV-TWI9_1688846443625_512.webp",
+            fairy: "https://i.pinimg.com/474x/f7/31/41/f73141b1d9b41e53b92dbd3b8cf7dbc6.jpg",
+            lizardfolk: "https://i.pinimg.com/736x/79/c4/aa/79c4aacfa5456fa5dd0b1f22bbc5837c.jpg",
+            tiefling: "https://i.imgflip.com/85i9o7.jpg",
+            aasimar: "https://i.imgflip.com/85ia8t.jpg",
+            dwarves: "https://i.imgflip.com/85ib6x.jpg",
+            elves: "https://i.imgflip.com/85ib1d.jpg",
+            giant: "https://i.imgflip.com/85ib37.jpg",
+            hobgobling: "https://site.jamboeditora.com.br/wp-content/uploads/elementor/thumbs/ghanor-hobgoblin-q9jtemao0yacab15qdzwfs4evvydxkndrab366vj0g.png",
+            halfelf: "https://i.imgflip.com/85iaxx.jpg",
+            aberrant: "https://i.imgflip.com/85iauo.jpg",
             SeaElf: "https://static.wixstatic.com/media/795b3d_30b2217b96054f67a7cb3912f6adc04a~mv2.png/v1/fill/w_870,h_870,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/Sea%20Elf.png",
-            halfcyborg:"https://i.pinimg.com/originals/fc/fa/54/fcfa548314a4648ae8639b0014671d4b.jpg",
-            triceratopsman:"https://i.pinimg.com/1200x/d8/70/ae/d870ae599925c7b7e4ed5fa5ecf06240.jpg",
-            thundercat:"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/efdf6d64-1e6c-4d01-8cf4-b8113c474a53/dfy5d4e-29f3a83f-50ee-4a10-8fd2-f784a19bf17d.png/v1/fill/w_776,h_1030,q_70,strp/zahra_cheetah_monk_pugilist_by_titaniumdragon_dfy5d4e-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTIzMiIsInBhdGgiOiJcL2ZcL2VmZGY2ZDY0LTFlNmMtNGQwMS04Y2Y0LWI4MTEzYzQ3NGE1M1wvZGZ5NWQ0ZS0yOWYzYTgzZi01MGVlLTRhMTAtOGZkMi1mNzg0YTE5YmYxN2QucG5nIiwid2lkdGgiOiI8PTkyOCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.stExKgv5uwk66cuZx6lqIypjguc9rOsJaMgZ2sbk-Zs",
-            gazzeleman:"https://cdn.openart.ai/stable_diffusion/7f07ef6f9b413a914b5fd6c18aa92ad4d264a9d4_2000x2000.webp",
-            moreu:"https://i.imgflip.com/85iaey.jpg",
+            halfcyborg: "https://i.pinimg.com/originals/fc/fa/54/fcfa548314a4648ae8639b0014671d4b.jpg",
+            triceratopsman: "https://i.pinimg.com/1200x/d8/70/ae/d870ae599925c7b7e4ed5fa5ecf06240.jpg",
+            thundercat: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/efdf6d64-1e6c-4d01-8cf4-b8113c474a53/dfy5d4e-29f3a83f-50ee-4a10-8fd2-f784a19bf17d.png/v1/fill/w_776,h_1030,q_70,strp/zahra_cheetah_monk_pugilist_by_titaniumdragon_dfy5d4e-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTIzMiIsInBhdGgiOiJcL2ZcL2VmZGY2ZDY0LTFlNmMtNGQwMS04Y2Y0LWI4MTEzYzQ3NGE1M1wvZGZ5NWQ0ZS0yOWYzYTgzZi01MGVlLTRhMTAtOGZkMi1mNzg0YTE5YmYxN2QucG5nIiwid2lkdGgiOiI8PTkyOCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.stExKgv5uwk66cuZx6lqIypjguc9rOsJaMgZ2sbk-Zs",
+            gazzeleman: "https://cdn.openart.ai/stable_diffusion/7f07ef6f9b413a914b5fd6c18aa92ad4d264a9d4_2000x2000.webp",
+            moreu: "https://i.imgflip.com/85iaey.jpg",
             snakeman: "https://i.imgur.com/Y7MDmX8.jpg?1",
-            pterodactylman:"https://static.marvelsnap.pro/art/Sauron.webp",
-            harpy:"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/684b442c-fb8d-45a7-a84f-d5c0fd6c0aac/d4yiaik-bd3a7f76-7d17-42ed-909b-b2db89f5269f.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzY4NGI0NDJjLWZiOGQtNDVhNy1hODRmLWQ1YzBmZDZjMGFhY1wvZDR5aWFpay1iZDNhN2Y3Ni03ZDE3LTQyZWQtOTA5Yi1iMmRiODlmNTI2OWYuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Eho-q3hA5U3nKipJ-rczFPBKYVAA8FI75xbMHV_RQH0",
-            kobold:"https://pm1.aminoapps.com/6500/5a8e6c2aa645d5ffb20ad74f268cee76cdb660b1_00.jpg",
-            halfminotaur:"https://preview.redd.it/half-minotaur-v0-vqrsxofgrnqb1.png?auto=webp&s=aed4c6f0d3ce606546dcc4e7b74fbfde884bd262",
-            crowman:"https://static.wikia.nocookie.net/realm-of-midgard/images/d/d5/PF_Tengu_Ronin.jpg",
-            ratman:"https://www.kryxrpg.com/static/cee510edec3b73954734639e8b124a40/599dc/wererat.png",
-            kappa:"https://i.pinimg.com/originals/98/02/7f/98027f7a5ede07c2ead99fe64569edbb.png",
-            kamen:"https://cdnb.artstation.com/p/assets/images/images/035/115/397/large/gun-gunawan-art-108-herald-of-crocell-logo-low.jpg?1614137173",
-            halfdragon:"https://pm1.aminoapps.com/6944/914cabd38f6dc11c629aa3a5409bb5273c085274r1-768-835v2_00.jpg",
-            gnoll:"https://i.imgflip.com/85iam2.jpg",
+            pterodactylman: "https://static.marvelsnap.pro/art/Sauron.webp",
+            harpy: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/684b442c-fb8d-45a7-a84f-d5c0fd6c0aac/d4yiaik-bd3a7f76-7d17-42ed-909b-b2db89f5269f.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzY4NGI0NDJjLWZiOGQtNDVhNy1hODRmLWQ1YzBmZDZjMGFhY1wvZDR5aWFpay1iZDNhN2Y3Ni03ZDE3LTQyZWQtOTA5Yi1iMmRiODlmNTI2OWYuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Eho-q3hA5U3nKipJ-rczFPBKYVAA8FI75xbMHV_RQH0",
+            kobold: "https://pm1.aminoapps.com/6500/5a8e6c2aa645d5ffb20ad74f268cee76cdb660b1_00.jpg",
+            halfminotaur: "https://preview.redd.it/half-minotaur-v0-vqrsxofgrnqb1.png?auto=webp&s=aed4c6f0d3ce606546dcc4e7b74fbfde884bd262",
+            crowman: "https://static.wikia.nocookie.net/realm-of-midgard/images/d/d5/PF_Tengu_Ronin.jpg",
+            ratman: "https://www.kryxrpg.com/static/cee510edec3b73954734639e8b124a40/599dc/wererat.png",
+            kappa: "https://i.pinimg.com/originals/98/02/7f/98027f7a5ede07c2ead99fe64569edbb.png",
+            kamen: "https://cdnb.artstation.com/p/assets/images/images/035/115/397/large/gun-gunawan-art-108-herald-of-crocell-logo-low.jpg?1614137173",
+            halfdragon: "https://pm1.aminoapps.com/6944/914cabd38f6dc11c629aa3a5409bb5273c085274r1-768-835v2_00.jpg",
+            gnoll: "https://i.imgflip.com/85iam2.jpg",
             centaur: "https://i.pinimg.com/550x/b8/77/79/b87779c93fe55416d2ffcd2b6a994b49.jpg",
-            hobgoblin_militaristic:"https://i.pinimg.com/550x/b4/72/52/b472527d6e75e7194d29286ae9359947.jpg",
-            bugbear:"https://cdnb.artstation.com/p/assets/images/images/020/998/335/large/tom-perkins-bugbear-image.jpg?1569977309",
-            ogre:"https://1.bp.blogspot.com/-MHJO2V589gY/VyW5fYypsBI/AAAAAAAABt4/QybEXOKAw2MhyW-8EVy6ZqiE6pWxwTvoQCLcB/s1600/43fe645b6e982e289743f72359639e25.jpg",
-            frogpeople:"https://pm1.aminoapps.com/6996/16b18cd0c923b0b621798dd9cd65f63d339507c5r1-600-800v2_uhq.jpg",
-            orc:"https://i.imgflip.com/85iaqn.jpg",
-            halforc:"https://i0.wp.com/orbedosdragoes.com/wp-content/uploads/2015/07/rheia-meio-orc-meia-guerreira.jpg?resize=400%2C600&ssl=1",
+            hobgoblin_militaristic: "https://i.pinimg.com/550x/b4/72/52/b472527d6e75e7194d29286ae9359947.jpg",
+            bugbear: "https://cdnb.artstation.com/p/assets/images/images/020/998/335/large/tom-perkins-bugbear-image.jpg?1569977309",
+            ogre: "https://1.bp.blogspot.com/-MHJO2V589gY/VyW5fYypsBI/AAAAAAAABt4/QybEXOKAw2MhyW-8EVy6ZqiE6pWxwTvoQCLcB/s1600/43fe645b6e982e289743f72359639e25.jpg",
+            frogpeople: "https://pm1.aminoapps.com/6996/16b18cd0c923b0b621798dd9cd65f63d339507c5r1-600-800v2_uhq.jpg",
+            orc: "https://i.imgflip.com/85iaqn.jpg",
+            halforc: "https://i0.wp.com/orbedosdragoes.com/wp-content/uploads/2015/07/rheia-meio-orc-meia-guerreira.jpg?resize=400%2C600&ssl=1",
             snakewoman: "https://4.bp.blogspot.com/-wsodZ45lHv4/VLABX-j8xDI/AAAAAAAAAZ8/_9mGMrpupGA/s1600/naga_commission_by_paulabrams-d3an6vo.jpg",
-            paleman:"https://4.bp.blogspot.com/_wk10QIUJqTo/TPbmuB30nmI/AAAAAAAAAJQ/rN9ClDu1bKY/s1600/Finntroll.jpg",
+            paleman: "https://4.bp.blogspot.com/_wk10QIUJqTo/TPbmuB30nmI/AAAAAAAAAJQ/rN9ClDu1bKY/s1600/Finntroll.jpg",
 
-            frozenskeleton:"https://i.pinimg.com/originals/42/43/07/424307d943f8c736b437a46889929508.jpg"
+            frozenskeleton: "https://i.pinimg.com/originals/42/43/07/424307d943f8c736b437a46889929508.jpg"
         };
 
         // Selecione a tabela e defina a imagem de fundo com base na raça selecionada
@@ -1303,6 +1402,7 @@
             halfminotaur: 3,
             halfcyborg: 1,
             frozenskeleton: 2,
+
             // Adicione outras raças e seus totais de pontos disponíveis conforme necessário
         };
         const valorMaximoAtributosRaciais = {
@@ -1611,7 +1711,7 @@
             bencaoSopro,
         ];
 
-        // Verificar mutações selecionadas e calcular os bônus
+        // Verificar bênçãos selecionadas e calcular os bônus
         checkboxes.forEach(checkbox => {
             if (checkbox.checked) {
                 if (bencaosSelecionadas.length >= 2) {
@@ -1671,8 +1771,6 @@
         });
     });
 
-
-
     // Obtenha todas as caixas de seleção de mutação
     const divHalfDragon = document.getElementById('dragonType');
     const checkboxesHalfDragon = divHalfDragon.querySelectorAll('input[type="checkbox"]');
@@ -1694,9 +1792,6 @@
     // Atualizar o elemento HTML com o tipo elemental selecionado
     const tipoElementalSelect = document.getElementById('dragonTypeSelect');
     const herancaElemental = document.getElementById('herancaElemental');
-
-
-
 
     // Adicione um ouvinte de evento de mudança para o elemento <select>
     tipoElementalSelect.addEventListener('change', () => {
@@ -2552,9 +2647,11 @@
     function exibirRacas() {
         const ghanorCheckbox = document.getElementById("ghanorCheckbox");
         const ameacasCheckbox = document.getElementById("AmeacasCheckbox");
+        const dhcheckbox = document.getElementById("DHCheckbox");
 
         const ghanorRacas = document.querySelectorAll(".ghanor");
         const ameacasRacas = document.querySelectorAll(".ameacas");
+        const DeHRacas = document.querySelectorAll(".DHracas");
 
         if (ghanorCheckbox.checked) {
             ghanorRacas.forEach(raca => {
@@ -2572,6 +2669,16 @@
             });
         } else {
             ameacasRacas.forEach(raca => {
+                raca.style.display = 'none';
+            });
+        }
+
+        if (dhcheckbox.checked) {
+            DeHRacas.forEach(raca => {
+                raca.style.display = 'block';
+            });
+        } else {
+            DeHRacas.forEach(raca => {
                 raca.style.display = 'none';
             });
         }
@@ -2603,6 +2710,194 @@
 
     };
 
+
+    // Função para exibir/ocultar a seção de duendes
+    function duendeSelect() {
+        var racaSelect = document.getElementById("raca");
+        var caracteristicasduende = document.getElementById("caracteristicasduende");
+        if (racaSelect.value === "duende") {
+            caracteristicasduende.style.display = "block";
+        } else {
+            caracteristicasduende.style.display = "none";
+        }
+    }
+
+    function atualizarAtributosDuende() {
+        // Cálculo dos atributos (se necessário, para outros fins)
+        let atributos = {
+            forca: 0, destreza: 0, constituicao: 0,
+            inteligencia: 0, sabedoria: 0, carisma: 0
+        };
+
+        let donsSelecionados = [];
+        let presentesSelecionados = [];
+
+        // Captura a natureza selecionada e define seu nome
+        let naturezaSelecionado = document.getElementById("subSeletor").value;
+        let nomeNatureza = naturezaSelecionado === "A" ? "Animal" : naturezaSelecionado === "B" ? "Vegetal" : "Mineral";
+        console.log(nomeNatureza);
+
+        // Captura o tamanho selecionado e define seu nome
+        let tamanho = document.getElementById("subSeletor2").value;
+        let nomeTamanho = "";
+        switch (tamanho) {
+            case "D":
+                nomeTamanho = "Minúsculo";
+                atributos.forca -= 1; // penalidade de -1 Força
+                break;
+            case "E":
+                nomeTamanho = "Pequeno";
+                break;
+            case "F":
+                nomeTamanho = "Médio";
+                break;
+            case "G":
+                nomeTamanho = "Grande";
+                atributos.destreza -= 1; // penalidade de -1 Destreza
+                break;
+            default:
+                nomeTamanho = "Indefinido";
+        }
+
+        // Verifica os dons selecionados (máximo 2)
+        let dons = document.querySelectorAll("#checkboxContainer input:checked");
+        if (dons.length > 2) {
+            this.checked = false;
+            return;
+        }
+        dons.forEach(checkbox => {
+            switch (checkbox.id) {
+                case "chk1": atributos.forca += 1; donsSelecionados.push("Força"); break;
+                case "chk2": atributos.destreza += 1; donsSelecionados.push("Destreza"); break;
+                case "chk3": atributos.constituicao += 1; donsSelecionados.push("Constituição"); break;
+                case "chk4": atributos.inteligencia += 1; donsSelecionados.push("Inteligência"); break;
+                case "chk5": atributos.sabedoria += 1; donsSelecionados.push("Sabedoria"); break;
+                case "chk6": atributos.carisma += 1; donsSelecionados.push("Carisma"); break;
+            }
+        });
+
+        // Verifica os presentes de magia e caos (máximo 3)
+        let presentes = document.querySelectorAll("#checkboxContainer2 input:checked");
+        if (presentes.length > 3) {
+            this.checked = false;
+            return;
+        }
+        presentes.forEach(checkbox => {
+            switch (checkbox.id) {
+                case "chk_new_1": presentesSelecionados.push("Afinidade Elemental"); break;
+                case "chk_new_2": presentesSelecionados.push("Encantar Objetos"); break;
+                case "chk_new_3": presentesSelecionados.push("Enfeitiçar"); break;
+                case "chk_new_4": presentesSelecionados.push("Invisibilidade"); break;
+                case "chk_new_5": presentesSelecionados.push("Língua da Natureza"); break;
+                case "chk_new_6": presentesSelecionados.push("Maldição"); break;
+                case "chk_new_7": presentesSelecionados.push("Metamorfose Animal"); break;
+                case "chk_new_8": presentesSelecionados.push("Mudança de Tamanho"); break;
+                case "chk_new_9": presentesSelecionados.push("Sonhos Proféticos"); break;
+                case "chk_new_10": presentesSelecionados.push("Velocidade do Pensamento"); break;
+                case "chk_new_11": presentesSelecionados.push("Visão Feérica"); break;
+                case "chk_new_12": presentesSelecionados.push("Voo"); break;
+            }
+        });
+
+        // Atualiza os atributos na interface (caso seja necessário para outros cálculos)
+        document.getElementById('for_racial').value = atributos.forca;
+        document.getElementById('dex_racial').value = atributos.destreza;
+        document.getElementById('con_racial').value = atributos.constituicao;
+        document.getElementById('int_racial').value = atributos.inteligencia;
+        document.getElementById('sab_racial').value = atributos.sabedoria;
+        document.getElementById('car_racial').value = atributos.carisma;
+
+        // Exibe os seletores extras se os checkboxes correspondentes estiverem marcados
+        const chkAfinidade = document.getElementById("chk_new_1");
+        const extraSelector1 = document.getElementById("extraSelector1");
+        const extraSelector1Label = document.getElementById("extraSelector1Label");
+        if (chkAfinidade.checked) {
+            extraSelector1.classList.remove("hidden");
+            extraSelector1Label.classList.remove("hidden");
+            extraSelector1Label.textContent = "Escolha a Afinidade:";
+        } else {
+            extraSelector1.classList.add("hidden");
+            extraSelector1Label.classList.add("hidden");
+        }
+
+        const chkMaldicao = document.getElementById("chk_new_6");
+        const extraSelector2 = document.getElementById("extraSelector2");
+        const extraSelector2Label = document.getElementById("extraSelector2Label");
+        if (chkMaldicao.checked) {
+            extraSelector2.classList.remove("hidden");
+            extraSelector2Label.classList.remove("hidden");
+            extraSelector2Label.textContent = "Escolha a Maldição:";
+        } else {
+            extraSelector2.classList.add("hidden");
+            extraSelector2Label.classList.add("hidden");
+        }
+
+        // Construir a mensagem final com natureza, tamanho, dons e presentes
+        let resumo = `Natureza: ${nomeNatureza},<br>Tamanho: ${nomeTamanho}.`;
+        if (donsSelecionados.length > 0) {
+            resumo += `<br>Dons: ${donsSelecionados.join(", ")}.`;
+        }
+        if (presentesSelecionados.length > 0) {
+            resumo += `<br>Presentes: ${presentesSelecionados.join(", ")}.`;
+        }
+        resumo += "<br>Aversão a Ferro<br>Aversão a Sinos<br>Tabu";
+
+        document.getElementById('bonusMessage').innerHTML = resumo;
+
+    }
+
+    // Event listeners
+    document.getElementById("subSeletor").addEventListener("change", atualizarAtributosDuende);
+    document.getElementById("subSeletor2").addEventListener("change", atualizarAtributosDuende);
+    document.querySelectorAll("#checkboxContainer input").forEach(checkbox => checkbox.addEventListener("change", atualizarAtributosDuende));
+    document.querySelectorAll("#checkboxContainer2 input").forEach(checkbox => checkbox.addEventListener("change", atualizarAtributosDuende));
+
+
+
+
+    document.getElementById("botaonimb").addEventListener("click", function () {
+        // Escolher Natureza aleatoriamente
+        let opcoesNatureza = ["A", "B", "C"];
+        document.getElementById("subSeletor").value = opcoesNatureza[Math.floor(Math.random() * opcoesNatureza.length)];
+        subSeletor.disabled = true;
+
+        // Escolher Tamanho aleatoriamente
+        let opcoesTamanho = ["D", "E", "F", "G"];
+        document.getElementById("subSeletor2").value = opcoesTamanho[Math.floor(Math.random() * opcoesTamanho.length)];
+        subSeletor2.disabled = true;
+
+
+        // Selecionar aleatoriamente até 2 dons
+        let dons = Array.from(document.querySelectorAll("#checkboxContainer input"));
+        dons.forEach(d => d.checked = false); // Resetar seleção anterior
+        let donsSelecionados = dons.sort(() => Math.random() - 0.5).slice(0, 2);
+        donsSelecionados.forEach(d => d.checked = true);
+
+        // Selecionar aleatoriamente até 3 presentes de magia e caos
+        let presentes = Array.from(document.querySelectorAll("#checkboxContainer2 input"));
+        presentes.forEach(p => p.checked = false);
+        let presentesSelecionados = presentes.sort(() => Math.random() - 0.5).slice(0, 3);
+        presentesSelecionados.forEach(p => p.checked = true);
+
+        // Atualizar os atributos corretamente após as seleções
+        atualizarAtributosDuende();
+
+        // Desabilitar o botão para evitar novas execuções
+        this.disabled = true;
+
+    });
+
+
+
+    // Adiciona os event listeners após o carregamento do DOM
+    document.addEventListener("DOMContentLoaded", function () {
+        // Botão para seleção aleatória
+        document.getElementById("botaonimb").addEventListener("click", selecionarAleatorio);
+
+    });
+
+
+
     function handleOnChange() {
         limparValoresRaciais();
         exibirBonusRaca();
@@ -2610,8 +2905,12 @@
         dragonSelect();
         moreuSelect();
         koboldSelect();
+        duendeSelect();
         imagem_racial();
     };
+
+
+
 </script>
 
 </html>
