@@ -132,6 +132,7 @@
                             <option value="highelf" class="DHracas">Eiradaan (Deuses e Herois)</option>
                             <option value="halfgiant" class="DHracas">Galokk (Deuses e Herois)</option>
                             <option value="halfelf2" class="DHracas">Meio-Elfo (Deuses e Herois)</option>
+                            <option value="satiro" class="DHracas">Sátiro (Deuses e Herois)</option>
                         </select>
 
                         <h3
@@ -153,6 +154,7 @@
                                 <option value="gelo">Gelo Eterno</option>
                                 <option value="pedra">Pedra</option>
                                 <option value="sucata">Sucata</option>
+                                <option value="dourado">Inevitavel</option>
                             </select><br>
 
                             <label for="fonteEnergia">Fonte de Energia:</label>
@@ -845,6 +847,9 @@
             } else if (racaSelect.value === "highelf") {
                 aplicarBonusRacial("highelf");
 
+            } else if (racaSelect.value === "satiro") {
+                aplicarBonusRacial("satiro");
+
             } else if (racaSelect.value === "frozenskeleton") {
                 configurarAtributosRaciaisPorRaca();
                 const bonusMessage = document.getElementById("bonusMessage");
@@ -1057,6 +1062,11 @@
                 valores: { for_racial: -1, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 2, car_racial: 1 }
             },
 
+            satiro: {
+                bonus: "Carisma +2, Destreza +1, Sabedoria -1,<br>Chifres<br>Festeiro Feérico<br>Instrumentista Mágico<br>Pernas Caprinas",
+                valores: { for_racial: -1, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 2, car_racial: 1 }
+            },
+
             kobold: {
                 bonus: "Destreza +2, Força -1,<br>Enxame Escamoso<br>Praga Monstruosa<br>Sensibilidade a Luz<br>Talentos do Bando",
                 valores: { for_racial: -1, dex_racial: 2, con_racial: 0, int_racial: 0, sab_racial: 0, car_racial: 0 }
@@ -1150,6 +1160,7 @@
             snakewoman: "https://4.bp.blogspot.com/-wsodZ45lHv4/VLABX-j8xDI/AAAAAAAAAZ8/_9mGMrpupGA/s1600/naga_commission_by_paulabrams-d3an6vo.jpg",
             paleman: "https://4.bp.blogspot.com/_wk10QIUJqTo/TPbmuB30nmI/AAAAAAAAAJQ/rN9ClDu1bKY/s1600/Finntroll.jpg",
             highelf: "https://i.redd.it/dzgkyaa1fj321.jpg",
+            satiro: "https://static.wikia.nocookie.net/disney/images/7/7a/Profile_-_Philoctetes.jpeg/width/360/height/360?cb=20190312044519://i.redd.it/dzgkyaa1fj321.jpg",
             halfgiant: "https://static.wikia.nocookie.net/hunted-roleplay/images/3/35/Half-giant.jpg",
             halfelf2: "https://pathfinder2e.org/rpg/wp-content/uploads/2022/06/half-elf-race.webp",
             frozenskeleton: "https://i.pinimg.com/originals/42/43/07/424307d943f8c736b437a46889929508.jpg",
@@ -1277,6 +1288,12 @@
             const outrosColumn = document.querySelectorAll(".outros-col");
             outrosColumn.forEach((cell) => cell.classList.remove("show"));
             bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Sucata: Força +1, Constituição +1" + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
+        } else if (chassiValue === "dourado") {
+            const tamanhoSelect = document.getElementById("tamanho");
+            tamanhoSelect.disabled = false;
+            const outrosColumn = document.querySelectorAll(".outros-col");
+            outrosColumn.forEach((cell) => cell.classList.remove("show"));
+            bonusMessage.innerHTML = "Golem: Força +1, Carisma -1<br><span style='display: block;'>Dourado: Força +1, Carisma  +2" + "<br>Fonte: " + fonteEnergiaValue + " " + elementalTypeValue + "<br>Tamanho: " + tamanhoValue + "</span>Propósito de Criação";
         } else {
             const tamanhoSelect = document.getElementById("tamanho");
             tamanhoSelect.disabled = false;
@@ -1293,12 +1310,12 @@
         const sabRacaInput = document.getElementById("sab_racial");
         const carRacaInput = document.getElementById("car_racial");
 
-        forRacaInput.value = chassiValue === "ferro" ? "2" : (chassiValue === "carne" || chassiValue === "sucata" ? "2" : "1");
+        forRacaInput.value = chassiValue === "ferro" ? "2" : (chassiValue === "carne" || chassiValue === "sucata" || chassiValue === "dourado" ? "2" : "1");
         dexRacaInput.value = tamanhoValue === "Pequeno" ? "1" : (tamanhoValue === "Grande" ? "-1" : "0");
         conRacaInput.value = chassiValue === "carne" || chassiValue === "barro" || chassiValue === "gelo" || chassiValue === "pedra" ? "2" : ((chassiValue === "ferro" || chassiValue === "sucata") ? "1" : (chassiValue === "espelho" ? "-1" : "0"));
         intRacaInput.value = "0";
         sabRacaInput.value = chassiValue === "espelho" ? "1" : "0";
-        carRacaInput.value = chassiValue === "carne" ? "-2" : (chassiValue === "espelho" ? "1" : "-1");
+        carRacaInput.value = chassiValue === "carne" ? "-2" : (chassiValue === "espelho" || chassiValue === "dourado" ? "1" : "-1");
 
         // Desbloquear os campos de input dos atributos raciais
         forRacaInput.disabled = true;
@@ -2571,6 +2588,16 @@
             emotion: ["Gaze Filled with Timeless Wisdom", "Melancholy for a Bygone Golden Age", "Haunted by the Echoes of Lost Legends", "Solemn Contemplation of the Arcane", "Deep Reverence for Nature’s Secrets", "A Powerful Yet Bittersweet Aura"],
             weapon: ["Elegant Longbow Carved from Ancient Oak", "Mystic Blades Forged in Moonlight", "Enchanted Staff Adorned with Glowing Runes", "Twin Swords of Ethereal Silver", "Arcane Daggers that Sparkle like Starlight", "Relics of Power Passed Through Generations"],
             location: ["Mystic Glade Hidden Deep Within the Forest", "Ancient Ruins of a Lost Elven Kingdom", "Celestial Observatory Beneath a Starry Sky", "Moonlit Grove of the Elders", "Secret Sanctuary in the Heart of the Wild", "Ethereal Lake Reflecting Forgotten Legends"]
+        },
+
+        satiro: {
+            gender: ["Male", "Female"],
+            role: ["Reveler of the Endless Bacchanal", "Wild Bard of the Verdant Woods", "Trickster of the Fey Courts", "Keeper of the Sacred Grove", "Wanderer of the Sylvan Paths", "Guardian of Forgotten Songs"],
+            attire: ["Loose-Fitting Tunics Dyed in Earthy Tones", "Vests Embroidered with Spiraling Vines", "Flowing Cloaks with Autumn Leaves Sewn into the Fabric", "Ornate Sashes Woven with Fey Magic", "Leathery Wrappings Etched with Arcane Symbols", "Festival Garb Adorned with Jangling Bells and Beads"],
+            scene: ["Satyr Gathering in a Moonlit Clearing", "Lively Dance Around a Sacred Bonfire", "Whimsical Concert in the Heart of the Feywild", "Solitary Lament Beneath a Weeping Willow", "Reckless Chase Through an Enchanted Glade", "Trickster’s Duel in the Court of the Fairy Queen"],
+            emotion: ["Eyes Sparkling with Mischief", "A Laugh That Echoes Through the Trees", "Reverence for the Rhythms of Nature", "A Hint of Sorrow Beneath the Festive Mask", "Unrestrained Joy in the Dance of Life", "A Spirit Torn Between Wild Abandon and Ancient Wisdom"],
+            weapon: ["Enchanted Panpipes That Summon the Fey", "Curved Blades Forged from Fey Silver", "Staves Tipped with Antlers of the Great Stag", "Gilded Daggers Engraved with Trickster’s Runes", "Magical Lyres That Bend Reality with a Tune", "Hunting Horn That Calls Spirits of the Wild"],
+            location: ["Sacred Glade Where the Fey Dwell", "Twisting Paths of an Ancient Enchanted Forest", "Ruins of a Forgotten Bacchanalian Temple", "Moonlit Riverbank Where Dryads Sing", "Festival Grounds of an Eternal Fey Celebration", "Darkened Grove Where Old Magic Still Lingers"]
         },
 
         halfgiant: {
