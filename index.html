@@ -2766,12 +2766,38 @@
     function duendeSelect() {
         var racaSelect = document.getElementById("raca");
         var caracteristicasduende = document.getElementById("caracteristicasduende");
+
         if (racaSelect.value === "duende") {
             caracteristicasduende.style.display = "block";
+
+            // Bloquear edições diretas nos atributos raciais
+            document.getElementById('for_racial').readOnly = true;
+            document.getElementById('dex_racial').readOnly = true;
+            document.getElementById('con_racial').readOnly = true;
+            document.getElementById('int_racial').readOnly = true;
+            document.getElementById('sab_racial').readOnly = true;
+            document.getElementById('car_racial').readOnly = true;
+
+            // Gerar atributos automaticamente para duende
+            botaoAleatorio.click();
+
         } else {
             caracteristicasduende.style.display = "none";
+
+            // Permitir edição dos atributos raciais
+            document.getElementById('for_racial').readOnly = false;
+            document.getElementById('dex_racial').readOnly = false;
+            document.getElementById('con_racial').readOnly = false;
+            document.getElementById('int_racial').readOnly = false;
+            document.getElementById('sab_racial').readOnly = false;
+            document.getElementById('car_racial').readOnly = false;
         }
     }
+
+    // Adiciona um event listener para chamar duendeSelect() ao mudar a raça
+    document.getElementById("raca").addEventListener("change", duendeSelect);
+
+
 
     function atualizarAtributosDuende() {
         // Cálculo dos atributos (se necessário, para outros fins)
@@ -2910,33 +2936,44 @@
         // Escolher Natureza aleatoriamente
         let opcoesNatureza = ["A", "B", "C"];
         document.getElementById("subSeletor").value = opcoesNatureza[Math.floor(Math.random() * opcoesNatureza.length)];
-        subSeletor.disabled = true;
+        document.getElementById("subSeletor").disabled = true;
 
         // Escolher Tamanho aleatoriamente
         let opcoesTamanho = ["D", "E", "F", "G"];
         document.getElementById("subSeletor2").value = opcoesTamanho[Math.floor(Math.random() * opcoesTamanho.length)];
-        subSeletor2.disabled = true;
-
+        document.getElementById("subSeletor2").disabled = true;
 
         // Selecionar aleatoriamente até 2 dons
         let dons = Array.from(document.querySelectorAll("#checkboxContainer input"));
-        dons.forEach(d => d.checked = false); // Resetar seleção anterior
+        dons.forEach(d => {
+            d.checked = false; // Resetar seleção anterior
+            d.disabled = false; // Reabilitar antes da seleção
+        });
         let donsSelecionados = dons.sort(() => Math.random() - 0.5).slice(0, 2);
-        donsSelecionados.forEach(d => d.checked = true);
+        donsSelecionados.forEach(d => {
+            d.checked = true;
+            d.disabled = true; // Agora desabilita corretamente
+        });
 
         // Selecionar aleatoriamente até 3 presentes de magia e caos
         let presentes = Array.from(document.querySelectorAll("#checkboxContainer2 input"));
-        presentes.forEach(p => p.checked = false);
+        presentes.forEach(p => {
+            p.checked = false;
+            p.disabled = false;
+        });
         let presentesSelecionados = presentes.sort(() => Math.random() - 0.5).slice(0, 3);
-        presentesSelecionados.forEach(p => p.checked = true);
+        presentesSelecionados.forEach(p => {
+            p.checked = true;
+            p.disabled = true;
+        });
 
         // Atualizar os atributos corretamente após as seleções
         atualizarAtributosDuende();
 
         // Desabilitar o botão para evitar novas execuções
         this.disabled = true;
-
     });
+
 
 
 
