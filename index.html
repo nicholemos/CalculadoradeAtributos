@@ -68,6 +68,10 @@
                             <input type="checkbox" id="DHCheckbox" onchange="exibirBonusRaca(); exibirRacas();">
                             Raças do Deuses e Herois
                         </div>
+                        <div id="outras">
+                            <input type="checkbox" id="OutrasCheckbox" onchange="exibirBonusRaca(); exibirRacas();">
+                            Raças de Outros locais
+                        </div>
 
                         </P>
 
@@ -133,6 +137,7 @@
                             <option value="halfgiant" class="DHracas">Galokk (Deuses e Herois)</option>
                             <option value="halfelf2" class="DHracas">Meio-Elfo (Deuses e Herois)</option>
                             <option value="satiro" class="DHracas">Sátiro (Deuses e Herois)</option>
+                            <option value="nailanandora" class="outras">Nailanandora (Duelo de Dragões)</option>
                         </select>
 
                         <h3
@@ -2699,6 +2704,7 @@
         const ghanorCheckbox = document.getElementById("ghanorCheckbox");
         const ameacasCheckbox = document.getElementById("AmeacasCheckbox");
         const dhcheckbox = document.getElementById("DHCheckbox");
+        const outroscheckbox = document.getElementById("OutrasCheckbox");
 
         const ghanorRacas = document.querySelectorAll(".ghanor");
         const ameacasRacas = document.querySelectorAll(".ameacas");
@@ -2730,6 +2736,16 @@
             });
         } else {
             DeHRacas.forEach(raca => {
+                raca.style.display = 'none';
+            });
+        }
+
+        if (outrascheckbox.checked) {
+            outras.forEach(raca => {
+                raca.style.display = 'block';
+            });
+        } else {
+            outras.forEach(raca => {
                 raca.style.display = 'none';
             });
         }
