@@ -69,10 +69,9 @@
                             Raças do Deuses e Herois
                         </div>
                         <div id="outras">
-                            <input type="checkbox" id="OutrasCheckbox" onchange="exibirBonusRaca(); exibirRacas();">
-                            Raças de Outros locais
+                            <input type="checkbox" id="OutrasCheckbox" onchange="exibirRacas()"> Raças de Outros locais
                         </div>
-
+                        
                         </P>
 
 
@@ -137,7 +136,7 @@
                             <option value="halfgiant" class="DHracas">Galokk (Deuses e Herois)</option>
                             <option value="halfelf2" class="DHracas">Meio-Elfo (Deuses e Herois)</option>
                             <option value="satiro" class="DHracas">Sátiro (Deuses e Herois)</option>
-                            <option value="nailanandora" class="">Nailanandora (Duelo de Dragões)</option>
+                            <option value="nailanandora" class="outraRaca">Nailanandora (Duelo de Dragões)</option>
                         </select>
 
                         <h3
@@ -2728,7 +2727,7 @@
         const ghanorRacas = document.querySelectorAll(".ghanor");
         const ameacasRacas = document.querySelectorAll(".ameacas");
         const DeHRacas = document.querySelectorAll(".DHracas");
-        const outrasracas = document.getElementById(".outrasracas");
+        const outrasRacas = document.getElementById(".outraRaca");
 
         if (ghanorCheckbox.checked) {
             ghanorRacas.forEach(raca => {
@@ -2760,12 +2759,12 @@
             });
         }
 
-        if (outrascheckbox.checked) {
-            outrasracas.forEach(raca => {
+        if (outrasCheckbox.checked) {
+            raca.forEach(raca => {
                 raca.style.display = 'block';
             });
         } else {
-            outrasracas.forEach(raca => {
+            raca.forEach(raca => {
                 raca.style.display = 'none';
             });
         }
