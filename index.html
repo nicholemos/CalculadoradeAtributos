@@ -69,7 +69,7 @@
                             Raças do Deuses e Herois
                         </div>
                         <div id="outras">
-                            <input type="checkbox" id="OutrasCheckbox" onchange="exibirRacas()"> Raças de Outros locais
+                            <input type="checkbox" id="OutrasCheckbox" onchange="exibirBonusRaca()"> Raças de Outros locais
                         </div>
                         
                         </P>
@@ -2719,56 +2719,41 @@
     }
 
     function exibirRacas() {
-        const ghanorCheckbox = document.getElementById("ghanorCheckbox");
-        const ameacasCheckbox = document.getElementById("AmeacasCheckbox");
-        const dhcheckbox = document.getElementById("DHCheckbox");
-        const outroscheckbox = document.getElementById("OutrasCheckbox");
-
-        const ghanorRacas = document.querySelectorAll(".ghanor");
-        const ameacasRacas = document.querySelectorAll(".ameacas");
-        const DeHRacas = document.querySelectorAll(".DHracas");
-        const outrasRacas = document.getElementById(".outraRaca");
-
-        if (ghanorCheckbox.checked) {
-            ghanorRacas.forEach(raca => {
-                raca.style.display = 'block';
-            });
-        } else {
-            ghanorRacas.forEach(raca => {
-                raca.style.display = 'none';
-            });
+            const ghanorCheckbox = document.getElementById("ghanorCheckbox");
+            const ameacasCheckbox = document.getElementById("AmeacasCheckbox");
+            const dhcheckbox = document.getElementById("DHCheckbox");
+            const outrasCheckbox = document.getElementById("OutrasCheckbox");
+        
+            const ghanorRacas = document.querySelectorAll(".ghanor");
+            const ameacasRacas = document.querySelectorAll(".ameacas");
+            const DeHRacas = document.querySelectorAll(".DHracas");
+            const outrasRacas = document.querySelectorAll(".outraRaca");
+        
+            if (ghanorCheckbox.checked) {
+                ghanorRacas.forEach(raca => raca.style.display = 'block');
+            } else {
+                ghanorRacas.forEach(raca => raca.style.display = 'none');
+            }
+        
+            if (ameacasCheckbox.checked) {
+                ameacasRacas.forEach(raca => raca.style.display = 'block');
+            } else {
+                ameacasRacas.forEach(raca => raca.style.display = 'none');
+            }
+        
+            if (dhcheckbox.checked) {
+                DeHRacas.forEach(raca => raca.style.display = 'block');
+            } else {
+                DeHRacas.forEach(raca => raca.style.display = 'none');
+            }
+        
+            if (outrasCheckbox.checked) {
+                outrasRacas.forEach(raca => raca.style.display = 'block');
+            } else {
+                outrasRacas.forEach(raca => raca.style.display = 'none');
+            }
         }
 
-        if (ameacasCheckbox.checked) {
-            ameacasRacas.forEach(raca => {
-                raca.style.display = 'block';
-            });
-        } else {
-            ameacasRacas.forEach(raca => {
-                raca.style.display = 'none';
-            });
-        }
-
-        if (dhcheckbox.checked) {
-            DeHRacas.forEach(raca => {
-                raca.style.display = 'block';
-            });
-        } else {
-            DeHRacas.forEach(raca => {
-                raca.style.display = 'none';
-            });
-        }
-
-        if (outrasCheckbox.checked) {
-            raca.forEach(raca => {
-                raca.style.display = 'block';
-            });
-        } else {
-            raca.forEach(raca => {
-                raca.style.display = 'none';
-            });
-        }
-    }
 
 
     window.onload = function () {
