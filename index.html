@@ -137,7 +137,7 @@
                             <option value="halfgiant" class="DHracas">Galokk (Deuses e Herois)</option>
                             <option value="halfelf2" class="DHracas">Meio-Elfo (Deuses e Herois)</option>
                             <option value="satiro" class="DHracas">Sátiro (Deuses e Herois)</option>
-                            <option value="nailanandora" class="outras">Nailanandora (Duelo de Dragões)</option>
+                            <option value="nailanandora" class="">Nailanandora (Duelo de Dragões)</option>
                         </select>
 
                         <h3
@@ -855,6 +855,9 @@
             } else if (racaSelect.value === "satiro") {
                 aplicarBonusRacial("satiro");
 
+            } else if (racaSelect.value === "nailanandora") {
+                aplicarBonusRacial("nailanandora");
+
             } else if (racaSelect.value === "frozenskeleton") {
                 configurarAtributosRaciaisPorRaca();
                 const bonusMessage = document.getElementById("bonusMessage");
@@ -1071,6 +1074,11 @@
                 bonus: "Carisma +2, Destreza +1, Sabedoria -1,<br>Chifres<br>Festeiro Feérico<br>Instrumentista Mágico<br>Pernas Caprinas",
                 valores: { for_racial: -1, dex_racial: 0, con_racial: 0, int_racial: 0, sab_racial: 2, car_racial: 1 }
             },
+            
+            nailanandora: {
+                bonus: "Destreza +2, Carisma +1, Constituição -1,<br>Alma das Nuvens<br>Asas Emplumadas<br>Sentidos Élficos",
+                valores: { for_racial: 0, dex_racial: 2, con_racial: -1, int_racial: 0, sab_racial: 0, car_racial: 1 }
+            },            
 
             kobold: {
                 bonus: "Destreza +2, Força -1,<br>Enxame Escamoso<br>Praga Monstruosa<br>Sensibilidade a Luz<br>Talentos do Bando",
@@ -1169,6 +1177,7 @@
             halfgiant: "https://static.wikia.nocookie.net/hunted-roleplay/images/3/35/Half-giant.jpg",
             halfelf2: "https://pathfinder2e.org/rpg/wp-content/uploads/2022/06/half-elf-race.webp",
             frozenskeleton: "https://i.pinimg.com/originals/42/43/07/424307d943f8c736b437a46889929508.jpg",
+            nailanandora: "https://preview.redd.it/b69m44f6jpz61.png",
             duende: "https://vejasp.abril.com.br/wp-content/uploads/2017/01/51519_a-bela-e-a-fera-3.jpeg"
         };
 
@@ -2605,6 +2614,16 @@
             location: ["Sacred Glade Where the Fey Dwell", "Twisting Paths of an Ancient Enchanted Forest", "Ruins of a Forgotten Bacchanalian Temple", "Moonlit Riverbank Where Dryads Sing", "Festival Grounds of an Eternal Fey Celebration", "Darkened Grove Where Old Magic Still Lingers"]
         },
 
+    nailanandora: {
+            gender: ["Male", "Female"],
+            role: ["Skyborne Warden of the Celestial Peaks", "Lyrical Seer of the Wind-Swept Spires", "Emissary of the Starlit Realms", "Guardian of the Tempest Gates", "Dancer Upon the Dawnsky Currents", "Watcher of the Twilight Horizon"],
+            attire: ["Robes Woven from Moonlight and Mist", "Gossamer Tunics That Ripple Like Wings", "Armor Forged from Star-Steel and Stormglass", "Flowing Sashes That Trail Feathers and Light","Mantles Inlaid with Symbols of the Skyward Pantheon", "Silken Garb Touched by Aurora Hues"],
+            scene: ["Flight Through the Spires of a Floating Sanctuary", "Communion at the Summit of a Cloudpiercer Tree", "Silent Vigil Beneath a Storm-Lit Sky", "Ritual Dance Amid Falling Stars", "Duel Among Tempest Clouds and Lightning Arcs", "Solitary Song Echoing Across Wind-Cut Cliffs" ],
+            emotion: ["Eyes Reflecting the Infinite Sky", "Calm Grace Amid Roaring Winds", "Joy That Soars with Every Beat of Wing", "A Silent Yearning for the Stars Above", "Stoic Resolve Etched by Eternal Watchfulness", "Awe in the Face of the Ever-Shifting Heavens" ],
+            weapon: [ "Spear of Whirlwind and Silverlight", "Bow Strung with Threads of Starlight", "Blade Forged in the Heart of a Falling Star", "Feathered Staff That Commands Wind and Cloud", "Halo of Blades That Spins in Celestial Orbit", "Lyric Orb That Binds Storms to Song" ], 
+            location: ["Floating Isles in the Sea of Clouds", "Ruins of an Aerie Lost to Time", "Crescent Cliffs That Catch the First Light", "Shrine Suspended Between Sky and Earth", "The Everstorm’s Heart, Where No Mortal Walks", "Crystalline Spire Bathed in Perpetual Dusk"]
+        },
+
         halfgiant: {
             gender: ["Male", "Female"],
             role: ["Rock-Born Guardian", "Stalwart Defender", "Mighty Wanderer", "Boulder Diplomat", "Gentle Giant of the Highlands", "Colossal Craftsman"],
@@ -2709,6 +2728,7 @@
         const ghanorRacas = document.querySelectorAll(".ghanor");
         const ameacasRacas = document.querySelectorAll(".ameacas");
         const DeHRacas = document.querySelectorAll(".DHracas");
+        const outrasracas = document.getElementById(".outrasracas");
 
         if (ghanorCheckbox.checked) {
             ghanorRacas.forEach(raca => {
@@ -2741,11 +2761,11 @@
         }
 
         if (outrascheckbox.checked) {
-            outras.forEach(raca => {
+            outrasracas.forEach(raca => {
                 raca.style.display = 'block';
             });
         } else {
-            outras.forEach(raca => {
+            outrasracas.forEach(raca => {
                 raca.style.display = 'none';
             });
         }
