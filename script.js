@@ -950,73 +950,82 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function applyRaceAttributes(attrs, isChoice, choiceCount, lockedAttrs = [], maxPerAttr = 1) {
-        const racialInputs = document.querySelectorAll('input.attr-racial');
+    const racialInputs = document.querySelectorAll('input.attr-racial');
 
-        // Este primeiro loop limpa os listeners antigos e reseta os campos para um estado padrão.
-        racialInputs.forEach(input => {
-            const newEl = input.cloneNode(true);
-            input.parentNode.replaceChild(newEl, input);
+    // Este primeiro loop limpa os listeners antigos e reseta os campos para um estado padrão.
+    racialInputs.forEach(input => {
+        const newEl = input.cloneNode(true);
+        input.parentNode.replaceChild(newEl, input);
 
-            const attrName = newEl.id.replace('_racial', '');
+        const attrName = newEl.id.replace('_racial', '');
+        const baseValue = attrs[attrName] || 0;
+
+        newEl.value = baseValue;
+        newEl.readOnly = true;
+        newEl.disabled = true; // Começa desabilitado por padrão
+        newEl.min = '';
+        newEl.max = '';
+    });
+
+    const editableInputs = document.querySelectorAll('input.attr-racial');
+
+    if (isChoice) {
+        editableInputs.forEach(input => {
+            const attrName = input.id.replace('_racial', '');
             const baseValue = attrs[attrName] || 0;
 
-            newEl.value = baseValue;
-            newEl.readOnly = true;
-            newEl.disabled = true; // Começa desabilitado por padrão
-            newEl.min = '';
-            newEl.max = '';
-        });
+            // Trava o atributo APENAS se ele estiver na lista explícita de "locked".
+            if (lockedAttrs && lockedAttrs.includes(attrName)) {
+                return; // Mantém o campo desabilitado e pula para o próximo
+            }
 
-        const editableInputs = document.querySelectorAll('input.attr-racial');
+            input.disabled = false;
+            input.readOnly = false;
+            input.min = baseValue;
+            input.max = baseValue + maxPerAttr;
 
-        if (isChoice) {
-            editableInputs.forEach(input => {
-                const attrName = input.id.replace('_racial', '');
-                const baseValue = attrs[attrName] || 0;
+            input.addEventListener('change', () => {
+                let totalPointsSpent = 0;
+                editableInputs.forEach(inp => {
+                    const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
+                    totalPointsSpent += (parseInt(inp.value) || 0) - currentBase;
+                });
 
-                // Trava o atributo APENAS se ele estiver na lista explícita de "locked".
-                if (lockedAttrs && lockedAttrs.includes(attrName)) {
-                    return; // Mantém o campo desabilitado e pula para o próximo
+                if (totalPointsSpent > choiceCount) {
+                    alert(`Você só pode distribuir ${choiceCount} pontos!`);
+                    input.value = (parseInt(input.value) || 0) - (totalPointsSpent - choiceCount);
+                    totalPointsSpent = choiceCount;
                 }
 
-                // **A CORREÇÃO PRINCIPAL ESTÁ AQUI**
-                // Habilita o campo, define os limites e adiciona o listener.
-                input.disabled = false;
-                input.readOnly = false;
-                input.min = baseValue;
-                input.max = baseValue + maxPerAttr;
-
-                input.addEventListener('change', () => {
-                    let totalPointsSpent = 0;
-                    editableInputs.forEach(inp => {
-                        const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                        totalPointsSpent += (parseInt(inp.value) || 0) - currentBase;
-                    });
-
-                    if (totalPointsSpent > choiceCount) {
-                        alert(`Você só pode distribuir ${choiceCount} pontos!`);
-                        input.value = (parseInt(input.value) || 0) - (totalPointsSpent - choiceCount);
-                        totalPointsSpent = choiceCount;
+                // **INÍCIO DA CORREÇÃO**
+                editableInputs.forEach(inp => {
+                    // Ignora campos que são travados por regra (ex: Carisma do Lefou)
+                    if (lockedAttrs && lockedAttrs.includes(inp.id.replace('_racial', ''))) {
+                        inp.disabled = true;
+                        return;
                     }
 
-                    editableInputs.forEach(inp => {
-                        if (inp.readOnly || inp.disabled) return;
-                        const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                        const isAtBase = (parseInt(inp.value) || 0) === currentBase;
-                        inp.disabled = (totalPointsSpent >= choiceCount && isAtBase);
-                    });
-                    updateAll();
+                    const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
+                    const isAtBase = (parseInt(inp.value) || 0) === currentBase;
+
+                    // A nova lógica: desabilita um campo se os pontos acabaram E ele está no seu valor base.
+                    // Caso contrário, ele fica habilitado.
+                    inp.disabled = (totalPointsSpent >= choiceCount && isAtBase);
                 });
+                // **FIM DA CORREÇÃO**
+                
+                updateAll();
             });
-        } else { // Para raças com bônus fixos
-            editableInputs.forEach(input => {
-                const attrName = input.id.replace('_racial', '');
-                if (attrs[attrName] !== undefined) {
-                    input.disabled = false; // Habilita apenas os campos que têm bônus
-                }
-            });
-        }
+        });
+    } else { // Para raças com bônus fixos
+        editableInputs.forEach(input => {
+            const attrName = input.id.replace('_racial', '');
+            if (attrs[attrName] !== undefined) {
+                input.disabled = false; // Habilita apenas os campos que têm bônus
+            }
+        });
     }
+}
 
     function handleRaceChange() {
         const raceId = racaSelect.value;
