@@ -932,22 +932,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function updateAvailablePoints() {
-        let pontosGastos = 0;
-        ATTRIBUTES.forEach(attr => {
-            const valor = parseInt(document.getElementById(attr).value);
-            switch (valor) {
-                case -1: pontosGastos += 1; break; case 1: pontosGastos -= 1; break;
-                case 2: pontosGastos -= 2; break; case 3: pontosGastos -= 4; break;
-                case 4: pontosGastos -= 7; break;
-            }
-        });
-        // Lógica CORRIGIDA: Usa o valor atual no span como base
-        const pontosIniciais = parseInt(pontosDisponiveisSpan.textContent) || 10;
-        const pontosAtuais = pontosIniciais + pontosGastos;
-        pontosDisponiveisSpan.textContent = pontosAtuais;
-        pontosDisponiveisSpan.style.color = pontosAtuais < 0 ? "red" : "black";
-    }
+    // SUBSTITUA A SUA FUNÇÃO ANTIGA POR ESTA
+function updateAvailablePoints() {
+    // Tabela de Custo: Atributo -> Custo
+    const costTable = {
+        '-1': -1, // Comprar -1 te dá 1 ponto
+        '0': 0,
+        '1': 1,
+        '2': 2,
+        '3': 4,
+        '4': 7
+    };
+
+    let totalCost = 0;
+    // Soma o custo de todos os atributos base
+    ATTRIBUTES.forEach(attr => {
+        const valor = parseInt(document.getElementById(attr).value);
+        totalCost += costTable[valor] || 0;
+    });
+
+    const pontosDisponiveisEl = document.getElementById("pontos_disponiveis");
+    const pontosIniciais = document.getElementById('togglePontos').checked ?
+        parseInt(document.getElementById('pontosInput').value) :
+        10;
+
+    // O total de pontos restantes é o inicial menos o custo total
+    const pontosAtuais = pontosIniciais - totalCost;
+
+    pontosDisponiveisEl.textContent = pontosAtuais;
+    pontosDisponiveisEl.style.color = pontosAtuais < 0 ? "red" : "black";
+}
 
     function applyRaceAttributes(attrs, isChoice, choiceCount, lockedAttrs = [], maxPerAttr = 1) {
     const racialInputs = document.querySelectorAll('input.attr-racial');
