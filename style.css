@@ -197,3 +197,35 @@ input[type="number"]:disabled {
 .hidden {
     display: none;
 }
+
+/* Estilos para Dispositivos Móveis */
+@media (max-width: 768px) {
+    .container-flex {
+        flex-direction: column; /* Empilha as colunas */
+        gap: 30px; /* Aumenta o espaço entre as seções empilhadas */
+    }
+
+    .column-left,
+    .column-right {
+        width: 100%; /* Faz cada coluna ocupar a largura total */
+    }
+
+    h1.text-center {
+        font-size: 36px; /* Reduz o tamanho do título principal */
+    }
+
+    .selector-button {
+        top: 10px;
+        right: 10px;
+    }
+
+    .selector-icon {
+        width: 50px; /* Diminui o ícone de engrenagem */
+    }
+
+    .custom-container {
+        width: 95%; /* Ocupa mais espaço na tela do celular */
+        margin: 10px auto;
+        padding: 15px;
+    }
+}
