@@ -1,4 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // NOVO: Objeto para guardar os dados das Heranças de Suragel
+    const SURAGEL_HERANCAS = {
+        'Al-Gazara': {description: "<b>Herança de Al-Gazara.</b> Devido à presença do puro caos primordial de Nimb em seu sangue, você recebe +1 em um atributo aleatório."},
+        'Arbória': { description: "<b>Herança de Arbória.</b> Como parte do Grande Ciclo de Allihanna, você recebe a habilidade Forma Selvagem para uma única forma, escolhida entre Ágil, Sorrateira e Veloz. Caso adquira essa habilidade novamente, o custo dessa forma diminui em –1 PM." },
+        'Chacina': { description: "<b>Herança de Chacina.</b> Pela ferocidade de Megalokk, você recebe a habilidade Forma Selvagem para uma única forma, escolhida entre Feroz e Resistente. Caso adquira essa habilidade novamente, o custo dessa forma diminui em –1 PM." },
+        'Deathok': { description: "<b>Herança de Deathok.</b> A mudança constante faz parte de sua alma. Você recebe +2 em duas perícias a sua escolha. A cada manhã, você pode trocar essas perícias." },
+        'Drashantyr': { description: "<b>Herança de Drashantyr.</b> Graças ao poder elemental dos dragões, você recebe +1 PM e redução de ácido, eletricidade, fogo, frio, luz e trevas 5." },
+        'Kundali': { description: "<b>Herança de Kundali.</b> Pelo espírito protetor, mas também opressor, de Tauron, você recebe +2 na Defesa e em testes de manobras de combate." },
+        'Magika': { description: "<b>Herança de Magika.</b> Você aprende e pode lançar uma magia arcana de 1º círculo a sua escolha (atributo-chave Inteligência ou Carisma, a sua escolha). Caso aprenda novamente essa magia, seu custo diminui em –1 PM." },
+        'Nivenciuén': { description: "<b>Herança de Nivenciuén.</b> Mesmo que o Reino de Glórienn tenha sofrido um destino terrível, a antiga soberania élfica ainda permeia seu sangue. Você recebe +2 em Misticismo e uma habilidade racial dos elfos entre Graça de Glórienn e Sangue Mágico." },
+        'Odisseia': { description: "<b>Herança de Odisseia.</b> Sua alma tocada por Valkaria está sempre preparada para problemas! Você recebe +2 em Iniciativa e Percepção, e sua capacidade de carga aumenta em 2 espaços." },
+        'Ordine': { description: "<b>Herança de Ordine.</b> As forças da lei e ordem de Khalmyr afetam suas ações. Você recebe +2 em Intuição, em Investigação e em testes sem rolagens de dados (ao escolher 0, 10 ou 20)." },
+        'Pelágia': { description: "<b>Herança de Pelágia.</b> Mesmo nas situações mais desesperadoras, seu espírito se mantém plácido e imperturbável como o próprio Oceano. Escolha três perícias. Com elas, você pode gastar 1 PM para escolher 10 em qualquer situação, exceto testes de ataque." },
+        'Pyra': { description: "<b>Herança de Pyra.</b> Em algum lugar dentro de você, sempre existe uma segunda chance. Quando faz um teste de resistência ou um teste de atributo para remover uma condição, você pode gastar 2 PM para rolá-lo novamente." },
+        'Ramknal': { description: "<b>Herança de Ramknal.</b> Escolha duas perícias entre Acrobacia, Enganação, Furtividade, Jogatina e Ladinagem. Quando faz um teste da perícia escolhida, você pode gastar 2 PM para receber +5 nesse teste." },
+        'Serena': { description: "<b>Herança de Serena.</b> Pela proteção de Marah, você recebe +2 na Defesa e em testes de resistência contra oponentes aos quais não tenha causado dano, perda de PV ou condições (exceto enfeitiçado, fascinado e pasmo) nessa cena." },
+        'Skerry': { description: "<b>Herança de Skerry.</b> Você carrega a força de criatividade. Quando faz um teste de Ofício, pode gastar 1 PM para ser treinado na perícia em questão ou para rolar dois dados e usar o melhor resultado." },
+        'Solaris': { description: "<b>Herança de Solaris.</b> Pelo poder de Azgher, durante o dia você recebe +1 em todos os testes de perícia. Se estiver diretamente sob a luz do sol, esse bônus aumenta para +2." },
+        'Sombria': { description: "<b>Herança de Sombria.</b> Pelo poder de Tenebra, durante a noite você recebe +1 em todos os testes de perícia. Se estiver num local sem nenhuma iluminação artificial (como tochas ou magia), esse bônus aumenta para +2." },
+        'Sora': { description: "<b>Herança de Sora.</b> Os honrados espíritos ancestrais de Lin-Wu abençoam sua perseverança. Você recebe +2 em Nobreza, Vontade e em testes de perícia estendidos (incluindo contra perigos complexos)." },
+        'Terápolis': { description: "<b>Herança de Terápolis.</b> Você recebe +2 em Intuição e Vontade, e pode fazer testes dessas perícias contra ilusões automaticamente, sem precisar interagir com elas." },
+        'Venomia': { description: "<b>Herança de Venomia.</b> Ser escorregadio como Sszzaas faz parte de sua natureza, mesmo que você não goste disso. Você recebe +2 em Enganação e em testes para evitar manobras de combate e efeitos de movimento." },
+        'Vitalia': { description: "<b>Herança de Vitalia.</b> A força da vida corre intensa em seu sangue. Você recebe +5 PV por patamar e sua recuperação de pontos de vida com descanso aumenta em uma categoria." },
+        'Werra': { description: "<b>Herança de Werra.</b> Você possui um conhecimento intuitivo para armas. Você recebe +1 em testes de ataque com armas e proficiência com armas marciais ou com duas armas exóticas." },
+    };
+
     const RACE_DATA = {
         'humano': {
             name: 'Humano/Humana',
@@ -189,7 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
             attributes: { "sabedoria": 2, "carisma": 1 },
             bonusMessage: "Sabedoria +2, Carisma +1<br>Herança Divina<br>Luz Sagrada",
             isChoice: false,
-            imageUrl: "https://i.pinimg.com/originals/69/45/4c/69454c70ede01eaf8a8356b0c4c5b817.gif"
+            imageUrl: "https://i.pinimg.com/originals/69/45/4c/69454c70ede01eaf8a8356b0c4c5b817.gif",
+            createCustomUi: createSuragelUi,
         },
         'sulfure': {
             name: 'Sulfure (Suragel)',
@@ -197,7 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
             attributes: { "destreza": 2, "inteligencia": 1 },
             bonusMessage: "Destreza +2, Inteligência +1<br>Herança Divina<br>Sombras Profanas",
             isChoice: false,
-            imageUrl: "https://i.redd.it/082zk22jrjz91.gif"
+            imageUrl: "https://i.redd.it/082zk22jrjz91.gif",
+            createCustomUi: createSuragelUi,
         },
         'dwarf_ghanor': {
             name: 'Anão/Anã (Ghanor)',
@@ -699,18 +727,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     presentesCheckboxes.forEach(cb => cb.checked = false);
                     presentesCheckboxes.sort(() => 0.5 - Math.random()).slice(0, 3).forEach(cb => cb.checked = true);
 
-                    // **INÍCIO DA CORREÇÃO**
-                    // Trava tudo, EXCETO os sub-seletores
                     container.querySelectorAll('select, input, button').forEach(el => {
                         if (el.id !== 'presAfinidade-sub' && el.id !== 'presMaldicao-sub') {
                             el.disabled = true;
                         }
                     });
 
-                    // Garante que os sub-seletores corretos apareçam
                     document.getElementById('presAfinidade-sub').classList.toggle('hidden', !document.getElementById('presAfinidade').checked);
                     document.getElementById('presMaldicao-sub').classList.toggle('hidden', !document.getElementById('presMaldicao').checked);
-                    // **FIM DA CORREÇÃO**
 
                     alert("Por sua ousadia, você recebe +2 PM!");
                     updateDuendeAttributes();
@@ -786,7 +810,6 @@ document.addEventListener('DOMContentLoaded', () => {
             isChoice: true,
             choiceCount: 1,
             maxChoicePerAttribute: 1,
-            // A propriedade 'lockedChoiceAttributes' foi removida.
             imageUrl: "https://i.imgur.com/a4iUv3x.gif"
         },
         'halfelf_herois': {
@@ -823,16 +846,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const attributeTableBody = document.querySelector('#attribute-table tbody');
     const customUiContainer = document.getElementById('race-specific-options');
 
-    // --- LÓGICA DA JANELA DE CONFIGURAÇÕES ---
-
     const configPanel = document.getElementById('opcoes');
     const configButton = document.getElementById('config-button');
     const closeConfigButton = document.getElementById('close-config-button');
 
-    // 1. Tornar a janela arrastável
     makeDraggable(configPanel);
 
-    // 2. Lógica para Pontos Editáveis
     const togglePontos = document.getElementById('togglePontos');
     const pontosInput = document.getElementById('pontosInput');
     const salvarPontosBtn = document.getElementById('salvarPontos');
@@ -851,8 +870,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const novoValor = parseInt(pontosInput.value);
         if (!isNaN(novoValor)) {
             pontosDisponiveisSpan.textContent = novoValor;
-            updateAvailablePoints(); // Recalcula com a nova base
-            togglePontos.checked = false; // Desmarca e esconde
+            updateAvailablePoints();
+            togglePontos.checked = false;
             pontosInput.classList.add('hidden');
             salvarPontosBtn.classList.add('hidden');
         } else {
@@ -860,31 +879,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. Lógica para a coluna "Outros"
     const toggleOutrosInput = document.getElementById('toggleOutrosInput');
-
     toggleOutrosInput.addEventListener('change', () => {
         const isChecked = toggleOutrosInput.checked;
-
-        // **A CORREÇÃO ESTÁ AQUI**
-        // Seleciona TODOS os elementos da coluna (cabeçalho e células) DENTRO do evento.
         const outrosCols = document.querySelectorAll('.outros-col');
-
-        // Aplica ou remove a classe 'show' em todos eles.
         outrosCols.forEach(col => col.classList.toggle('show', isChecked));
-
         if (!isChecked) {
-            // Se desmarcado, zera os valores e recalcula tudo
             document.querySelectorAll('.attr-outros').forEach(input => input.value = 0);
             updateAll();
         }
     });
 
-    // Funções para abrir/fechar o painel
     configButton.addEventListener('click', () => configPanel.style.display = 'block');
     closeConfigButton.addEventListener('click', () => configPanel.style.display = 'none');
-
-
 
     function populateRaceSelect() {
         while (racaSelect.options.length > 1) { racaSelect.remove(1); }
@@ -898,12 +905,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
     function populateAttributeTable() {
         attributeTableBody.innerHTML = '';
         ATTRIBUTES.forEach(attr => {
             const row = document.createElement('tr');
-            // **A CORREÇÃO ESTÁ AQUI**: A classe "outros-col" foi adicionada à célula <td> correta.
             row.innerHTML = `
             <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-01.png" alt="símbolo de ${attr}" height="40px" width="auto"></td>
             <td style="font-weight: bold; font-size: 30px;">${attr.substring(0, 3).toUpperCase()}</td>
@@ -932,114 +937,79 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // SUBSTITUA A SUA FUNÇÃO ANTIGA POR ESTA
-function updateAvailablePoints() {
-    // Tabela de Custo: Atributo -> Custo
-    const costTable = {
-        '-1': -1, // Comprar -1 te dá 1 ponto
-        '0': 0,
-        '1': 1,
-        '2': 2,
-        '3': 4,
-        '4': 7
-    };
-
-    let totalCost = 0;
-    // Soma o custo de todos os atributos base
-    ATTRIBUTES.forEach(attr => {
-        const valor = parseInt(document.getElementById(attr).value);
-        totalCost += costTable[valor] || 0;
-    });
-
-    const pontosDisponiveisEl = document.getElementById("pontos_disponiveis");
-    const pontosIniciais = document.getElementById('togglePontos').checked ?
-        parseInt(document.getElementById('pontosInput').value) :
-        10;
-
-    // O total de pontos restantes é o inicial menos o custo total
-    const pontosAtuais = pontosIniciais - totalCost;
-
-    pontosDisponiveisEl.textContent = pontosAtuais;
-    pontosDisponiveisEl.style.color = pontosAtuais < 0 ? "red" : "black";
-}
+    function updateAvailablePoints() {
+        const costTable = { '-1': -1, '0': 0, '1': 1, '2': 2, '3': 4, '4': 7 };
+        let totalCost = 0;
+        ATTRIBUTES.forEach(attr => {
+            const valor = parseInt(document.getElementById(attr).value);
+            totalCost += costTable[valor] || 0;
+        });
+        const pontosDisponiveisEl = document.getElementById("pontos_disponiveis");
+        const pontosIniciais = document.getElementById('togglePontos').checked ?
+            parseInt(document.getElementById('pontosInput').value) : 10;
+        const pontosAtuais = pontosIniciais - totalCost;
+        pontosDisponiveisEl.textContent = pontosAtuais;
+        pontosDisponiveisEl.style.color = pontosAtuais < 0 ? "red" : "black";
+    }
 
     function applyRaceAttributes(attrs, isChoice, choiceCount, lockedAttrs = [], maxPerAttr = 1) {
-    const racialInputs = document.querySelectorAll('input.attr-racial');
-
-    // Este primeiro loop limpa os listeners antigos e reseta os campos para um estado padrão.
-    racialInputs.forEach(input => {
-        const newEl = input.cloneNode(true);
-        input.parentNode.replaceChild(newEl, input);
-
-        const attrName = newEl.id.replace('_racial', '');
-        const baseValue = attrs[attrName] || 0;
-
-        newEl.value = baseValue;
-        newEl.readOnly = true;
-        newEl.disabled = true; // Começa desabilitado por padrão
-        newEl.min = '';
-        newEl.max = '';
-    });
-
-    const editableInputs = document.querySelectorAll('input.attr-racial');
-
-    if (isChoice) {
-        editableInputs.forEach(input => {
-            const attrName = input.id.replace('_racial', '');
+        const racialInputs = document.querySelectorAll('input.attr-racial');
+        racialInputs.forEach(input => {
+            const newEl = input.cloneNode(true);
+            input.parentNode.replaceChild(newEl, input);
+            const attrName = newEl.id.replace('_racial', '');
             const baseValue = attrs[attrName] || 0;
+            newEl.value = baseValue;
+            newEl.readOnly = true;
+            newEl.disabled = true;
+            newEl.min = '';
+            newEl.max = '';
+        });
 
-            // Trava o atributo APENAS se ele estiver na lista explícita de "locked".
-            if (lockedAttrs && lockedAttrs.includes(attrName)) {
-                return; // Mantém o campo desabilitado e pula para o próximo
-            }
-
-            input.disabled = false;
-            input.readOnly = false;
-            input.min = baseValue;
-            input.max = baseValue + maxPerAttr;
-
-            input.addEventListener('change', () => {
-                let totalPointsSpent = 0;
-                editableInputs.forEach(inp => {
-                    const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                    totalPointsSpent += (parseInt(inp.value) || 0) - currentBase;
-                });
-
-                if (totalPointsSpent > choiceCount) {
-                    alert(`Você só pode distribuir ${choiceCount} pontos!`);
-                    input.value = (parseInt(input.value) || 0) - (totalPointsSpent - choiceCount);
-                    totalPointsSpent = choiceCount;
+        const editableInputs = document.querySelectorAll('input.attr-racial');
+        if (isChoice) {
+            editableInputs.forEach(input => {
+                const attrName = input.id.replace('_racial', '');
+                const baseValue = attrs[attrName] || 0;
+                if (lockedAttrs && lockedAttrs.includes(attrName)) {
+                    return;
                 }
-
-                // **INÍCIO DA CORREÇÃO**
-                editableInputs.forEach(inp => {
-                    // Ignora campos que são travados por regra (ex: Carisma do Lefou)
-                    if (lockedAttrs && lockedAttrs.includes(inp.id.replace('_racial', ''))) {
-                        inp.disabled = true;
-                        return;
+                input.disabled = false;
+                input.readOnly = false;
+                input.min = baseValue;
+                input.max = baseValue + maxPerAttr;
+                input.addEventListener('change', () => {
+                    let totalPointsSpent = 0;
+                    editableInputs.forEach(inp => {
+                        const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
+                        totalPointsSpent += (parseInt(inp.value) || 0) - currentBase;
+                    });
+                    if (totalPointsSpent > choiceCount) {
+                        alert(`Você só pode distribuir ${choiceCount} pontos!`);
+                        input.value = (parseInt(input.value) || 0) - (totalPointsSpent - choiceCount);
+                        totalPointsSpent = choiceCount;
                     }
-
-                    const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                    const isAtBase = (parseInt(inp.value) || 0) === currentBase;
-
-                    // A nova lógica: desabilita um campo se os pontos acabaram E ele está no seu valor base.
-                    // Caso contrário, ele fica habilitado.
-                    inp.disabled = (totalPointsSpent >= choiceCount && isAtBase);
+                    editableInputs.forEach(inp => {
+                        if (lockedAttrs && lockedAttrs.includes(inp.id.replace('_racial', ''))) {
+                            inp.disabled = true;
+                            return;
+                        }
+                        const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
+                        const isAtBase = (parseInt(inp.value) || 0) === currentBase;
+                        inp.disabled = (totalPointsSpent >= choiceCount && isAtBase);
+                    });
+                    updateAll();
                 });
-                // **FIM DA CORREÇÃO**
-                
-                updateAll();
             });
-        });
-    } else { // Para raças com bônus fixos
-        editableInputs.forEach(input => {
-            const attrName = input.id.replace('_racial', '');
-            if (attrs[attrName] !== undefined) {
-                input.disabled = false; // Habilita apenas os campos que têm bônus
-            }
-        });
+        } else {
+            editableInputs.forEach(input => {
+                const attrName = input.id.replace('_racial', '');
+                if (attrs[attrName] !== undefined) {
+                    input.disabled = false;
+                }
+            });
+        }
     }
-}
 
     function handleRaceChange() {
         const raceId = racaSelect.value;
@@ -1048,11 +1018,13 @@ function updateAvailablePoints() {
         customUiContainer.innerHTML = '';
         document.getElementById('bonusMessage').innerHTML = '';
         document.getElementById('attribute-table').style.background = '';
+
         if (!race || raceId === 'outros') {
             applyRaceAttributes({}, false, 0);
             updateAll();
             return;
         }
+
         document.getElementById('bonusMessage').innerHTML = race.bonusMessage || '';
         document.getElementById('attribute-table').style.background = race.imageUrl ? `url('${race.imageUrl}') no-repeat center center` : "";
         document.getElementById('attribute-table').style.backgroundSize = "75% auto";
@@ -1061,41 +1033,89 @@ function updateAvailablePoints() {
             race.createCustomUi(customUiContainer);
         }
 
-        // Lógica de atualização
-        if (raceId === 'golem') {
-            updateGolemAttributes();
-        } else if (raceId === 'aberrant') {
-            updateAberrantAttributes();
-        } else if (raceId === 'duende') {
-            updateDuendeAttributes();
-        } else if (raceId === 'moreau') { // Adiciona a chamada para Moreau
-            updateMoreauAttributes();
+        const updateFunction = window[`update${raceId.charAt(0).toUpperCase() + raceId.slice(1)}Attributes`];
+        if (typeof updateFunction === 'function') {
+            updateFunction();
         } else {
             applyRaceAttributes(race.attributes, race.isChoice, race.choiceCount, race.lockedChoiceAttributes, race.maxChoicePerAttribute);
         }
         updateAll();
     }
+    
+    // MODIFICADO: Função para criar a UI da variante Suragel com a lista completa
+    function createSuragelUi(container) {
+        const herancaOptions = Object.keys(SURAGEL_HERANCAS).map(key =>
+            `<option value="${key}">${key}</option>`
+        ).join('');
 
+        container.innerHTML = `
+            <div>
+                <input type="checkbox" id="suragel-variante">
+                <label for="suragel-variante">Suragel Variante (Deuses de Arton)</label>
+            </div>
+            <div id="suragel-heranca-container" class="hidden mt-2">
+                <label for="suragel-heranca">Herança:</label>
+                <select id="suragel-heranca">
+                    ${herancaOptions}
+                </select>
+            </div>
+        `;
+        container.querySelector('#suragel-variante').addEventListener('change', updateSuragelAttributes);
+        container.querySelector('#suragel-heranca').addEventListener('change', updateSuragelAttributes);
+    }
+    
+    function updateAggelusAttributes() {
+        updateSuragelAttributes();
+    }
+
+    function updateSulfureAttributes() {
+        updateSuragelAttributes();
+    }
+
+    // MODIFICADO: Lógica central para as variantes Suragel com descrições
+    function updateSuragelAttributes() {
+        const raceId = racaSelect.value;
+        const race = RACE_DATA[raceId];
+        if (raceId !== 'aggelus' && raceId !== 'sulfure') return;
+
+        const isVariante = document.getElementById('suragel-variante')?.checked;
+        const herancaContainer = document.getElementById('suragel-heranca-container');
+        herancaContainer.classList.toggle('hidden', !isVariante);
+        
+        let currentAttrs = { ...race.attributes };
+        let bonusMessage = race.bonusMessage;
+        let finalMessage = "";
+
+        // Pega as duas primeiras linhas da mensagem base (atributos e Herança Divina)
+        const baseLines = bonusMessage.split('<br>').slice(0, 2).join('<br>');
+        
+        if (isVariante) {
+            const herancaKey = document.getElementById('suragel-heranca')?.value;
+            const herancaData = SURAGEL_HERANCAS[herancaKey];
+
+            finalMessage = `${baseLines}<br>${herancaData.description}`;
+            
+            // Aplica a ação da herança, se houver
+            if (herancaData.action) {
+                currentAttrs = herancaData.action(currentAttrs);
+            }
+
+        } else {
+            finalMessage = bonusMessage; // Usa a mensagem original completa
+        }
+
+        document.getElementById('bonusMessage').innerHTML = finalMessage;
+        applyRaceAttributes(currentAttrs, race.isChoice, race.choiceCount, race.lockedChoiceAttributes, race.maxChoicePerAttribute);
+        updateAll();
+    }
 
     function updateGolemAttributes() {
         const race = RACE_DATA.golem;
         if (!race || !race.calculateAttributes) return;
-
-        // 1. Calcula o estado atual do Golem (atributos base, se é de escolha, etc.)
         const result = race.calculateAttributes();
-
-        // 2. Usa a função genérica para aplicar esses atributos, passando as regras corretas
-        applyRaceAttributes(
-            result.baseAttributes,
-            result.isChoice,
-            result.choiceCount,
-            [], // Golem de escolha não tem atributos travados
-            result.maxChoicePerAttribute
-        );
-
+        applyRaceAttributes(result.baseAttributes, result.isChoice, result.choiceCount, [], result.maxChoicePerAttribute);
         updateAll();
     }
-
 
     function updateAberrantAttributes() {
         const race = RACE_DATA.aberrant;
@@ -1108,7 +1128,6 @@ function updateAvailablePoints() {
     function updateKoboldAttributes() {
         const race = RACE_DATA.kobold;
         if (!race || !race.calculateAttributes) return;
-        // Recalcula a mensagem de bônus, mas não mexe nos atributos
         race.calculateAttributes();
         updateAll();
     }
@@ -1116,7 +1135,6 @@ function updateAvailablePoints() {
     function updateMoreauAttributes() {
         const race = RACE_DATA.moreau;
         if (!race || !race.calculateAttributes) return;
-
         const result = race.calculateAttributes();
         applyRaceAttributes(result.baseAttributes, result.isChoice, result.choiceCount, [], result.maxChoicePerAttribute);
         updateAll();
@@ -1133,18 +1151,13 @@ function updateAvailablePoints() {
     function handleFilterChange() {
         const selectedTypes = new Set();
         document.querySelectorAll('.race-filter:checked').forEach(cb => selectedTypes.add(cb.dataset.raceType));
-
         Array.from(racaSelect.options).forEach(option => {
             if (option.value === 'outros') {
                 option.style.display = 'block';
                 return;
             }
-
             const raceData = RACE_DATA[option.value];
             if (raceData) {
-                // LÓGICA CORRIGIDA:
-                // Uma raça agora só aparece se for do tipo 'base' (que sempre aparece)
-                // OU se o seu tipo estiver na lista de filtros marcados.
                 if (raceData.type === 'base' || selectedTypes.has(raceData.type)) {
                     option.style.display = 'block';
                 } else {
@@ -1152,8 +1165,6 @@ function updateAvailablePoints() {
                 }
             }
         });
-
-        // Se a raça que estava selecionada foi escondida pelo filtro, muda para "Outros"
         const currentRaceData = RACE_DATA[racaSelect.value];
         if (currentRaceData && racaSelect.options[racaSelect.selectedIndex].style.display === 'none') {
             racaSelect.value = 'outros';
@@ -1161,16 +1172,12 @@ function updateAvailablePoints() {
         }
     }
 
-
-    // Event Listeners
     document.getElementById('config-button').addEventListener('click', () => {
         document.getElementById('opcoes').style.display = 'block';
     });
-
     document.getElementById('close-config-button').addEventListener('click', () => {
         document.getElementById('opcoes').style.display = 'none';
     });
-
     document.getElementById('reset-button').addEventListener('click', () => {
         window.location.reload();
     });
@@ -1179,45 +1186,23 @@ function updateAvailablePoints() {
     });
     racaSelect.addEventListener('change', handleRaceChange);
 
-
-    // 1. Generic lists with various options to create random prompts.
     const PROMPT_ELEMENTS = {
-        poses: [
-            "in a heroic pose", "crouching and ready for battle", "meditating in silence",
-            "staring at the horizon", "running at full speed", "delivering a powerful blow",
-            "casting a spell", "hiding in the shadows", "with arms crossed, imposing"
-        ],
-        attire: [
-            "full plate armor", "adventurer's leather clothes", "an ornate mage robe",
-            "ceremonial cleric vestments", "extravagant noble attire", "wild animal pelts",
-            "light and stealthy armor", "blacksmith clothes with soot"
-        ],
-        heldItems: [
-            "holding a shining sword", "with an ancient staff in hand", "wielding a battle axe",
-            "with a longbow drawn", "holding twin daggers", "with a shield and mace",
-            "holding an orb of energy", "with an open tome of spells"
-        ],
-        locations: [
-            "in an ancient forest", "on top of a rocky mountain", "in a bustling tavern",
-            "in the ruins of a castle", "inside a damp dungeon", "in an underground city",
-            "in a dark swamp", "in a clearing under the moonlight"
-        ]
+        poses: ["in a heroic pose", "crouching and ready for battle", "meditating in silence", "staring at the horizon", "running at full speed", "delivering a powerful blow", "casting a spell", "hiding in the shadows", "with arms crossed, imposing"],
+        attire: ["full plate armor", "adventurer's leather clothes", "an ornate mage robe", "ceremonial cleric vestments", "extravagant noble attire", "wild animal pelts", "light and stealthy armor", "blacksmith clothes with soot"],
+        heldItems: ["holding a shining sword", "with an ancient staff in hand", "wielding a battle axe", "with a longbow drawn", "holding twin daggers", "with a shield and mace", "holding an orb of energy", "with an open tome of spells"],
+        locations: ["in an ancient forest", "on top of a rocky mountain", "in a bustling tavern", "in the ruins of a castle", "inside a damp dungeon", "in an underground city", "in a dark swamp", "in a clearing under the moonlight"]
     };
-
     const fixedCharacteristics = "4k, ultra detailed, intricate details, photorealistic, cinematic lighting, volumetric lighting, photographic, Unreal Engine, anime style";
 
     function generateRandomPrompt() {
         const racaId = racaSelect.value;
         const raceData = RACE_DATA[racaId];
         const promptGerado = document.getElementById("promptGerado");
-
         if (!raceData || racaId === 'outros') {
             promptGerado.textContent = "Please select a race first.";
             return;
         }
-
         let promptText = "";
-
         if (racaId === "golem") {
             const chassiValue = document.getElementById("golem-chassi")?.value || 'stone';
             const action = ["guarding an ancient site", "in the middle of a construction", "standing still like a statue", "in a battle-ready pose"];
@@ -1225,17 +1210,13 @@ function updateAvailablePoints() {
             promptText = `A golem made of ${chassiValue}, ${randomAction}, ${fixedCharacteristics}`;
         } else {
             const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
             const pose = getRandom(PROMPT_ELEMENTS.poses);
             const vestimenta = getRandom(PROMPT_ELEMENTS.attire);
             const item = getRandom(PROMPT_ELEMENTS.heldItems);
             const local = getRandom(PROMPT_ELEMENTS.locations);
-
             const raceName = raceData.name.split(' ')[0].replace('(', '');
-
             promptText = `A ${raceName}, ${pose}, wearing ${vestimenta}, ${item}, in ${local}, ${fixedCharacteristics}`;
         }
-
         promptGerado.textContent = promptText;
     }
 
@@ -1251,15 +1232,10 @@ function updateAvailablePoints() {
         }
     });
 
-
-
-    // --- FUNÇÃO PARA TORNAR A JANELA ARRASTÁVEL ---
     function makeDraggable(element) {
         let isDragging = false;
         let offsetX, offsetY;
-
         element.addEventListener('mousedown', (e) => {
-            // Inicia o arraste apenas se o clique não for em um input, select ou botão
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'LABEL' || e.target.tagName === 'SPAN') {
                 return;
             }
@@ -1268,14 +1244,12 @@ function updateAvailablePoints() {
             offsetY = e.clientY - element.offsetTop;
             element.style.cursor = 'grabbing';
         });
-
         document.addEventListener('mousemove', (e) => {
             if (isDragging) {
                 element.style.left = `${e.clientX - offsetX}px`;
                 element.style.top = `${e.clientY - offsetY}px`;
             }
         });
-
         document.addEventListener('mouseup', () => {
             isDragging = false;
             element.style.cursor = 'move';
@@ -1289,4 +1263,3 @@ function updateAvailablePoints() {
     handleFilterChange();
     document.getElementById('reset-button').addEventListener('click', () => window.location.reload());
 });
-
