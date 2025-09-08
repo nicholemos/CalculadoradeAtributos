@@ -905,12 +905,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
+    const ICONS_ATRIBUTOS = {
+        'forca': 'imagens/forca.png',
+        'destreza': 'imagens/destreza.png',
+        'constituicao': 'imagens/constituicao.png',
+        'inteligencia': 'imagens/inteligencia.png',
+        'sabedoria': 'imagens/sabedoria.png',
+        'carisma': 'imagens/carisma.png'
+    };
+    
     function populateAttributeTable() {
         attributeTableBody.innerHTML = '';
         ATTRIBUTES.forEach(attr => {
             const row = document.createElement('tr');
             row.innerHTML = `
-            <td><img src="https://www.etc.cmu.edu/projects/star-stone/wp-content/uploads/2014/11/190px_icon_Ability-01.png" alt="símbolo de ${attr}" height="40px" width="auto"></td>
+            <td><img src="${ICONS_ATRIBUTOS[attr]}" alt="símbolo de ${attr}" height="40px" width="auto"></td>
             <td style="font-weight: bold; font-size: 30px;">${attr.substring(0, 3).toUpperCase()}</td>
             <td><input type="number" id="${attr}" class="attr-base" value="0" min="-1" max="4"></td>
             <td><input type="number" id="${attr}_racial" class="attr-racial" value="0" style="width: 75px;" readonly></td>
