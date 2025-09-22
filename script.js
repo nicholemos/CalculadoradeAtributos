@@ -996,11 +996,11 @@ document.addEventListener('DOMContentLoaded', () => {
         attributeTableBody.innerHTML = '';
         ATTRIBUTES.forEach(attr => {
             const row = document.createElement('tr');
-            // ALTERAÇÃO: Trocado type="number" por type="tel" no input base e removido min e max
+            // ALTERAÇÃO: Adicionado o style para definir a largura e alinhar o texto
             row.innerHTML = `
         <td><img src="${ICONS_ATRIBUTOS[attr]}" alt="símbolo de ${attr}" height="40px" width="auto"></td>
         <td style="font-weight: bold; font-size: 30px;">${attr.substring(0, 3).toUpperCase()}</td>
-        <td><input type="tel" id="${attr}" class="attr-base" value="0"></td>
+        <td><input type="tel" id="${attr}" class="attr-base" value="0" style="width: 75px; text-align: center;"></td>
         <td><input type="number" id="${attr}_racial" class="attr-racial" value="0" style="width: 75px;" readonly></td>
         <td class="outros-col"><input type="number" id="${attr}_outros" class="attr-outros" value="0" style="width: 75px;"></td>
         <td id="total_${attr}" class="total-col">0</td>
@@ -1010,7 +1010,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const baseAttrInput = row.querySelector(`#${attr}`);
             const outrosAttrInput = row.querySelector(`#${attr}_outros`);
 
-            // A lógica de eventos robusta continua a mesma
             baseAttrInput.addEventListener('focusin', (e) => {
                 e.target.dataset.previousValue = e.target.value;
             });
