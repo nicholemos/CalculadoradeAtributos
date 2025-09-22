@@ -958,8 +958,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (input.value === '' || input.value === '-') return;
 
         let value = parseInt(input.value, 10);
-        const min = parseInt(input.min, 10);
-        const max = parseInt(input.max, 10);
+        // ALTERAÇÃO: Definimos os limites min e max diretamente no código
+        const min = -1;
+        const max = 4;
 
         if (isNaN(value)) {
             // Se o valor for inválido (ex: "abc"), reverte para o valor que tinha antes da edição
@@ -995,30 +996,27 @@ document.addEventListener('DOMContentLoaded', () => {
         attributeTableBody.innerHTML = '';
         ATTRIBUTES.forEach(attr => {
             const row = document.createElement('tr');
+            // ALTERAÇÃO: Trocado type="number" por type="tel" no input base e removido min e max
             row.innerHTML = `
-            <td><img src="${ICONS_ATRIBUTOS[attr]}" alt="símbolo de ${attr}" height="40px" width="auto"></td>
-            <td style="font-weight: bold; font-size: 30px;">${attr.substring(0, 3).toUpperCase()}</td>
-            <td><input type="number" id="${attr}" class="attr-base" value="0" min="-1" max="4"></td>
-            <td><input type="number" id="${attr}_racial" class="attr-racial" value="0" style="width: 75px;" readonly></td>
-            <td class="outros-col"><input type="number" id="${attr}_outros" class="attr-outros" value="0" style="width: 75px;"></td>
-            <td id="total_${attr}" class="total-col">0</td>
-        `;
+        <td><img src="${ICONS_ATRIBUTOS[attr]}" alt="símbolo de ${attr}" height="40px" width="auto"></td>
+        <td style="font-weight: bold; font-size: 30px;">${attr.substring(0, 3).toUpperCase()}</td>
+        <td><input type="tel" id="${attr}" class="attr-base" value="0"></td>
+        <td><input type="number" id="${attr}_racial" class="attr-racial" value="0" style="width: 75px;" readonly></td>
+        <td class="outros-col"><input type="number" id="${attr}_outros" class="attr-outros" value="0" style="width: 75px;"></td>
+        <td id="total_${attr}" class="total-col">0</td>
+    `;
             attributeTableBody.appendChild(row);
 
             const baseAttrInput = row.querySelector(`#${attr}`);
             const outrosAttrInput = row.querySelector(`#${attr}_outros`);
 
-            // ***** ALTERAÇÃO 3: Lógica de eventos mais robusta *****
-
-            // 1. Salva o valor atual quando o usuário clica no campo
+            // A lógica de eventos robusta continua a mesma
             baseAttrInput.addEventListener('focusin', (e) => {
                 e.target.dataset.previousValue = e.target.value;
             });
 
-            // 2. Valida o min/max em tempo real enquanto o usuário digita
             baseAttrInput.addEventListener('input', (e) => validateMinMax(e.target));
 
-            // 3. Valida os pontos totais quando o usuário finaliza a edição
             baseAttrInput.addEventListener('change', validatePoints);
 
             outrosAttrInput.addEventListener('change', updateAll);
