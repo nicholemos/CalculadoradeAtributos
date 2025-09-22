@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // NOVO: Objeto para guardar os dados das Heranças de Suragel
+    // Objeto para guardar os dados das Heranças de Suragel
     const SURAGEL_HERANCAS = {
-        'Al-Gazara': {description: "<b>Herança de Al-Gazara.</b> Devido à presença do puro caos primordial de Nimb em seu sangue, você recebe +1 em um atributo aleatório."},
+        'Al-Gazara': { description: "<b>Herança de Al-Gazara.</b> Devido à presença do puro caos primordial de Nimb em seu sangue, você recebe +1 em um atributo aleatório." },
         'Arbória': { description: "<b>Herança de Arbória.</b> Como parte do Grande Ciclo de Allihanna, você recebe a habilidade Forma Selvagem para uma única forma, escolhida entre Ágil, Sorrateira e Veloz. Caso adquira essa habilidade novamente, o custo dessa forma diminui em –1 PM." },
         'Chacina': { description: "<b>Herança de Chacina.</b> Pela ferocidade de Megalokk, você recebe a habilidade Forma Selvagem para uma única forma, escolhida entre Feroz e Resistente. Caso adquira essa habilidade novamente, o custo dessa forma diminui em –1 PM." },
         'Deathok': { description: "<b>Herança de Deathok.</b> A mudança constante faz parte de sua alma. Você recebe +2 em duas perícias a sua escolha. A cada manhã, você pode trocar essas perícias." },
@@ -128,23 +128,59 @@ document.addEventListener('DOMContentLoaded', () => {
                 const attrs = { forca: 1, destreza: 0, constituicao: 0, inteligencia: 0, sabedoria: 0, carisma: -1 };
                 let choiceCount = 0;
                 let maxPerAttr = 1;
+                let chassiBonusMessage = ''; // Variável para a descrição do bônus
+
                 switch (chassi) {
-                    case 'ferro': attrs.forca += 1; attrs.constituicao += 1; break;
-                    case 'carne': attrs.forca += 1; attrs.constituicao += 2; attrs.carisma -= 1; break;
-                    case 'barro': case 'gelo': case 'pedra': attrs.constituicao += 2; break;
-                    case 'espelho': attrs.carisma += 2; attrs.sabedoria += 1; attrs.constituicao -= 1; break;
-                    case 'sucata': attrs.forca += 1; attrs.constituicao += 1; break;
-                    case 'dourado': attrs.forca += 1; attrs.carisma += 2; break;
-                    case 'bronze': case 'mashin': choiceCount = 2; break;
+                    case 'ferro':
+                        attrs.forca += 1; attrs.constituicao += 1;
+                        chassiBonusMessage = "Força +1, Constituição +1";
+                        break;
+                    case 'carne':
+                        attrs.forca += 1; attrs.constituicao += 2; attrs.carisma -= 1;
+                        chassiBonusMessage = "Força +1, Constituição +2, Carisma -1";
+                        break;
+                    case 'barro': case 'gelo': case 'pedra':
+                        attrs.constituicao += 2;
+                        chassiBonusMessage = "Constituição +2";
+                        break;
+                    case 'espelho':
+                        attrs.carisma += 2; attrs.sabedoria += 1; attrs.constituicao -= 1;
+                        chassiBonusMessage = "Carisma +2, Sabedoria +1, Constituição -1";
+                        break;
+                    case 'sucata':
+                        attrs.forca += 1; attrs.constituicao += 1;
+                        chassiBonusMessage = "Força +1, Constituição +1";
+                        break;
+                    case 'dourado':
+                        attrs.forca += 1; attrs.carisma += 2;
+                        chassiBonusMessage = "Força +1, Carisma +2";
+                        break;
+                    case 'bronze': case 'mashin':
+                        choiceCount = 2;
+                        chassiBonusMessage = `+1 em ${choiceCount} atributos à sua escolha.`;
+                        break;
                 }
+
                 if (tamanho === 'Pequeno') attrs.destreza += 1;
                 if (tamanho === 'Grande') attrs.destreza -= 1;
+
                 const fonte = document.getElementById('golem-fonte')?.value || '';
                 const tipoElemental = document.getElementById('golem-elemental-type')?.value || '';
-                document.getElementById('bonusMessage').innerHTML = `
-                Golem: Força +1, Carisma -1<br>Chassi: ${chassi || 'Nenhum'}<br>Fonte: ${fonte} ${tipoElemental}<br>Tamanho: ${tamanho || 'Nenhum'}<br>
-                ${choiceCount > 0 ? `<span>+1 em ${choiceCount} atributos à sua escolha.</span>` : ''}
-            `;
+
+                // Monta a mensagem de bônus dinamicamente
+                let finalMessage = `<b>Golem:</b> Força +1, Carisma -1<br>`;
+                if (chassi && chassiBonusMessage) {
+                    finalMessage += `<b>Chassi (${chassi.charAt(0).toUpperCase() + chassi.slice(1)}):</b> ${chassiBonusMessage}<br>`;
+                }
+                if (tamanho) {
+                    finalMessage += `<b>Tamanho (${tamanho}):</b> ${tamanho === 'Pequeno' ? 'Destreza +1' : (tamanho === 'Grande' ? 'Destreza -1' : '')}<br>`;
+                }
+                if (fonte) {
+                    finalMessage += `<b>Fonte de Energia:</b> ${fonte}${tipoElemental ? ` (${tipoElemental})` : ''}<br>`;
+                }
+
+                document.getElementById('bonusMessage').innerHTML = finalMessage;
+
                 return { baseAttributes: attrs, isChoice: choiceCount > 0, choiceCount: choiceCount, maxChoicePerAttribute: maxPerAttr };
             }
         },
@@ -334,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Orc (Ameaças)',
             type: 'ameacas',
             attributes: { "forca": 2, "constituicao": 1, "inteligencia": -1 },
-            bonusMessage: "Feroz<br>Habitante das Cavernas<br>Vigor Brutal",
+            bonusMessage: "+2 em Força, Constituição +1, Inteligência –1<br>Feroz<br>Habitante das Cavernas<br>Vigor Brutal",
             isChoice: false,
             imageUrl: "https://i.pinimg.com/originals/f3/f7/ba/f3f7bac36cdf249f15bd81d7efdd2491.gif"
         },
@@ -350,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Ogro (Ameaças)',
             type: 'ameacas',
             attributes: { "forca": 3, "constituicao": 2, "inteligencia": -1, "carisma": -1 },
-            bonusMessage: "Quanto Maior o Tamanho...<br>…Maior a Porrada<br>Camada de Ingenuidade",
+            bonusMessage: "Força +3, Constituição +2, Inteligência –1, Carisma –1<br>Quanto Maior o Tamanho...<br>…Maior a Porrada<br>Camada de Ingenuidade",
             isChoice: false,
             imageUrl: "https://media0.giphy.com/media/TIGP3k4gNAqvza2KJK/giphy-downsized.gif"
         },
@@ -366,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Hobgoblin (Ameaças)',
             type: 'ameacas',
             attributes: { "constituicao": 2, "destreza": 1, "carisma": -1 },
-            bonusMessage: "Arte da Guerra<br>Metalurgia Hobgoblin<br>Táticas de Guerrilha",
+            bonusMessage: "Constituição +2, Destreza +1, Carisma –1<br>Arte da Guerra<br>Metalurgia Hobgoblin<br>Táticas de Guerrilha",
             isChoice: false,
             imageUrl: "https://64.media.tumblr.com/a8fd66069693d12f2f4ef4372c6a3667/8f857d181fda07ba-c0/s500x750/5eade5b52d6d2b6a510609d01c119354862aaf9b.gif"
         },
@@ -382,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Gnoll (Ameaças)',
             type: 'ameacas',
             attributes: { "constituicao": 2, "sabedoria": 1, "inteligencia": -1 },
-            bonusMessage: "Faro<br>Mordida<br>Oportunista<br>Rendição",
+            bonusMessage: "Constituição +2, Sabedoria +1, Inteligência –1<br>Faro<br>Mordida<br>Oportunista<br>Rendição",
             isChoice: false,
             imageUrl: "https://64.media.tumblr.com/747cc66960cd29327e014a9d4d9296b5/97a1d09906c94285-49/s540x810/f00e0f34e4ff2c07ba5e0db91dfc7cecee3810f3.gif"
         },
@@ -867,15 +903,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     salvarPontosBtn.addEventListener('click', () => {
-        const novoValor = parseInt(pontosInput.value);
-        if (!isNaN(novoValor)) {
+        const novoValor = parseInt(pontosInput.value, 10);
+        if (!isNaN(novoValor) && novoValor >= 0) {
             pontosDisponiveisSpan.textContent = novoValor;
             updateAvailablePoints();
             togglePontos.checked = false;
             pontosInput.classList.add('hidden');
             salvarPontosBtn.classList.add('hidden');
         } else {
-            alert('Por favor, insira um valor numérico válido.');
+            alert('Por favor, insira um valor numérico válido e não negativo.');
+            pontosInput.value = pontosDisponiveisSpan.textContent;
         }
     });
 
@@ -914,7 +951,46 @@ document.addEventListener('DOMContentLoaded', () => {
         'sabedoria': 'imagens/sabedoria.png',
         'carisma': 'imagens/carisma.png'
     };
-    
+
+    // ***** ALTERAÇÃO 1: Função para validar o valor dentro dos limites (min/max) *****
+    function validateMinMax(input) {
+        // Permite que o campo fique temporariamente vazio ou com "-" enquanto o usuário digita
+        if (input.value === '' || input.value === '-') return;
+
+        let value = parseInt(input.value, 10);
+        const min = parseInt(input.min, 10);
+        const max = parseInt(input.max, 10);
+
+        if (isNaN(value)) {
+            // Se o valor for inválido (ex: "abc"), reverte para o valor que tinha antes da edição
+            input.value = input.dataset.previousValue;
+        } else if (value < min) {
+            input.value = min;
+        } else if (value > max) {
+            input.value = max;
+        }
+    }
+
+    // ***** ALTERAÇÃO 2: Função para validar os pontos quando o usuário termina a edição *****
+    function validatePoints(event) {
+        const input = event.target;
+
+        // Garante que o campo não fique vazio
+        if (input.value === '' || input.value === '-') {
+            input.value = input.dataset.previousValue;
+        }
+
+        // Verifica se a alteração deixou os pontos negativos
+        if (calculateAvailablePoints() < 0) {
+            // Se sim, reverte para o valor anterior
+            input.value = input.dataset.previousValue;
+        }
+
+        // Atualiza a interface com o valor final e correto
+        updateAll();
+    }
+
+
     function populateAttributeTable() {
         attributeTableBody.innerHTML = '';
         ATTRIBUTES.forEach(attr => {
@@ -928,8 +1004,24 @@ document.addEventListener('DOMContentLoaded', () => {
             <td id="total_${attr}" class="total-col">0</td>
         `;
             attributeTableBody.appendChild(row);
-            row.querySelector(`#${attr}`).addEventListener('change', updateAll);
-            row.querySelector(`#${attr}_outros`).addEventListener('change', updateAll);
+
+            const baseAttrInput = row.querySelector(`#${attr}`);
+            const outrosAttrInput = row.querySelector(`#${attr}_outros`);
+
+            // ***** ALTERAÇÃO 3: Lógica de eventos mais robusta *****
+
+            // 1. Salva o valor atual quando o usuário clica no campo
+            baseAttrInput.addEventListener('focusin', (e) => {
+                e.target.dataset.previousValue = e.target.value;
+            });
+
+            // 2. Valida o min/max em tempo real enquanto o usuário digita
+            baseAttrInput.addEventListener('input', (e) => validateMinMax(e.target));
+
+            // 3. Valida os pontos totais quando o usuário finaliza a edição
+            baseAttrInput.addEventListener('change', validatePoints);
+
+            outrosAttrInput.addEventListener('change', updateAll);
         });
     }
 
@@ -947,17 +1039,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function updateAvailablePoints() {
+    function calculateAvailablePoints() {
         const costTable = { '-1': -1, '0': 0, '1': 1, '2': 2, '3': 4, '4': 7 };
         let totalCost = 0;
         ATTRIBUTES.forEach(attr => {
             const valor = parseInt(document.getElementById(attr).value);
-            totalCost += costTable[valor] || 0;
+            if (!isNaN(valor)) { // Adicionado para segurança
+                totalCost += costTable[valor] || 0;
+            }
         });
-        const pontosDisponiveisEl = document.getElementById("pontos_disponiveis");
         const pontosIniciais = document.getElementById('togglePontos').checked ?
             parseInt(document.getElementById('pontosInput').value) : 10;
-        const pontosAtuais = pontosIniciais - totalCost;
+
+        return pontosIniciais - totalCost;
+    }
+
+    function updateAvailablePoints() {
+        const pontosAtuais = calculateAvailablePoints();
+        const pontosDisponiveisEl = document.getElementById("pontos_disponiveis");
         pontosDisponiveisEl.textContent = pontosAtuais;
         pontosDisponiveisEl.style.color = pontosAtuais < 0 ? "red" : "black";
     }
@@ -1051,8 +1150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateAll();
     }
-    
-    // MODIFICADO: Função para criar a UI da variante Suragel com a lista completa
+
     function createSuragelUi(container) {
         const herancaOptions = Object.keys(SURAGEL_HERANCAS).map(key =>
             `<option value="${key}">${key}</option>`
@@ -1073,7 +1171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         container.querySelector('#suragel-variante').addEventListener('change', updateSuragelAttributes);
         container.querySelector('#suragel-heranca').addEventListener('change', updateSuragelAttributes);
     }
-    
+
     function updateAggelusAttributes() {
         updateSuragelAttributes();
     }
@@ -1082,7 +1180,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSuragelAttributes();
     }
 
-    // MODIFICADO: Lógica central para as variantes Suragel com descrições
     function updateSuragelAttributes() {
         const raceId = racaSelect.value;
         const race = RACE_DATA[raceId];
@@ -1091,20 +1188,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const isVariante = document.getElementById('suragel-variante')?.checked;
         const herancaContainer = document.getElementById('suragel-heranca-container');
         herancaContainer.classList.toggle('hidden', !isVariante);
-        
+
         let currentAttrs = { ...race.attributes };
         let bonusMessage = race.bonusMessage;
         let finalMessage = "";
 
         // Pega as duas primeiras linhas da mensagem base (atributos e Herança Divina)
         const baseLines = bonusMessage.split('<br>').slice(0, 2).join('<br>');
-        
+
         if (isVariante) {
             const herancaKey = document.getElementById('suragel-heranca')?.value;
             const herancaData = SURAGEL_HERANCAS[herancaKey];
 
             finalMessage = `${baseLines}<br>${herancaData.description}`;
-            
+
             // Aplica a ação da herança, se houver
             if (herancaData.action) {
                 currentAttrs = herancaData.action(currentAttrs);
