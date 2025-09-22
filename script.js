@@ -975,19 +975,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // ***** ALTERAÇÃO 2: Função para validar os pontos quando o usuário termina a edição *****
     function validatePoints(event) {
         const input = event.target;
+        let value = parseInt(input.value, 10);
+        const min = -1;
+        const max = 4;
 
-        // Garante que o campo não fique vazio
-        if (input.value === '' || input.value === '-') {
+        // 1. Limpa e valida o valor digitado
+        // Se o valor não for um número (NaN) ou estiver vazio, reverte para o anterior.
+        if (isNaN(value) || input.value.trim() === '') {
             input.value = input.dataset.previousValue;
+        } else {
+            // Garante que o valor está entre -1 e 4
+            if (value < min) {
+                value = min;
+            } else if (value > max) {
+                value = max;
+            }
+            // Reescreve o valor limpo e validado de volta no campo.
+            // Isso corrige entradas como "0-1" para "0" ou "5" para "4".
+            input.value = value;
         }
 
-        // Verifica se a alteração deixou os pontos negativos
+        // 2. Verifica se a alteração deixou os pontos disponíveis negativos
         if (calculateAvailablePoints() < 0) {
-            // Se sim, reverte para o valor anterior
+            // Se sim, reverte para o valor que estava antes da edição
             input.value = input.dataset.previousValue;
         }
 
-        // Atualiza a interface com o valor final e correto
+        // 3. Atualiza a interface com os valores corretos
         updateAll();
     }
 
