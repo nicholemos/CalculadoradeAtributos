@@ -1089,38 +1089,80 @@ document.addEventListener('DOMContentLoaded', () => {
         const editableInputs = document.querySelectorAll('input.attr-racial');
         if (isChoice) {
             editableInputs.forEach(input => {
-                const attrName = input.id.replace('_racial', '');
-                const baseValue = attrs[attrName] || 0;
-                if (lockedAttrs && lockedAttrs.includes(attrName)) {
-                    return;
-                }
-                input.disabled = false;
-                input.readOnly = false;
-                input.min = baseValue;
-                input.max = baseValue + maxPerAttr;
-                input.addEventListener('change', () => {
-                    let totalPointsSpent = 0;
-                    editableInputs.forEach(inp => {
-                        const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                        totalPointsSpent += (parseInt(inp.value) || 0) - currentBase;
-                    });
-                    if (totalPointsSpent > choiceCount) {
-                        alert(`Você só pode distribuir ${choiceCount} pontos!`);
-                        input.value = (parseInt(input.value) || 0) - (totalPointsSpent - choiceCount);
-                        totalPointsSpent = choiceCount;
-                    }
-                    editableInputs.forEach(inp => {
-                        if (lockedAttrs && lockedAttrs.includes(inp.id.replace('_racial', ''))) {
-                            inp.disabled = true;
-                            return;
-                        }
-                        const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                        const isAtBase = (parseInt(inp.value) || 0) === currentBase;
-                        inp.disabled = (totalPointsSpent >= choiceCount && isAtBase);
-                    });
-                    updateAll();
-                });
+            const attrName = input.id.replace('_racial', '');
+            const baseValue = attrs[attrName] || 0;
+            if (lockedAttrs && lockedAttrs.includes(attrName)) {
+                return;
+            }
+            input.disabled = false;
+            input.readOnly = false;
+            input.min = baseValue; // min já estava sendo definido
+            input.max = baseValue + maxPerAttr; // max já estava sendo definido
+
+            // Salva o valor anterior ao focar
+            input.addEventListener('focusin', (e) => {
+                e.target.dataset.previousValue = e.target.value;
             });
+
+            // Substitua o 'input.addEventListener('change', ...)' existente por este:
+            input.addEventListener('change', (e) => {
+                const input = e.target;
+                const min = parseInt(input.min, 10);
+                const max = parseInt(input.max, 10);
+                let value = parseInt(input.value, 10);
+
+                // 1. Validar o valor individual do campo (contra min/max e NaN)
+                // Se o valor for inválido (vazio) ou abaixo do mínimo, força o mínimo.
+                if (isNaN(value) || value < min) {
+                    value = min;
+                } else if (value > max) {
+                    // Se estiver acima do máximo, força o máximo.
+                    value = max;
+                }
+                input.value = value; // Corrige o valor no campo
+
+                // 2. Validar o total de pontos distribuídos
+                let totalPointsSpent = 0;
+                editableInputs.forEach(inp => {
+                    const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
+                    let inpValue = parseInt(inp.value, 10);
+                    if (isNaN(inpValue)) inpValue = parseInt(inp.min, 10); // Fallback para o mínimo
+                    
+                    totalPointsSpent += (inpValue - currentBase);
+                });
+
+                if (totalPointsSpent > choiceCount) {
+                    alert(`Você só pode distribuir ${choiceCount} pontos!`);
+                    // Reverte para o valor anterior
+                    input.value = input.dataset.previousValue || min;
+                    
+                    // Recalcula o total (necessário para a lógica de desabilitar)
+                    totalPointsSpent = 0;
+                    editableInputs.forEach(inp => {
+                        const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
+                        let inpValue = parseInt(inp.value, 10);
+                        if (isNaN(inpValue)) inpValue = parseInt(inp.min, 10);
+                        totalPointsSpent += (inpValue - currentBase);
+                    });
+                } else {
+                    // Se o valor for válido, atualiza o "previousValue"
+                    input.dataset.previousValue = input.value;
+                }
+
+                // 3. Lógica de desabilitar/habilitar (existente)
+                editableInputs.forEach(inp => {
+                    if (lockedAttrs && lockedAttrs.includes(inp.id.replace('_racial', ''))) {
+                        inp.disabled = true;
+                        return;
+                    }
+                    const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
+                    const isAtBase = (parseInt(inp.value) || 0) === currentBase;
+                    inp.disabled = (totalPointsSpent >= choiceCount && isAtBase);
+                });
+                
+                updateAll();
+            });
+        });
         } else {
             editableInputs.forEach(input => {
                 const attrName = input.id.replace('_racial', '');
