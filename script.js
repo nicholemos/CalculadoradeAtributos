@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Golem',
             type: 'base',
             imageUrl: "https://designyoukai.com/wp-content/uploads/2024/02/golem.gif",
-            imageUrls: { 'pedra': "https://clan.fastly.steamstatic.com/images/35898811/58ac6a7714698e8ac06774676eb176fde0d1d6ff.gif", 'espelho': "https://i.pinimg.com/originals/1a/00/23/1a0023bdc25ae9d95eab99ddb2855d05.gif", 'mashin': "https://pa1.aminoapps.com/7451/9081304f4f7594669ed30ab2525b9d584e11295ar1-480-383_hq.gif", 'barro': "https://64.media.tumblr.com/80000ca2a312c65036ac51b870d42bb1/tumblr_pgug05Drhh1t77wz1_250.gif", 'ferro': "https://pa1.aminoapps.com/6627/aa08675bb57337ae1b1e037514ffef77249ced96_hq.gif", 'carne': "https://media1.tenor.com/m/1o2Q-Xm8BXcAAAAd/cindry-onepiece-cindry-smile.gif", 'sucata': "https://pa1.aminoapps.com/7140/b33c02fd2fb4f71922893b692d43bc4b20588ab0r1-270-170_hq.gif", 'dourado': "https://i.makeagif.com/media/4-07-2022/5_ya8P.gif", 'bronze': "https://64.media.tumblr.com/01d05bc3d3a42b664a90eb306f7dc1d4/8c531fc53407c5fa-3e/s540x810/9b373119f37ce1d811b0f197657afd8dc9ed8b7a.gif", "gelo": "https://i.imgflip.com/a09k1r.gif", },
+            imageUrls: { 'pedra': "https://clan.fastly.steamstatic.com/images/35898811/58ac6a7714698e8ac06774676eb176fde0d1d6ff.gif", 'espelho': "https://i.pinimg.com/originals/1a/00/23/1a0023bdc25ae9d95eab99ddb2855d05.gif", 'mashin': "https://media0.giphy.com/media/v1.Y2lkPTZjMDliOTUya2ZybGRqOGVkMXZqZ2Z5N2w2cWRnNG5vZ3Rra3Rxamxud2N0dGN4bCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lPuiw5nlcYTeCptRa4/giphy.gif", 'barro': "https://64.media.tumblr.com/80000ca2a312c65036ac51b870d42bb1/tumblr_pgug05Drhh1t77wz1_250.gif", 'ferro': "https://i.pinimg.com/originals/a4/eb/c4/a4ebc41676b750606b107bd9c4503851.gif", 'carne': "https://media1.tenor.com/m/1o2Q-Xm8BXcAAAAd/cindry-onepiece-cindry-smile.gif", 'sucata': "https://media.tenor.com/JwY5ZKwkFMQAAAAM/dark-stalkers-mecha.gif", 'bronze': "https://cdna.artstation.com/p/assets/images/images/083/475/918/original/-start-menu-idle-neweyes.gif", "gelo": "https://media1.tenor.com/m/rkcCInlO04YAAAAd/%C3%A9s%C3%B3bater.gif", 'dourado': "https://i.makeagif.com/media/4-07-2022/5_ya8P.gif", },
             createCustomUi: (container) => {
                 container.innerHTML = `
                 <div><label for="golem-chassi">Chassi:</label><select id="golem-chassi"><option value="">Selecione</option><option value="mashin">Mashin</option><option value="barro">Barro</option><option value="bronze">Bronze</option><option value="carne">Carne</option><option value="espelho">Espelhos</option><option value="ferro">Ferro</option><option value="gelo">Gelo Eterno</option><option value="pedra">Pedra</option><option value="sucata">Sucata</option><option value="dourado">Inevitavel</option></select></div>
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
             imageUrl: "https://i.pinimg.com/originals/c3/30/72/c330723a6d99c001622f20453df59ea2.gif"
         },
         'aggelus': {
-            name: 'Aggelus (Suragel)',
+            name: 'Suragel - Aggelus',
             type: 'base',
             attributes: { "sabedoria": 2, "carisma": 1 },
             bonusMessage: "Sabedoria +2, Carisma +1<br>Herança Divina<br>Luz Sagrada",
@@ -255,12 +255,12 @@ document.addEventListener('DOMContentLoaded', () => {
             createCustomUi: createSuragelUi,
         },
         'sulfure': {
-            name: 'Sulfure (Suragel)',
+            name: 'Suragel - Sulfure',
             type: 'base',
             attributes: { "destreza": 2, "inteligencia": 1 },
             bonusMessage: "Destreza +2, Inteligência +1<br>Herança Divina<br>Sombras Profanas",
             isChoice: false,
-            imageUrl: "https://i.redd.it/082zk22jrjz91.gif",
+            imageUrl: "https://i.makeagif.com/media/6-26-2015/QFmBY6.gif",
             createCustomUi: createSuragelUi,
         },
         'dwarf_ghanor': {
@@ -318,11 +318,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     { id: 'mutacaoResistente', name: 'Resistente' }, { id: 'mutacaoSentidosAgucados', name: 'Sentidos Aguçados' },
                     { id: 'mutacaoVeloz', name: 'Veloz' }, { id: 'mutacaoVenenoso', name: 'Venenoso' }
                 ];
-                let mutationHtml = '<h6>Mutações (Escolha até 4):</h6>';
-                mutations.forEach(m => {
-                    mutationHtml += `<div><input type="checkbox" id="${m.id}" name="mutation" value="${m.id}"><label for="${m.id}">${m.name}</label></div>`;
-                });
-                container.innerHTML = mutationHtml;
+
+                container.innerHTML = `
+    <details class="fold" style="margin-top:12px">
+      <summary class="fold-summary">
+        Mutações
+        <span class="fold-hint">Escolha até 4</span>
+      </summary>
+
+      <div id="mutation-container" class="checklist fold-body">
+        ${mutations.map(m => `
+          <label class="check">
+            <input type="checkbox" id="${m.id}" name="mutation" value="${m.id}">
+            <span>${m.name}</span>
+          </label>
+        `).join('')}
+      </div>
+    </details>
+  `;
+
                 container.querySelectorAll('input[name="mutation"]').forEach(checkbox => {
                     checkbox.addEventListener('change', () => {
                         const checkedCount = container.querySelectorAll('input[name="mutation"]:checked').length;
@@ -330,10 +344,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             alert('Você só pode escolher até 4 mutações!');
                             checkbox.checked = false;
                         }
-                        updateAberrantAttributes();
+                        updateAberrantAttributes(); // mantém sua lógica atual
                     });
                 });
             },
+
             calculateAttributes: () => {
                 const attrs = { forca: 0, destreza: 0, constituicao: 0, inteligencia: 0, sabedoria: 0, carisma: -2 };
                 const selectedMutations = [];
@@ -439,18 +454,78 @@ document.addEventListener('DOMContentLoaded', () => {
                     { id: 'bencaoSentidos', name: 'Sentidos Dracônicos' }, { id: 'bencaoSopro', name: 'Sopro de Dragão' },
                 ];
                 container.innerHTML = `
-            <div class="mt-2">
-                <label for="kallyanach-elemental">Herança Dracônica:</label>
-                <select id="kallyanach-elemental">
+                <div class="mt-2">
+                    <label class="field-label" for="kallyanach-elemental" style="display:block;margin:8px 0 6px">
+                    <span class="section-title" style="font-size:18px">Herança Dracônica</span>
+                    </label>
+
+                    <select id="kallyanach-elemental">
                     <option value="">Selecione</option>
                     ${elementalTypes.map(type => `<option value="${type}">${type}</option>`).join('')}
-                </select>
-            </div>
-            <h6 class="mt-2">Bênção de Kallyadranoch (Escolha 2):</h6>
-            <div id="bencao-container">
-                ${bencaos.map(b => `<div><input type="checkbox" id="${b.id}" name="bencao"><label for="${b.id}">${b.name}</label></div>`).join('')}
-            </div>
-        `;
+                    </select>
+                </div>
+
+                <details class="fold" style="margin-top:12px">
+                    <summary class="fold-summary">
+                    Bênção de Kallyadranoch
+                    <span class="fold-hint">Escolha 2</span>
+                    </summary>
+
+                    <div id="bencao-container" class="checklist fold-body">
+                    ${bencaos.map(b => `
+                        <label class="check">
+                        <input type="checkbox" id="${b.id}" name="bencao">
+                        <span>${b.name}</span>
+                        </label>
+                    `).join('')}
+                    </div>
+                </details>
+                `;
+                // --- KALLYANACH: mensagem dinâmica ---
+                const updateKallyanachMessage = () => {
+                    const heranca = container.querySelector('#kallyanach-elemental')?.value || '';
+                    const bencaosMarcadas = Array.from(container.querySelectorAll('input[name="bencao"]:checked'))
+                        .map(cb => cb.closest('label')?.querySelector('span')?.textContent?.trim())
+                        .filter(Boolean);
+
+                    let msg = "+2 em um atributo ou +1 em dois atributos.<br>";
+
+                    // Herança
+                    msg += heranca
+                        ? `<b>Herança Dracônica:</b> ${heranca}<br>`
+                        : `<b>Herança Dracônica:</b> (não selecionada)<br>`;
+
+                    // Bênçãos
+                    msg += bencaosMarcadas.length
+                        ? `<b>Bênção(s) de Kallyadranoch:</b> ${bencaosMarcadas.join(', ')}`
+                        : `<b>Bênção(s) de Kallyadranoch:</b> (nenhuma)`;
+
+                    document.getElementById('bonusMessage').innerHTML = msg;
+                };
+
+                // atualiza quando troca a herança
+                container.querySelector('#kallyanach-elemental')
+                    ?.addEventListener('change', () => {
+                        updateKallyanachMessage();
+                        updateAll(); // opcional, mas ok manter
+                    });
+
+                // atualiza quando marca bênçãos (e mantém seu limite de 2)
+                container.querySelectorAll('input[name="bencao"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        if (container.querySelectorAll('input[name="bencao"]:checked').length > 2) {
+                            alert('Você só pode escolher até 2 bênçãos!');
+                            checkbox.checked = false;
+                        }
+                        updateKallyanachMessage();
+                        updateAll(); // opcional
+                    });
+                });
+
+                // primeira renderização
+                updateKallyanachMessage();
+
+
                 container.querySelectorAll('input[name="bencao"]').forEach(checkbox => {
                     checkbox.addEventListener('change', () => {
                         if (container.querySelectorAll('input[name="bencao"]:checked').length > 2) {
@@ -475,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
             attributes: { "destreza": 2, "constituicao": 1, "carisma": -1 },
             bonusMessage: "Destreza +2, Constituição +1, Carisma –1<br>Anfíbio<br>Carapaça Kappa<br>Cura das Águas<br>Tigela D’água",
             isChoice: false,
-            imageUrl: "https://pa1.aminoapps.com/7745/d5e19b747299768717a2c6122de955aa5fb2a707r1-608-342_hq.gif"
+            imageUrl: "https://64.media.tumblr.com/1751e3f4246c2243e486b7a08ecd4d8a/a4a1b04c43a33ce9-b6/s500x750/6de651f7ce898aec1ca3b8581038df518906ebe0.gif"
         },
         'nezumi': {
             name: 'Nezumi (Ameaças)',
@@ -518,11 +593,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     { id: 'koboldOrganizado', name: 'Organizadinhos' }, { id: 'koboldOportunista', name: 'Pestes Oportunistas' },
                     { id: 'koboldExplosivo', name: 'Somos Explosivos' }, { id: 'koboldEnxame', name: 'Tática de Enxame' },
                 ];
-                let talentHtml = '<h6>Talentos do Bando (Escolha 2):</h6>';
-                talents.forEach(t => {
-                    talentHtml += `<div><input type="checkbox" id="${t.id}" name="talent"><label for="${t.id}">${t.name}</label></div>`;
-                });
-                container.innerHTML = talentHtml;
+
+                container.innerHTML = `
+    <details class="fold" style="margin-top:12px">
+      <summary class="fold-summary">
+        Talentos do Bando
+        <span class="fold-hint">Escolha 2</span>
+      </summary>
+
+      <div id="talent-container" class="checklist fold-body">
+        ${talents.map(t => `
+          <label class="check">
+            <input type="checkbox" id="${t.id}" name="talent" value="${t.id}">
+            <span>${t.name}</span>
+          </label>
+        `).join('')}
+      </div>
+    </details>
+  `;
+
                 container.querySelectorAll('input[name="talent"]').forEach(checkbox => {
                     checkbox.addEventListener('change', () => {
                         const checkedCount = container.querySelectorAll('input[name="talent"]:checked').length;
@@ -530,10 +619,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             alert('Você só pode escolher até 2 talentos!');
                             checkbox.checked = false;
                         }
-                        updateKoboldAttributes();
+                        updateKoboldAttributes(); // mantém sua lógica atual
                     });
                 });
             },
+
             calculateAttributes: () => {
                 const selectedTalents = Array.from(document.querySelectorAll('input[name="talent"]:checked')).map(cb => cb.nextElementSibling.textContent);
                 const baseMessage = "Destreza +2, Força -1<br>Enxame Escamoso<br>Praga Monstruosa<br>Sensibilidade a Luz";
@@ -677,7 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
             attributes: { "inteligencia": 1, "sabedoria": 1, "carisma": 1 },
             bonusMessage: "Inteligência +1, Sabedoria +1, Carisma +1<br>Cauda<br>Inocência Dissimulada<br>Presentes de Sszzaas<br>Fraquezas Ofídias",
             isChoice: false,
-            imageUrl: "https://pa1.aminoapps.com/6452/651c37fe76ffbb5bb25a40ade46083b1e55465dc_hq.gif"
+            imageUrl: "https://media1.tenor.com/m/XAgdMWuiaYcAAAAC/snake-wrap-command.gif"
         },
         'fintroll': {
             name: 'Fintroll (Ameaças)',
@@ -731,24 +821,83 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 container.innerHTML = `
-            <button id="nimbButton" class="btn btn-primary btn-sm mb-2">Sonhos Malucos (Modo Nimb)</button>
-            <div><label>Natureza:</label><select id="duende-natureza"><option value="Animal">Animal</option><option value="Vegetal">Vegetal</option><option value="Mineral">Mineral</option></select></div>
-            <div><label>Tamanho:</label><select id="duende-tamanho"><option value="Minúsculo">Minúsculo</option><option value="Pequeno">Pequeno</option><option value="Medio" selected>Médio</option><option value="Grande">Grande</option></select></div>
-            <h6 class="mt-2">Dons (Escolha até 2):</h6>
-            <div id="dons-container">${dons.map(d => `<div><input type="checkbox" id="${d.id}" name="don"><label for="${d.id}">${d.name}</label></div>`).join('')}</div>
-            <h6 class="mt-2">Presentes de Magia e Caos (Escolha até 3):</h6>
-            <div id="presentes-container">${presentesHtml}</div>
-        `;
+                    <button id="nimbButton" class="btn-nimb mb-2">Sonhos Malucos (Modo Nimb)</button>
+
+                    <div class="mt-2">
+                        <label class="field-label" for="duende-natureza" style="display:block;margin:8px 0 6px">
+                        <span class="section-title" style="font-size:18px">Natureza</span>
+                        </label>
+                        <select id="duende-natureza">
+                        <option value="Animal">Animal</option>
+                        <option value="Vegetal">Vegetal</option>
+                        <option value="Mineral">Mineral</option>
+                        </select>
+                    </div>
+
+                    <div class="mt-2">
+                        <label class="field-label" for="duende-tamanho" style="display:block;margin:8px 0 6px">
+                        <span class="section-title" style="font-size:18px">Tamanho</span>
+                        </label>
+                        <select id="duende-tamanho">
+                        <option value="Minúsculo">Minúsculo</option>
+                        <option value="Pequeno">Pequeno</option>
+                        <option value="Medio" selected>Médio</option>
+                        <option value="Grande">Grande</option>
+                        </select>
+                    </div>
+
+                    <details class="fold" style="margin-top:12px">
+                        <summary class="fold-summary">
+                        Dons
+                        <span class="fold-hint">Escolha até 2</span>
+                        </summary>
+
+                        <div id="dons-container" class="checklist fold-body">
+                        ${dons.map(d => `
+                            <label class="check">
+                            <input type="checkbox" id="${d.id}" name="don">
+                            <span>${d.name}</span>
+                            </label>
+                        `).join('')}
+                        </div>
+                    </details>
+
+                    <details class="fold" style="margin-top:12px">
+                        <summary class="fold-summary">
+                        Presentes de Magia e Caos
+                        <span class="fold-hint">Escolha até 3</span>
+                        </summary>
+
+                        <div id="presentes-container" class="checklist fold-body">
+                        ${presentes.map(p => `
+                            <label class="check" style="display:block">
+                            <input type="checkbox" id="${p.id}" name="presente">
+                            <span>${p.name}</span>
+                            </label>
+
+                            ${p.sub ? `
+                            <div style="margin:8px 0 10px 34px">
+                                <select id="${p.id}-sub" class="hidden" style="max-width:320px">
+                                ${p.sub.map(s => `<option value="${s}">${s}</option>`).join('')}
+                                </select>
+                            </div>
+                            ` : ''}
+                        `).join('')}
+                        </div>
+                    </details>
+                    `;
+
 
                 // Event Listeners
                 container.querySelectorAll('select, input[type="checkbox"]').forEach(el => el.addEventListener('change', updateDuendeAttributes));
 
-                document.getElementById('presAfinidade').addEventListener('change', (e) => {
-                    document.getElementById('presAfinidade-sub').classList.toggle('hidden', !e.target.checked);
+                container.querySelector('#presAfinidade').addEventListener('change', (e) => {
+                    container.querySelector('#presAfinidade-sub')?.classList.toggle('hidden', !e.target.checked);
                 });
-                document.getElementById('presMaldicao').addEventListener('change', (e) => {
-                    document.getElementById('presMaldicao-sub').classList.toggle('hidden', !e.target.checked);
+                container.querySelector('#presMaldicao').addEventListener('change', (e) => {
+                    container.querySelector('#presMaldicao-sub')?.classList.toggle('hidden', !e.target.checked);
                 });
+
 
                 document.getElementById('nimbButton').addEventListener('click', () => {
                     // Randomiza tudo
@@ -762,6 +911,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     const presentesCheckboxes = Array.from(document.querySelectorAll('input[name="presente"]'));
                     presentesCheckboxes.forEach(cb => cb.checked = false);
                     presentesCheckboxes.sort(() => 0.5 - Math.random()).slice(0, 3).forEach(cb => cb.checked = true);
+
+                    // === UX: abre as caixinhas automaticamente no Modo Nimb ===
+                    const donsFold = container.querySelector('#dons-container')?.closest('details');
+                    const presentesFold = container.querySelector('#presentes-container')?.closest('details');
+                    if (donsFold) donsFold.open = true;
+                    if (presentesFold) presentesFold.open = true;
+
+                    // Mostra sub-seletores se os respectivos presentes foram escolhidos
+                    container.querySelector('#presAfinidade-sub')?.classList.toggle(
+                        'hidden',
+                        !container.querySelector('#presAfinidade')?.checked
+                    );
+
+                    container.querySelector('#presMaldicao-sub')?.classList.toggle(
+                        'hidden',
+                        !container.querySelector('#presMaldicao')?.checked
+                    );
+
 
                     container.querySelectorAll('select, input, button').forEach(el => {
                         if (el.id !== 'presAfinidade-sub' && el.id !== 'presMaldicao-sub') {
@@ -892,21 +1059,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const pontosInput = document.getElementById('pontosInput');
     const salvarPontosBtn = document.getElementById('salvarPontos');
     const pontosDisponiveisSpan = document.getElementById('pontos_disponiveis');
+    let basePoints = 10;
+
 
     togglePontos.addEventListener('change', () => {
         const isChecked = togglePontos.checked;
         pontosInput.classList.toggle('hidden', !isChecked);
         salvarPontosBtn.classList.toggle('hidden', !isChecked);
         if (isChecked) {
-            pontosInput.value = pontosDisponiveisSpan.textContent;
+            pontosInput.value = basePoints;
         }
     });
 
     salvarPontosBtn.addEventListener('click', () => {
         const novoValor = parseInt(pontosInput.value, 10);
         if (!isNaN(novoValor) && novoValor >= 0) {
-            pontosDisponiveisSpan.textContent = novoValor;
-            updateAvailablePoints();
+            basePoints = novoValor;      // <- guarda o novo total base
+            updateAll();                 // <- recalcula pontos disponíveis com basePoints
             togglePontos.checked = false;
             pontosInput.classList.add('hidden');
             salvarPontosBtn.classList.add('hidden');
@@ -983,6 +1152,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Se o valor não for um número (NaN) ou estiver vazio, reverte para o anterior.
         if (isNaN(value) || input.value.trim() === '') {
             input.value = input.dataset.previousValue;
+            flashInvalid(input);                        // <- ADICIONE ESTA LINHA
+
         } else {
             // Garante que o valor está entre -1 e 4
             if (value < min) {
@@ -999,6 +1170,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (calculateAvailablePoints() < 0) {
             // Se sim, reverte para o valor que estava antes da edição
             input.value = input.dataset.previousValue;
+            flashInvalid(input);                        // <- ADICIONE ESTA LINHA
+
         }
 
         // 3. Atualiza a interface com os valores corretos
@@ -1014,7 +1187,14 @@ document.addEventListener('DOMContentLoaded', () => {
             row.innerHTML = `
         <td><img src="${ICONS_ATRIBUTOS[attr]}" alt="símbolo de ${attr}" height="40px" width="auto"></td>
         <td style="font-weight: bold; font-size: 30px;">${attr.substring(0, 3).toUpperCase()}</td>
-        <td><input type="tel" id="${attr}" class="attr-base" value="0" style="width: 75px; text-align: center;"></td>
+        <td>
+  <div class="attr-stepper" data-attr="${attr}">
+    <button type="button" class="step-btn step-minus" aria-label="Diminuir ${attr}">-</button>
+    <input type="tel" id="${attr}" class="attr-base" value="0" inputmode="numeric">
+    <button type="button" class="step-btn step-plus" aria-label="Aumentar ${attr}">+</button>
+  </div>
+</td>
+
         <td><input type="number" id="${attr}_racial" class="attr-racial" value="0" style="width: 75px;" readonly></td>
         <td class="outros-col"><input type="number" id="${attr}_outros" class="attr-outros" value="0" style="width: 75px;"></td>
         <td id="total_${attr}" class="total-col">0</td>
@@ -1023,6 +1203,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const baseAttrInput = row.querySelector(`#${attr}`);
             const outrosAttrInput = row.querySelector(`#${attr}_outros`);
+            const minusBtn = row.querySelector('.step-minus');
+            const plusBtn = row.querySelector('.step-plus');
+
+            const nudge = (delta) => {
+                // salva o valor anterior pro validatePoints poder reverter se estourar pontos
+                baseAttrInput.dataset.previousValue = baseAttrInput.value;
+
+                // aplica delta
+                const current = parseInt(baseAttrInput.value || '0', 10);
+                baseAttrInput.value = String((isNaN(current) ? 0 : current) + delta);
+
+                // usa sua validação padrão (min/max e pontos)
+                validatePoints({ target: baseAttrInput });
+            };
+
+            minusBtn.addEventListener('click', () => nudge(-1));
+            plusBtn.addEventListener('click', () => nudge(+1));
 
             baseAttrInput.addEventListener('focusin', (e) => {
                 e.target.dataset.previousValue = e.target.value;
@@ -1059,18 +1256,64 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalCost += costTable[valor] || 0;
             }
         });
-        const pontosIniciais = document.getElementById('togglePontos').checked ?
-            parseInt(document.getElementById('pontosInput').value) : 10;
+        const pontosIniciais = togglePontos.checked
+            ? (parseInt(pontosInput.value, 10) || basePoints)
+            : basePoints;
 
         return pontosIniciais - totalCost;
     }
 
-    function updateAvailablePoints() {
-        const pontosAtuais = calculateAvailablePoints();
-        const pontosDisponiveisEl = document.getElementById("pontos_disponiveis");
-        pontosDisponiveisEl.textContent = pontosAtuais;
-        pontosDisponiveisEl.style.color = pontosAtuais < 0 ? "red" : "black";
+    function getPointUsage() {
+        const costTable = { '-1': -1, '0': 0, '1': 1, '2': 2, '3': 4, '4': 7 };
+
+        let spent = 0;
+        ATTRIBUTES.forEach(attr => {
+            const v = parseInt(document.getElementById(attr).value, 10);
+            if (!isNaN(v)) spent += (costTable[v] ?? 0);
+        });
+
+        const base = togglePontos.checked
+            ? (parseInt(pontosInput.value, 10) || basePoints)
+            : basePoints;
+
+        return {
+            base,
+            spent,
+            available: base - spent
+        };
     }
+
+
+    function updateAvailablePoints() {
+        const { base, spent, available } = getPointUsage();
+
+        // disponíveis (badge principal)
+        pontosDisponiveisSpan.textContent = available;
+        pontosDisponiveisSpan.style.color = available < 0 ? "red" : "black";
+
+        // total e gastos (novos badges)
+        const totalEl = document.getElementById('pontos_total');
+        const gastosEl = document.getElementById('pontos_gastos');
+
+        if (totalEl) totalEl.textContent = base;
+        if (gastosEl) gastosEl.textContent = spent; 4
+
+        if (pontosAtuais < 0) {
+            pontosDisponiveisSpan.classList.remove('points-pulse');
+            void pontosDisponiveisSpan.offsetWidth;
+            pontosDisponiveisSpan.classList.add('points-pulse');
+        }
+
+    }
+
+    function flashInvalid(el) {
+        if (!el) return;
+        el.classList.remove('flash-invalid'); // reinicia a animação se repetir rápido
+        void el.offsetWidth;                  // força reflow pra replay
+        el.classList.add('flash-invalid');
+        setTimeout(() => el.classList.remove('flash-invalid'), 700);
+    }
+
 
     function applyRaceAttributes(attrs, isChoice, choiceCount, lockedAttrs = [], maxPerAttr = 1) {
         const racialInputs = document.querySelectorAll('input.attr-racial');
@@ -1089,80 +1332,80 @@ document.addEventListener('DOMContentLoaded', () => {
         const editableInputs = document.querySelectorAll('input.attr-racial');
         if (isChoice) {
             editableInputs.forEach(input => {
-            const attrName = input.id.replace('_racial', '');
-            const baseValue = attrs[attrName] || 0;
-            if (lockedAttrs && lockedAttrs.includes(attrName)) {
-                return;
-            }
-            input.disabled = false;
-            input.readOnly = false;
-            input.min = baseValue; // min já estava sendo definido
-            input.max = baseValue + maxPerAttr; // max já estava sendo definido
-
-            // Salva o valor anterior ao focar
-            input.addEventListener('focusin', (e) => {
-                e.target.dataset.previousValue = e.target.value;
-            });
-
-            // Substitua o 'input.addEventListener('change', ...)' existente por este:
-            input.addEventListener('change', (e) => {
-                const input = e.target;
-                const min = parseInt(input.min, 10);
-                const max = parseInt(input.max, 10);
-                let value = parseInt(input.value, 10);
-
-                // 1. Validar o valor individual do campo (contra min/max e NaN)
-                // Se o valor for inválido (vazio) ou abaixo do mínimo, força o mínimo.
-                if (isNaN(value) || value < min) {
-                    value = min;
-                } else if (value > max) {
-                    // Se estiver acima do máximo, força o máximo.
-                    value = max;
+                const attrName = input.id.replace('_racial', '');
+                const baseValue = attrs[attrName] || 0;
+                if (lockedAttrs && lockedAttrs.includes(attrName)) {
+                    return;
                 }
-                input.value = value; // Corrige o valor no campo
+                input.disabled = false;
+                input.readOnly = false;
+                input.min = baseValue; // min já estava sendo definido
+                input.max = baseValue + maxPerAttr; // max já estava sendo definido
 
-                // 2. Validar o total de pontos distribuídos
-                let totalPointsSpent = 0;
-                editableInputs.forEach(inp => {
-                    const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                    let inpValue = parseInt(inp.value, 10);
-                    if (isNaN(inpValue)) inpValue = parseInt(inp.min, 10); // Fallback para o mínimo
-                    
-                    totalPointsSpent += (inpValue - currentBase);
+                // Salva o valor anterior ao focar
+                input.addEventListener('focusin', (e) => {
+                    e.target.dataset.previousValue = e.target.value;
                 });
 
-                if (totalPointsSpent > choiceCount) {
-                    alert(`Você só pode distribuir ${choiceCount} pontos!`);
-                    // Reverte para o valor anterior
-                    input.value = input.dataset.previousValue || min;
-                    
-                    // Recalcula o total (necessário para a lógica de desabilitar)
-                    totalPointsSpent = 0;
+                // Substitua o 'input.addEventListener('change', ...)' existente por este:
+                input.addEventListener('change', (e) => {
+                    const input = e.target;
+                    const min = parseInt(input.min, 10);
+                    const max = parseInt(input.max, 10);
+                    let value = parseInt(input.value, 10);
+
+                    // 1. Validar o valor individual do campo (contra min/max e NaN)
+                    // Se o valor for inválido (vazio) ou abaixo do mínimo, força o mínimo.
+                    if (isNaN(value) || value < min) {
+                        value = min;
+                    } else if (value > max) {
+                        // Se estiver acima do máximo, força o máximo.
+                        value = max;
+                    }
+                    input.value = value; // Corrige o valor no campo
+
+                    // 2. Validar o total de pontos distribuídos
+                    let totalPointsSpent = 0;
                     editableInputs.forEach(inp => {
                         const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
                         let inpValue = parseInt(inp.value, 10);
-                        if (isNaN(inpValue)) inpValue = parseInt(inp.min, 10);
+                        if (isNaN(inpValue)) inpValue = parseInt(inp.min, 10); // Fallback para o mínimo
+
                         totalPointsSpent += (inpValue - currentBase);
                     });
-                } else {
-                    // Se o valor for válido, atualiza o "previousValue"
-                    input.dataset.previousValue = input.value;
-                }
 
-                // 3. Lógica de desabilitar/habilitar (existente)
-                editableInputs.forEach(inp => {
-                    if (lockedAttrs && lockedAttrs.includes(inp.id.replace('_racial', ''))) {
-                        inp.disabled = true;
-                        return;
+                    if (totalPointsSpent > choiceCount) {
+                        alert(`Você só pode distribuir ${choiceCount} pontos!`);
+                        // Reverte para o valor anterior
+                        input.value = input.dataset.previousValue || min;
+
+                        // Recalcula o total (necessário para a lógica de desabilitar)
+                        totalPointsSpent = 0;
+                        editableInputs.forEach(inp => {
+                            const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
+                            let inpValue = parseInt(inp.value, 10);
+                            if (isNaN(inpValue)) inpValue = parseInt(inp.min, 10);
+                            totalPointsSpent += (inpValue - currentBase);
+                        });
+                    } else {
+                        // Se o valor for válido, atualiza o "previousValue"
+                        input.dataset.previousValue = input.value;
                     }
-                    const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                    const isAtBase = (parseInt(inp.value) || 0) === currentBase;
-                    inp.disabled = (totalPointsSpent >= choiceCount && isAtBase);
+
+                    // 3. Lógica de desabilitar/habilitar (existente)
+                    editableInputs.forEach(inp => {
+                        if (lockedAttrs && lockedAttrs.includes(inp.id.replace('_racial', ''))) {
+                            inp.disabled = true;
+                            return;
+                        }
+                        const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
+                        const isAtBase = (parseInt(inp.value) || 0) === currentBase;
+                        inp.disabled = (totalPointsSpent >= choiceCount && isAtBase);
+                    });
+
+                    updateAll();
                 });
-                
-                updateAll();
             });
-        });
         } else {
             editableInputs.forEach(input => {
                 const attrName = input.id.replace('_racial', '');
@@ -1210,16 +1453,21 @@ document.addEventListener('DOMContentLoaded', () => {
         ).join('');
 
         container.innerHTML = `
-            <div>
-                <input type="checkbox" id="suragel-variante">
-                <label for="suragel-variante">Suragel Variante (Deuses de Arton)</label>
-            </div>
-            <div id="suragel-heranca-container" class="hidden mt-2">
-                <label for="suragel-heranca">Herança:</label>
-                <select id="suragel-heranca">
-                    ${herancaOptions}
-                </select>
-            </div>
+        <div class="checklist" style="margin-top:10px">
+            <label class="check">
+            <input type="checkbox" id="suragel-variante">
+            <span>Suragel Variante (Deuses de Arton)</span>
+            </label>
+        </div>
+
+        <div id="suragel-heranca-container" class="hidden mt-2">
+            <label class="field-label" for="suragel-heranca" style="display:block;margin:8px 0 6px">
+            <span class="section-title" style="font-size:18px">Herança</span>
+            </label>
+            <select id="suragel-heranca">
+            ${herancaOptions}
+            </select>
+        </div><br>
         `;
         container.querySelector('#suragel-variante').addEventListener('change', updateSuragelAttributes);
         container.querySelector('#suragel-heranca').addEventListener('change', updateSuragelAttributes);
@@ -1333,14 +1581,61 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('config-button').addEventListener('click', () => {
-        document.getElementById('opcoes').style.display = 'block';
+        document.getElementById('configOverlay').classList.add('active');
+        document.getElementById('configModal').classList.add('active');
+        document.getElementById('configModal').setAttribute('aria-hidden', 'false');
     });
-    document.getElementById('close-config-button').addEventListener('click', () => {
-        document.getElementById('opcoes').style.display = 'none';
-    });
+    document.getElementById('close-config-button').addEventListener('click', closeConfigModal);
+    document.getElementById('configOverlay').addEventListener('click', closeConfigModal);
+
+    function closeConfigModal() {
+        document.getElementById('configOverlay').classList.remove('active');
+        document.getElementById('configModal').classList.remove('active');
+        document.getElementById('configModal').setAttribute('aria-hidden', 'true');
+    }
     document.getElementById('reset-button').addEventListener('click', () => {
-        window.location.reload();
+        smartReset();
     });
+
+    function smartReset() {
+        // Fecha modal se estiver aberto
+        try { closeConfigModal(); } catch (e) { }
+
+        // 1) Volta pra raça "Outros"
+        racaSelect.value = 'outros';
+
+        // 2) Limpa opções específicas da raça (checkboxes/selects dinâmicos)
+        const raceBox = document.getElementById('race-specific-options');
+        if (raceBox) raceBox.innerHTML = '';
+
+        // 3) Limpa mensagem e deixa o handleRaceChange repopular do jeito padrão
+        const bonusEl = document.getElementById('bonusMessage');
+        if (bonusEl) bonusEl.innerHTML = '';
+
+        // 4) Zera inputs de atributos base (mantém a tabela, só reseta valores)
+        document.querySelectorAll('.attr-base').forEach(inp => {
+            inp.dataset.previousValue = inp.value;
+            inp.value = 0;
+        });
+
+        // 5) Reseta UI de pontos editáveis (mantém basePoints que você configurou)
+        if (typeof basePoints !== 'undefined') {
+            pontosInput.value = basePoints;
+        }
+        togglePontos.checked = false;
+        pontosInput.classList.add('hidden');
+        salvarPontosBtn.classList.add('hidden');
+
+        // 6) Se existir prompt gerado, limpa também (opcional, mas costuma ser esperado)
+        const promptGerado = document.getElementById('promptGerado');
+        if (promptGerado) promptGerado.textContent = '';
+
+        // 7) Recalcula tudo
+        handleRaceChange();
+        updateAll();
+    }
+
+
     document.querySelectorAll('.race-filter').forEach(checkbox => {
         checkbox.addEventListener('change', handleFilterChange);
     });
@@ -1421,5 +1716,8 @@ document.addEventListener('DOMContentLoaded', () => {
     populateRaceSelect();
     handleRaceChange();
     handleFilterChange();
-    document.getElementById('reset-button').addEventListener('click', () => window.location.reload());
+    document.getElementById('reset-button').addEventListener('click', () => {
+        smartReset();
+    });
+
 });
