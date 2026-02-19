@@ -633,25 +633,27 @@ button[title*="Limpar"],
   }
 
   /* inventário vira "gaveta" lateral */
-  .inventory-container {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 92%;
-    max-width: 420px;
-    height: 100svh;
-    z-index: 2000;
-    background: var(--card-bg);
+  .inventory-container.calc-panel {
+    position: static;
+    /* ou relative */
+    right: auto;
+    top: auto;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    z-index: auto;
     border-left: 2px solid var(--border);
-    border-radius: 0;
-    overflow-y: auto;
-    transition: right .25s ease-in-out;
-    box-shadow: -10px 0 30px rgba(0, 0, 0, .35);
+    border-radius: var(--radius);
+    overflow: visible;
+    transition: none;
+    box-shadow: none;
   }
 
-  .inventory-container.active {
-    right: 0;
+
+  .inventory-container.calc-panel.active {
+    right: auto;
   }
+
 
   .inventory-close-mobile {
     display: block;
