@@ -2,118 +2,167 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Calculadora de Atributos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abibas&display=swap">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calculadora de Atributos</title>
+  <link href="style.css" rel="stylesheet" />
 </head>
 
 <body>
-    <h1 class="text-center" style="color: rgb(82, 3, 3); font-weight: bold; font-family: Tormenta; font-size: 48px;">
-        Calculadora de Atributos</h1>
+  <header class="header">
+    <h1 class="header-title">Calculadora de Atributos</h1>
+    <p class="header-subtitle">Distribua pontos, aplique bônus raciais e gere um prompt para seu personagem.</p>
+  </header>
 
-    <div class="container custom-container">
-        <button class="selector-button" id="config-button">
-            <img class="selector-icon"
-                src="https://static.vecteezy.com/system/resources/previews/016/314/904/non_2x/transparent-configuration-gear-icon-free-png.png"
-                alt="Engrenagem">
-        </button>
+  <!-- Botão de configurações (flutuante) -->
+  <button class="selector-button" id="config-button" aria-label="Abrir configurações" title="Configurações">
+    <img class="selector-icon"
+      src="https://static.vecteezy.com/system/resources/previews/016/314/904/non_2x/transparent-configuration-gear-icon-free-png.png"
+      alt="Engrenagem" />
+  </button>
 
-        <div class="options-box" id="opcoes">
-            <button class="close-button" id="close-config-button">X</button>
-            <h3>Configurações</h3>
-            <h6>Mude sua calculadora</h6>
-            <div class="toggle">
-                <input type="checkbox" id="togglePontos">
-                <label class="slider" for="togglePontos"></label>
-            </div>
-            <span>Pontos Editáveis</span>
-            <br>
-            <div class="toggle">
-                <input type="checkbox" id="toggleOutrosInput">
-                <label class="slider" for="toggleOutrosInput"></label>
-            </div>
-            <span>Sessão Outros para Cálc.</span>
+  <!-- Modal de configurações -->
+  <div class="modal-overlay" id="configOverlay"></div>
+  <div class="modal" id="configModal" aria-hidden="true">
+    <div class="modal-content options-box" id="opcoes" role="dialog" aria-modal="true" aria-label="Configurações">
+      <button class="modal-close close-button" id="close-config-button" aria-label="Fechar">×</button>
+
+      <div class="modal-header">
+        <h2 class="modal-title">Configurações</h2>
+        <span class="modal-price">Personalize</span>
+      </div>
+
+      <div class="modal-section">
+        <p style="margin:0 0 10px;color:#374151">Mude como a calculadora se comporta.</p>
+
+        <div class="config-row">
+          <div class="toggle">
+            <input type="checkbox" id="togglePontos">
+            <label class="slider" for="togglePontos"></label>
+          </div>
+          <span>Pontos editáveis</span>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="container-flex">
-                    <div class="column-left">
-                        <button type="button" class="btn btn-dark" id="reset-button">Reset</button>
-
-                        <div>
-                            <input type="checkbox" id="ghanorCheckbox" class="race-filter" data-race-type="ghanor">
-                            <label for="ghanorCheckbox">Raças de Ghanor</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="ameacasCheckbox" class="race-filter" data-race-type="ameacas">
-                            <label for="ameacasCheckbox">Raças do Ameaças</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="dhCheckbox" class="race-filter" data-race-type="DHracas">
-                            <label for="dhCheckbox">Raças do Herois de Arton</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="outrasCheckbox" class="race-filter" data-race-type="outraRaca">
-                            <label for="outrasCheckbox">Raças de Outros locais</label>
-                        </div>
-
-                        <label for="raca">Raça:</label>
-                        <select id="raca">
-                            <option value="outros" selected>Outros</option>
-                        </select>
-
-                        <h3 style="color: rgb(82, 3, 3); font-weight: bold; font-family: Tormenta; font-size: 24px;">
-                            Habilidades de Raça</h3>
-                        <p id="bonusMessage" class="destaque-mensagem"></p>
-                        <div id="race-specific-options"></div>
-                    </div>
-
-                    <div class="column-right">
-                        <p>
-                            Pontos Disponíveis:
-                            <span id="pontos_disponiveis">10</span>
-
-                            <input type="number" value="10" id="pontosInput" class="hidden">
-                            <button id="salvarPontos" class="hidden">Salvar</button>
-                        </p>
-                        <table class="table" id="attribute-table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Atributo</th>
-                                    <th>Valor</th>
-                                    <th>Racial</th>
-                                    <th class="outros-col">Outros</th>
-                                    <th class="total-col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <h2>Crie a imagem do seu personagem</h2>
-                <h6>Iremos criar um prompt sugestão para você criar uma imagem do seu personagem.</h6>
-                <button id="gerarPrompt">Gerar Prompt</button>
-                <button id="copiarPrompt">Copiar Prompt</button>
-                <div id="promptGerado"></div>
-                <hr>
-                <p>
-                    Para criar a imagem, recomendo usar uma IA gratuita como o Vheer:<br>
-                    <a href="https://vheer.com/app/text-to-image" target="_blank">Vheer (totalmente gratuito e
-                        ilimitado)</a><br>
-                </p>
-            </div>
+        <div class="config-row" style="margin-top:10px">
+          <div class="toggle">
+            <input type="checkbox" id="toggleOutrosInput">
+            <label class="slider" for="toggleOutrosInput"></label>
+          </div>
+          <span>Sessão “Outros” para cálculo</span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    <div class="container-grid calc-grid">
+      <!-- COLUNA ESQUERDA -->
+      <section class="filters-section">
+        <div class="calc-left-top">
+          <button type="button" class="filter-btn" id="reset-button">Reset</button>
+        </div>
+
+        <div style="margin-top:12px">
+          <details class="fold">
+            <summary class="fold-summary">
+              Raças Adicionais
+              <span class="fold-hint">abrir</span>
+            </summary>
+
+            <div class="checklist fold-body">
+              <label class="check">
+                <input type="checkbox" id="ghanorCheckbox" class="race-filter" data-race-type="ghanor">
+                <span>Raças de Ghanor</span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" id="ameacasCheckbox" class="race-filter" data-race-type="ameacas">
+                <span>Raças do Ameaças</span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" id="dhCheckbox" class="race-filter" data-race-type="DHracas">
+                <span>Raças do Heróis de Arton</span>
+              </label>
+
+              <label class="check">
+                <input type="checkbox" id="outrasCheckbox" class="race-filter" data-race-type="outraRaca">
+                <span>Raças de outros locais</span>
+              </label>
+            </div>
+          </details>
+
+
+          <label class="field-label" for="raca">
+            <h2 class="section-title">Raças</h2>
+          </label>
+          <select id="raca">
+            <option value="outros" selected>Outros</option>
+          </select>
+        </div>
+
+        <h3 class="section-title" style="margin-top:14px">Habilidades de raça</h3>
+        <p id="bonusMessage" class="destaque-mensagem"></p>
+        <div id="race-specific-options"></div>
+
+      </section>
+
+
+      <!-- COLUNA DIREITA -->
+      <section class="inventory-container calc-panel">
+        <div class="calc-points">
+          <span class="calc-points-label">Pontos disponíveis</span>
+          <span class="badge" id="pontos_disponiveis">10</span>
+
+          <span class="points-meta-label">Total</span>
+          <span id="pontos_total" class="points-badge muted">10</span>
+
+          <span class="points-meta-label">Gastos</span>
+          <span id="pontos_gastos" class="points-badge muted">0</span>
+
+
+          <input type="number" value="10" id="pontosInput" class="hidden pontos-input" />
+          <button id="salvarPontos" class="hidden filter-btn">Salvar</button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="item-table" id="attribute-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Atributo</th>
+                <th>Valor</th>
+                <th>Racial</th>
+                <th class="outros-col">Outros</th>
+                <th class="total-col">Total</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+    <!-- PROMPT -->
+    <section class="inventory-container prompt-card">
+      <h2 class="inventory-title">Crie a imagem do seu personagem</h2>
+      <p class="muted">Gere um prompt sugestão para usar em IA de imagem.</p>
+
+      <div class="prompt-actions">
+        <button id="gerarPrompt" class="filter-btn">Gerar prompt</button>
+        <button id="copiarPrompt" class="filter-btn">Copiar</button>
+      </div>
+
+      <div id="promptGerado" class="prompt-box"></div>
+
+      <p class="muted" style="margin-top:10px">
+        Sugestão gratuita: <a class="link" href="https://vheer.com/app/text-to-image" target="_blank"
+          rel="noopener">Vheer</a>.
+      </p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 
 </html>
