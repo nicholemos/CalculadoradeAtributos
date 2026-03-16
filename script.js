@@ -1711,6 +1711,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- ENVIAR ATRIBUTOS PARA A FICHA ---
+    function enviarAtributosParaFicha() {
+        // Mapeamento: IDs da calculadora → chaves da ficha (t20SheetData.attrs)
+        const attrMap = {
+            'forca':        'FOR',
+            'destreza':     'DES',
+            'constituicao': 'CON',
+            'inteligencia': 'INT',
+            'sabedoria':    'SAB',
+            'carisma':      'CAR'
+        };
+
+        // 1. Lê os TOTAIS já calculados de cada atributo (base + racial + outros)
+        const atributos = {};
+        ATTRIBUTES.forEach(attr => {
+            const totalEl = document.getElementById(`total_${attr}`);
+            atributos[attrMap[attr]] = totalEl ? totalEl.textContent : '0';
+        });
+
+        // 2. Lê a raça selecionada para preencher o campo charRace da ficha
+        const racaId = racaSelect.value;
+        const racaNome = RACE_DATA[racaId]?.name?.split('/')[0] || '';
+
+        // 3. Carrega os dados atuais da ficha (sem apagar nada)
+        let fichaRaw = localStorage.getItem('t20SheetData');
+        let fichaData = fichaRaw ? JSON.parse(fichaRaw) : {};
+        if (!fichaData.attrs) fichaData.attrs = {};
+
+        // 4. Sobrescreve apenas os atributos (e raça, se houver)
+        fichaData.attrs = { ...fichaData.attrs, ...atributos };
+        if (racaNome) fichaData.charRace = racaNome;
+
+        // 5. Salva no localStorage compartilhado (nicholemos.github.io)
+        localStorage.setItem('t20SheetData', JSON.stringify(fichaData));
+
+        const racaTexto = racaNome ? ` e raça "${racaNome}"` : '';
+        alert(`Atributos${racaTexto} enviados para a ficha com sucesso!\n\nA ficha será aberta em uma nova aba.`);
+
+        // 6. Abre a ficha em nova aba
+        window.open('https://nicholemos.github.io/ficha/', '_blank');
+    }
+
+    document.getElementById('enviar-ficha-button').addEventListener('click', enviarAtributosParaFicha);
+
     // --- INICIALIZAÇÃO ---
     populateAttributeTable();
     populateRaceSelect();
@@ -1720,45 +1764,4 @@ document.addEventListener('DOMContentLoaded', () => {
         smartReset();
     });
 
-// script calculadora.js (Adicione ao final, dentro do DOMContentLoaded)
-
-document.getElementById('enviarParaFicha').addEventListener('click', () => {
-    // 1. Coletar os valores totais dos atributos
-    const attrsFormatados = {
-        'FOR': parseInt(document.getElementById('total_forca').textContent) || 0,
-        'DES': parseInt(document.getElementById('total_destreza').textContent) || 0,
-        'CON': parseInt(document.getElementById('total_constituicao').textContent) || 0,
-        'INT': parseInt(document.getElementById('total_inteligencia').textContent) || 0,
-        'SAB': parseInt(document.getElementById('total_sabedoria').textContent) || 0,
-        'CAR': parseInt(document.getElementById('total_carisma').textContent) || 0
-    };
-
-    // 2. Coletar a Raça selecionada
-    const racaId = racaSelect.value;
-    const racaName = (racaId && RACE_DATA[racaId]) ? RACE_DATA[racaId].name : '';
-
-    // 3. Coletar as Habilidades da Raça (do innerHTML da mensagem, limpando tags HTML indesejadas)
-    let bonusRaw = document.getElementById('bonusMessage').innerHTML;
-    // Substitui <br> por quebra de linha real e remove tags <b> ou outras
-    let habilidadesPuras = bonusRaw.replace(/<br\s*[\/]?>/gi, "\n").replace(/<[^>]+>/g, "").trim();
-
-    // Cria um array de habilidades separadas por linha, ignorando a linha dos bônus de atributos
-    let listaHabilidades = habilidadesPuras.split('\n')
-        .map(h => h.trim())
-        .filter(h => h.length > 0 && !h.match(/(\+|-)\d+ em/i)); // Remove linhas tipo "Força +2, Destreza +1"
-
-    // 4. Montar o objeto para exportação
-    const dadosCalculadora = {
-        atributos: attrsFormatados,
-        raca: racaName.split(' ')[0], // Pega apenas a primeira palavra (ex: "Humano/Humana" vira "Humano")
-        habilidadesRaca: listaHabilidades
-    };
-
-    // 5. Salvar no localStorage
-    localStorage.setItem('dadosCalculadoraT20', JSON.stringify(dadosCalculadora));
-
-    alert(`Dados de ${racaName} enviados com sucesso!\nA ficha será aberta em uma nova aba.`);
-    window.open('https://nicholemos.github.io/ficha/', '_blank');
-});
-    
 });
