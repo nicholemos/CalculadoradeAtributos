@@ -1720,4 +1720,45 @@ document.addEventListener('DOMContentLoaded', () => {
         smartReset();
     });
 
+// script calculadora.js (Adicione ao final, dentro do DOMContentLoaded)
+
+document.getElementById('enviarParaFicha').addEventListener('click', () => {
+    // 1. Coletar os valores totais dos atributos
+    const attrsFormatados = {
+        'FOR': parseInt(document.getElementById('total_forca').textContent) || 0,
+        'DES': parseInt(document.getElementById('total_destreza').textContent) || 0,
+        'CON': parseInt(document.getElementById('total_constituicao').textContent) || 0,
+        'INT': parseInt(document.getElementById('total_inteligencia').textContent) || 0,
+        'SAB': parseInt(document.getElementById('total_sabedoria').textContent) || 0,
+        'CAR': parseInt(document.getElementById('total_carisma').textContent) || 0
+    };
+
+    // 2. Coletar a Raça selecionada
+    const racaId = racaSelect.value;
+    const racaName = (racaId && RACE_DATA[racaId]) ? RACE_DATA[racaId].name : '';
+
+    // 3. Coletar as Habilidades da Raça (do innerHTML da mensagem, limpando tags HTML indesejadas)
+    let bonusRaw = document.getElementById('bonusMessage').innerHTML;
+    // Substitui <br> por quebra de linha real e remove tags <b> ou outras
+    let habilidadesPuras = bonusRaw.replace(/<br\s*[\/]?>/gi, "\n").replace(/<[^>]+>/g, "").trim();
+
+    // Cria um array de habilidades separadas por linha, ignorando a linha dos bônus de atributos
+    let listaHabilidades = habilidadesPuras.split('\n')
+        .map(h => h.trim())
+        .filter(h => h.length > 0 && !h.match(/(\+|-)\d+ em/i)); // Remove linhas tipo "Força +2, Destreza +1"
+
+    // 4. Montar o objeto para exportação
+    const dadosCalculadora = {
+        atributos: attrsFormatados,
+        raca: racaName.split(' ')[0], // Pega apenas a primeira palavra (ex: "Humano/Humana" vira "Humano")
+        habilidadesRaca: listaHabilidades
+    };
+
+    // 5. Salvar no localStorage
+    localStorage.setItem('dadosCalculadoraT20', JSON.stringify(dadosCalculadora));
+
+    alert(`Dados de ${racaName} enviados com sucesso!\nA ficha será aberta em uma nova aba.`);
+    window.open('https://nicholemos.github.io/ficha/', '_blank');
+});
+    
 });
