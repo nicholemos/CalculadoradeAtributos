@@ -194,20 +194,21 @@ select {
 }
 
 .item-table th {
-  background: #f6f7fb;
+  background: var(--str-slate);
+  color: #ffffff;
   font-family: "Tormenta";
   text-align: left;
   padding: 10px;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 2px solid var(--str-slate);
 }
 
 .item-table td {
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e8ecf1;
 }
 
 .item-table tr:hover {
-  background: #eef6ff;
+  background: #f0f5fa;
 }
 
 /* ==============================
@@ -1162,18 +1163,39 @@ input[type="checkbox"]:checked+.slider:before {
 
 /* Tabela de atributos */
 #attribute-table {
-  background: rgba(0, 0, 0, 0.55);
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 #attribute-table th,
 #attribute-table td {
   text-align: center;
-  text-decoration-color: #000;
+}
+
+/* Header TOTAL em destaque dourado */
+#attribute-table th.total-col {
+  color: #f5c842;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+}
+
+/* Inputs raciais — visual limpo */
+.attr-racial {
+  text-align: center;
+  border-radius: 8px;
+  border: 2px solid rgba(47, 63, 79, .18);
+  background: #eef2f7;
+  font-weight: 700;
+  color: var(--str-slate);
+  padding: 6px 8px;
 }
 
 .total-col {
   font-weight: 900;
-  font-size: 18px;
+  font-size: 20px;
+  color: var(--str-slate);
+  letter-spacing: -0.5px;
 }
 
 .outros-col {
@@ -1530,12 +1552,14 @@ input[type="checkbox"]:checked+.slider:before {
 
 .attr-stepper .attr-base {
   width: 70px;
-  /* antes era inline style */
   text-align: center;
   padding: 8px 10px;
   border-radius: 10px;
-  border: 2px solid rgba(0, 0, 0, .18);
-  background: #fff;
+  border: 2px solid rgba(47, 63, 79, .22);
+  background: #f8fafc;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--str-slate);
 }
 
 .step-btn {
@@ -1543,21 +1567,24 @@ input[type="checkbox"]:checked+.slider:before {
   height: 36px;
   border-radius: 10px;
   border: 2px solid rgba(0, 0, 0, .18);
-  background: #f4fbff;
+  background: #f0f4f8;
   font-weight: 900;
   font-size: 18px;
   line-height: 1;
   cursor: pointer;
-  transition: transform .08s ease, filter .12s ease;
+  transition: transform .08s ease, filter .12s ease, background .12s ease;
+  color: var(--str-slate);
 }
 
 .step-btn:hover {
-  filter: brightness(0.98);
+  background: var(--str-slate);
+  color: #ffffff;
+  border-color: var(--str-slate);
   transform: translateY(-1px);
 }
 
 .step-btn:active {
-  transform: scale(0.98);
+  transform: scale(0.96);
 }
 
 /* ===== Overlay para legibilidade do fundo da tabela ===== */
@@ -1574,11 +1601,11 @@ input[type="checkbox"]:checked+.slider:before {
   inset: 0;
   pointer-events: none;
 
-  /* Ajuste aqui a intensidade do escurecimento */
+  /* Overlay suave para legibilidade sobre a imagem de raça */
   background: linear-gradient(180deg,
-      rgba(0, 0, 0, .35) 0%,
-      rgba(0, 0, 0, .20) 45%,
-      rgba(0, 0, 0, .35) 100%);
+      rgba(255, 255, 255, .45) 0%,
+      rgba(255, 255, 255, .30) 50%,
+      rgba(255, 255, 255, .45) 100%);
 
   z-index: 0;
 }
@@ -1597,7 +1624,7 @@ input[type="checkbox"]:checked+.slider:before {
 @media (max-width: 1023px) {
 
   /* o container não pode “vazar” para os lados */
-  .container{
+  .container {
     padding-left: 12px;
     padding-right: 12px;
   }
@@ -1606,19 +1633,19 @@ input[type="checkbox"]:checked+.slider:before {
   .filters-section,
   .inventory-container,
   .inventory-container.calc-panel,
-  .inventory-container.prompt-card{
+  .inventory-container.prompt-card {
     width: 100%;
     max-width: 100%;
   }
 
   /* evita qualquer filho empurrar o layout */
-  .filters-section * ,
+  .filters-section *,
   .inventory-container * {
     max-width: 100%;
   }
 
   /* TABELA: vira scrollável (em vez de quebrar o layout) */
-  .table-wrap{
+  .table-wrap {
     width: 100%;
     max-width: 100%;
     overflow-x: auto;
@@ -1626,13 +1653,14 @@ input[type="checkbox"]:checked+.slider:before {
   }
 
   /* garante que a tabela não “esmague” nem estoure */
-  #attribute-table{
+  #attribute-table {
     width: 100%;
-    min-width: 480px; /* ajuste: 480/520/560 conforme seu gosto */
+    min-width: 480px;
+    /* ajuste: 480/520/560 conforme seu gosto */
   }
 
   /* badges/linha de pontos: permite quebrar em 2 linhas se precisar */
-  .calc-points{
+  .calc-points {
     flex-wrap: wrap;
     gap: 8px 10px;
   }
