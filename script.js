@@ -1,1059 +1,15 @@
+// ============================================================
+//  script.js — Lógica da Calculadora de Atributos
+//  Os dados das raças estão em racas.js. Carregue racas.js ANTES.
+// ============================================================
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Objeto para guardar os dados das Heranças de Suragel
-    const SURAGEL_HERANCAS = {
-        'Al-Gazara': { description: "<b>Herança de Al-Gazara.</b> Devido à presença do puro caos primordial de Nimb em seu sangue, você recebe +1 em um atributo aleatório." },
-        'Arbória': { description: "<b>Herança de Arbória.</b> Como parte do Grande Ciclo de Allihanna, você recebe a habilidade Forma Selvagem para uma única forma, escolhida entre Ágil, Sorrateira e Veloz. Caso adquira essa habilidade novamente, o custo dessa forma diminui em –1 PM." },
-        'Chacina': { description: "<b>Herança de Chacina.</b> Pela ferocidade de Megalokk, você recebe a habilidade Forma Selvagem para uma única forma, escolhida entre Feroz e Resistente. Caso adquira essa habilidade novamente, o custo dessa forma diminui em –1 PM." },
-        'Deathok': { description: "<b>Herança de Deathok.</b> A mudança constante faz parte de sua alma. Você recebe +2 em duas perícias a sua escolha. A cada manhã, você pode trocar essas perícias." },
-        'Drashantyr': { description: "<b>Herança de Drashantyr.</b> Graças ao poder elemental dos dragões, você recebe +1 PM e redução de ácido, eletricidade, fogo, frio, luz e trevas 5." },
-        'Kundali': { description: "<b>Herança de Kundali.</b> Pelo espírito protetor, mas também opressor, de Tauron, você recebe +2 na Defesa e em testes de manobras de combate." },
-        'Magika': { description: "<b>Herança de Magika.</b> Você aprende e pode lançar uma magia arcana de 1º círculo a sua escolha (atributo-chave Inteligência ou Carisma, a sua escolha). Caso aprenda novamente essa magia, seu custo diminui em –1 PM." },
-        'Nivenciuén': { description: "<b>Herança de Nivenciuén.</b> Mesmo que o Reino de Glórienn tenha sofrido um destino terrível, a antiga soberania élfica ainda permeia seu sangue. Você recebe +2 em Misticismo e uma habilidade racial dos elfos entre Graça de Glórienn e Sangue Mágico." },
-        'Odisseia': { description: "<b>Herança de Odisseia.</b> Sua alma tocada por Valkaria está sempre preparada para problemas! Você recebe +2 em Iniciativa e Percepção, e sua capacidade de carga aumenta em 2 espaços." },
-        'Ordine': { description: "<b>Herança de Ordine.</b> As forças da lei e ordem de Khalmyr afetam suas ações. Você recebe +2 em Intuição, em Investigação e em testes sem rolagens de dados (ao escolher 0, 10 ou 20)." },
-        'Pelágia': { description: "<b>Herança de Pelágia.</b> Mesmo nas situações mais desesperadoras, seu espírito se mantém plácido e imperturbável como o próprio Oceano. Escolha três perícias. Com elas, você pode gastar 1 PM para escolher 10 em qualquer situação, exceto testes de ataque." },
-        'Pyra': { description: "<b>Herança de Pyra.</b> Em algum lugar dentro de você, sempre existe uma segunda chance. Quando faz um teste de resistência ou um teste de atributo para remover uma condição, você pode gastar 2 PM para rolá-lo novamente." },
-        'Ramknal': { description: "<b>Herança de Ramknal.</b> Escolha duas perícias entre Acrobacia, Enganação, Furtividade, Jogatina e Ladinagem. Quando faz um teste da perícia escolhida, você pode gastar 2 PM para receber +5 nesse teste." },
-        'Serena': { description: "<b>Herança de Serena.</b> Pela proteção de Marah, você recebe +2 na Defesa e em testes de resistência contra oponentes aos quais não tenha causado dano, perda de PV ou condições (exceto enfeitiçado, fascinado e pasmo) nessa cena." },
-        'Skerry': { description: "<b>Herança de Skerry.</b> Você carrega a força de criatividade. Quando faz um teste de Ofício, pode gastar 1 PM para ser treinado na perícia em questão ou para rolar dois dados e usar o melhor resultado." },
-        'Solaris': { description: "<b>Herança de Solaris.</b> Pelo poder de Azgher, durante o dia você recebe +1 em todos os testes de perícia. Se estiver diretamente sob a luz do sol, esse bônus aumenta para +2." },
-        'Sombria': { description: "<b>Herança de Sombria.</b> Pelo poder de Tenebra, durante a noite você recebe +1 em todos os testes de perícia. Se estiver num local sem nenhuma iluminação artificial (como tochas ou magia), esse bônus aumenta para +2." },
-        'Sora': { description: "<b>Herança de Sora.</b> Os honrados espíritos ancestrais de Lin-Wu abençoam sua perseverança. Você recebe +2 em Nobreza, Vontade e em testes de perícia estendidos (incluindo contra perigos complexos)." },
-        'Terápolis': { description: "<b>Herança de Terápolis.</b> Você recebe +2 em Intuição e Vontade, e pode fazer testes dessas perícias contra ilusões automaticamente, sem precisar interagir com elas." },
-        'Venomia': { description: "<b>Herança de Venomia.</b> Ser escorregadio como Sszzaas faz parte de sua natureza, mesmo que você não goste disso. Você recebe +2 em Enganação e em testes para evitar manobras de combate e efeitos de movimento." },
-        'Vitalia': { description: "<b>Herança de Vitalia.</b> A força da vida corre intensa em seu sangue. Você recebe +5 PV por patamar e sua recuperação de pontos de vida com descanso aumenta em uma categoria." },
-        'Werra': { description: "<b>Herança de Werra.</b> Você possui um conhecimento intuitivo para armas. Você recebe +1 em testes de ataque com armas e proficiência com armas marciais ou com duas armas exóticas." },
-    };
-
-    const RACE_DATA = {
-        'humano': {
-            name: 'Humano/Humana',
-            type: 'base',
-            attributes: {},
-            bonusMessage: "+1 em Três Atributos Diferentes<br><span style='display: block;'>Versátil</span>",
-            isChoice: true,
-            choiceCount: 3,
-            maxChoicePerAttribute: 1,
-            imageUrl: "https://64.media.tumblr.com/0a01333736d6f587523db771e1ae9a9a/79bc12ca0c1d927b-f2/s540x810/7d7d4d2827c06a1728cedc4a16fe9ba4d7f84888.gif"
-        },
-        'elfo': {
-            name: 'Elfo/Elfa',
-            type: 'base',
-            attributes: { "inteligencia": 2, "destreza": 1, "constituicao": -1 },
-            bonusMessage: "Inteligência +2, Destreza +1, Constituição -1<br>Graça de Glórienn<br>Sangue Mágico<br>Sentidos Élficos",
-            isChoice: false,
-            imageUrl: "https://gifdb.com/images/high/lord-of-the-rings-legolas-fight-83hz9so0rfuayi6h.gif"
-        },
-        'dwarf': {
-            name: 'Anão/Anã',
-            type: 'base',
-            attributes: { "constituicao": 2, "sabedoria": 1, "destreza": -1 },
-            bonusMessage: "Constituição +2, Sabedoria +1, Destreza -1<br>Conhecimento das Rochas<br>Devagar e Sempre<br>Duro como Pedra<br>Tradição de Heredrimm",
-            isChoice: false,
-            imageUrl: "https://64.media.tumblr.com/f08b1803103b529b258e210d153fce57/tumblr_myfubf9Z6Z1ru8yv8o6_250.gif"
-        },
-        'dahllan': {
-            name: 'Dahllan',
-            type: 'base',
-            attributes: { "sabedoria": 2, "destreza": 1, "inteligencia": -1 },
-            bonusMessage: "Sabedoria +2, Destreza +1, Inteligência –1<br>Amiga das Plantas<br>Armadura de Allihanna<br>Empatia Selvagem",
-            isChoice: false,
-            imageUrl: "https://64.media.tumblr.com/250a3660431e450a2d1bf1006c6a9f22/67343f6f7b018235-b6/s500x750/738b8d3406931195e9fe8178a7079e2303c3efca.gif"
-        },
-        'goblin': {
-            name: 'Goblin',
-            type: 'base',
-            attributes: { "destreza": 2, "inteligencia": 1, "carisma": -1 },
-            bonusMessage: "Destreza +2, Inteligência +1, Carisma –1<br>Engenhoso<br>Espelunqueiro<br>Peste Esguia<br>Rato das Ruas",
-            isChoice: false,
-            imageUrl: "https://i.redd.it/37rebhpgjag91.gif"
-        },
-        'lefou': {
-            name: 'Lefou',
-            type: 'base',
-            attributes: { "carisma": -1 },
-            bonusMessage: "+1 em três atributos (exceto Carisma)<br>Carisma -1<br>Cria da Tormenta<br>Deformidade",
-            isChoice: true,
-            choiceCount: 3,
-            maxChoicePerAttribute: 1,
-            lockedChoiceAttributes: ['carisma'],
-            imageUrl: "https://i.pinimg.com/originals/97/65/e7/9765e7da233fa1a343c819c988c99bec.gif"
-        },
-        'minotaur': {
-            name: 'Minotauro',
-            type: 'base',
-            attributes: { "forca": 2, "constituicao": 1, "sabedoria": -1 },
-            bonusMessage: "Força +2, Constituição +1, Sabedoria –1<br>Chifres<br>Couro Rígido<br>Faro<br>Medo de Altura",
-            isChoice: false,
-            imageUrl: "https://24.media.tumblr.com/tumblr_mdb7ptBRgr1rg7hodo1_500.gif"
-        },
-        'qareen': {
-            name: 'Qareen',
-            type: 'base',
-            attributes: { "carisma": 2, "inteligencia": 1, "sabedoria": -1 },
-            bonusMessage: "Carisma +2, Inteligência +1, Sabedoria –1<br>Desejos<br>Resistência Elemental<br>Tatuagem Mística",
-            isChoice: false,
-            imageUrl: "https://giffiles.alphacoders.com/108/108732.gif"
-        },
-        'golem': {
-            name: 'Golem',
-            type: 'base',
-            imageUrl: "https://designyoukai.com/wp-content/uploads/2024/02/golem.gif",
-            imageUrls: { 'pedra': "https://clan.fastly.steamstatic.com/images/35898811/58ac6a7714698e8ac06774676eb176fde0d1d6ff.gif", 'espelho': "https://i.pinimg.com/originals/1a/00/23/1a0023bdc25ae9d95eab99ddb2855d05.gif", 'mashin': "https://media0.giphy.com/media/v1.Y2lkPTZjMDliOTUya2ZybGRqOGVkMXZqZ2Z5N2w2cWRnNG5vZ3Rra3Rxamxud2N0dGN4bCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lPuiw5nlcYTeCptRa4/giphy.gif", 'barro': "https://64.media.tumblr.com/80000ca2a312c65036ac51b870d42bb1/tumblr_pgug05Drhh1t77wz1_250.gif", 'ferro': "https://i.pinimg.com/originals/a4/eb/c4/a4ebc41676b750606b107bd9c4503851.gif", 'carne': "https://media1.tenor.com/m/1o2Q-Xm8BXcAAAAd/cindry-onepiece-cindry-smile.gif", 'sucata': "https://media.tenor.com/JwY5ZKwkFMQAAAAM/dark-stalkers-mecha.gif", 'bronze': "https://cdna.artstation.com/p/assets/images/images/083/475/918/original/-start-menu-idle-neweyes.gif", "gelo": "https://media1.tenor.com/m/rkcCInlO04YAAAAd/%C3%A9s%C3%B3bater.gif", 'dourado': "https://i.makeagif.com/media/4-07-2022/5_ya8P.gif", },
-            createCustomUi: (container) => {
-                container.innerHTML = `
-                <div><label for="golem-chassi">Chassi:</label><select id="golem-chassi"><option value="">Selecione</option><option value="mashin">Mashin</option><option value="barro">Barro</option><option value="bronze">Bronze</option><option value="carne">Carne</option><option value="espelho">Espelhos</option><option value="ferro">Ferro</option><option value="gelo">Gelo Eterno</option><option value="pedra">Pedra</option><option value="sucata">Sucata</option><option value="dourado">Inevitavel</option></select></div>
-                <div><label for="golem-fonte">Fonte de Energia:</label><select id="golem-fonte"><option value="">Selecione</option><option value="Alquimica">Alquímica</option><option value="Elemental">Elemental</option><option value="Sagrada">Sagrada</option><option value="Vapor">Vapor</option></select></div>
-                <div id="golem-elemental-options" class="hidden"><label for="golem-elemental-type">Tipo Elemental:</label><select id="golem-elemental-type"><option value="">Selecione</option><option value="Fogo">Fogo</option><option value="eletricidade">Ar (eletricidade)</option><option value="Frio">Água (frio)</option><option value="acido">Terra (ácido)</option></select></div>
-                <div><label for="golem-tamanho">Tamanho:</label><select id="golem-tamanho"><option value="">Selecione</option><option value="Pequeno">Pequeno</option><option value="Medio">Médio</option><option value="Grande">Grande</option></select></div>
-            `;
-                container.querySelectorAll('select').forEach(s => s.addEventListener('change', updateGolemAttributes));
-                document.getElementById('golem-fonte').addEventListener('change', (e) => {
-                    document.getElementById('golem-elemental-options').classList.toggle('hidden', e.target.value !== 'Elemental');
-                });
-            },
-            calculateAttributes: () => {
-                const chassi = document.getElementById('golem-chassi')?.value;
-                const tamanhoSelect = document.getElementById('golem-tamanho');
-                const table = document.getElementById('attribute-table');
-                const imageUrl = RACE_DATA.golem.imageUrls[chassi] || RACE_DATA.golem.imageUrl;
-                table.style.background = `url('${imageUrl}') no-repeat center center`;
-                table.style.backgroundSize = "75% auto";
-                tamanhoSelect.disabled = false;
-                if (chassi === 'mashin') {
-                    tamanhoSelect.value = 'Medio';
-                    tamanhoSelect.disabled = true;
-                }
-                const tamanho = tamanhoSelect.value;
-                const attrs = { forca: 1, destreza: 0, constituicao: 0, inteligencia: 0, sabedoria: 0, carisma: -1 };
-                let choiceCount = 0;
-                let maxPerAttr = 1;
-                let chassiBonusMessage = ''; // Variável para a descrição do bônus
-
-                switch (chassi) {
-                    case 'ferro':
-                        attrs.forca += 1; attrs.constituicao += 1;
-                        chassiBonusMessage = "Força +1, Constituição +1";
-                        break;
-                    case 'carne':
-                        attrs.forca += 1; attrs.constituicao += 2; attrs.carisma -= 1;
-                        chassiBonusMessage = "Força +1, Constituição +2, Carisma -1";
-                        break;
-                    case 'barro': case 'gelo': case 'pedra':
-                        attrs.constituicao += 2;
-                        chassiBonusMessage = "Constituição +2";
-                        break;
-                    case 'espelho':
-                        attrs.carisma += 2; attrs.sabedoria += 1; attrs.constituicao -= 1;
-                        chassiBonusMessage = "Carisma +2, Sabedoria +1, Constituição -1";
-                        break;
-                    case 'sucata':
-                        attrs.forca += 1; attrs.constituicao += 1;
-                        chassiBonusMessage = "Força +1, Constituição +1";
-                        break;
-                    case 'dourado':
-                        attrs.forca += 1; attrs.carisma += 2;
-                        chassiBonusMessage = "Força +1, Carisma +2";
-                        break;
-                    case 'bronze': case 'mashin':
-                        choiceCount = 2;
-                        chassiBonusMessage = `+1 em ${choiceCount} atributos à sua escolha.`;
-                        break;
-                }
-
-                if (tamanho === 'Pequeno') attrs.destreza += 1;
-                if (tamanho === 'Grande') attrs.destreza -= 1;
-
-                const fonte = document.getElementById('golem-fonte')?.value || '';
-                const tipoElemental = document.getElementById('golem-elemental-type')?.value || '';
-
-                // Monta a mensagem de bônus dinamicamente
-                let finalMessage = `<b>Golem:</b> Força +1, Carisma -1<br>`;
-                if (chassi && chassiBonusMessage) {
-                    finalMessage += `<b>Chassi (${chassi.charAt(0).toUpperCase() + chassi.slice(1)}):</b> ${chassiBonusMessage}<br>`;
-                }
-                if (tamanho) {
-                    finalMessage += `<b>Tamanho (${tamanho}):</b> ${tamanho === 'Pequeno' ? 'Destreza +1' : (tamanho === 'Grande' ? 'Destreza -1' : '')}<br>`;
-                }
-                if (fonte) {
-                    finalMessage += `<b>Fonte de Energia:</b> ${fonte}${tipoElemental ? ` (${tipoElemental})` : ''}<br>`;
-                }
-
-                document.getElementById('bonusMessage').innerHTML = finalMessage;
-
-                return { baseAttributes: attrs, isChoice: choiceCount > 0, choiceCount: choiceCount, maxChoicePerAttribute: maxPerAttr };
-            }
-        },
-        'hynne': {
-            name: 'Hynne',
-            type: 'base',
-            attributes: { "destreza": 2, "carisma": 1, "forca": -1 },
-            bonusMessage: "Destreza +2, Carisma +1, Força –1<br>Arremessador<br>Pequeno e Rechonchudo<br>Sorte Salvadora",
-            isChoice: false,
-            imageUrl: "https://media.tenor.com/PTIS0o34PD8AAAAM/fuck-you-the-hobbit.gif"
-        },
-        'kliren': {
-            name: 'Kliren',
-            type: 'base',
-            attributes: { "inteligencia": 2, "carisma": 1, "forca": -1 },
-            bonusMessage: "Inteligência +2, Carisma +1, Força –1<br>Híbrido<br>Engenhosidade<br>Ossos Frágeis<br>Vanguardista",
-            isChoice: false,
-            imageUrl: "https://static.wikia.nocookie.net/powerlisting/images/e/ec/510.gif"
-        },
-        'medusa': {
-            name: 'Medusa',
-            type: 'base',
-            attributes: { "destreza": 2, "carisma": 1 },
-            bonusMessage: "Destreza +2, Carisma +1<br>Cria de Megalokk<br>Natureza Venenosa<br>Olhar Atordoante",
-            isChoice: false,
-            imageUrl: "https://i0.wp.com/doublesama.com/wp-content/uploads/2018/04/Nadeko-Medusa.gif"
-        },
-        'osteon': {
-            name: 'Osteon',
-            type: 'base',
-            attributes: { "constituicao": -1 },
-            bonusMessage: "+1 em Três Atributos (exceto Constituição)<br>Constituição -1<br>Armadura Óssea<br>Memória Póstuma<br>Natureza Esquelética<br>Preço da Não Vida",
-            isChoice: true,
-            choiceCount: 3,
-            maxChoicePerAttribute: 1,
-            lockedChoiceAttributes: ['constituicao'],
-            imageUrl: "https://i.pinimg.com/originals/b4/31/39/b431396f88202e330b79ce23fe951bcd.gif"
-        },
-        'siren': {
-            name: 'Sereia/Tritão',
-            type: 'base',
-            attributes: {},
-            bonusMessage: "+1 em Três Atributos Diferentes<br>Canção dos Mares<br>Mestre do Tridente<br>Transformação Anfíbia",
-            isChoice: true,
-            choiceCount: 3,
-            maxChoicePerAttribute: 1,
-            imageUrl: "https://i.pinimg.com/originals/ee/3e/b1/ee3eb1c7e56d7c6250d11ae048c45ad2.gif"
-        },
-        'silfide': {
-            name: 'Sílfide',
-            type: 'base',
-            attributes: { "carisma": 2, "destreza": 1, "forca": -2 },
-            bonusMessage: "Carisma +2, Destreza +1, Força –2<br>Asas de Borboleta<br>Espírito da Natureza<br>Magia das Fadas",
-            isChoice: false,
-            imageUrl: "https://media.tenor.com/0l34BiWLbNIAAAAM/sword-art-online-sao.gif"
-        },
-        'trog': {
-            name: 'Trog',
-            type: 'base',
-            attributes: { "constituicao": 2, "forca": 1, "inteligencia": -1 },
-            bonusMessage: "Constituição +2, Força +1, Inteligência –1<br>Mau Cheiro<br>Mordida<br>Reptiliano<br>Sangue Frio",
-            isChoice: false,
-            imageUrl: "https://i.pinimg.com/originals/c3/30/72/c330723a6d99c001622f20453df59ea2.gif"
-        },
-        'aggelus': {
-            name: 'Suragel - Aggelus',
-            type: 'base',
-            attributes: { "sabedoria": 2, "carisma": 1 },
-            bonusMessage: "Sabedoria +2, Carisma +1<br>Herança Divina<br>Luz Sagrada",
-            isChoice: false,
-            imageUrl: "https://i.pinimg.com/originals/69/45/4c/69454c70ede01eaf8a8356b0c4c5b817.gif",
-            createCustomUi: createSuragelUi,
-        },
-        'sulfure': {
-            name: 'Suragel - Sulfure',
-            type: 'base',
-            attributes: { "destreza": 2, "inteligencia": 1 },
-            bonusMessage: "Destreza +2, Inteligência +1<br>Herança Divina<br>Sombras Profanas",
-            isChoice: false,
-            imageUrl: "https://i.makeagif.com/media/6-26-2015/QFmBY6.gif",
-            createCustomUi: createSuragelUi,
-        },
-        'dwarf_ghanor': {
-            name: 'Anão/Anã (Ghanor)',
-            type: 'ghanor',
-            attributes: { "constituicao": 2, "inteligencia": 1, "carisma": -1 },
-            bonusMessage: "Constituição +2, Inteligência +1, Carisma -1<br>Busca pela Perfeição<br>Devagar e Sempre<br>Moldado nas Rochas",
-            isChoice: false,
-            imageUrl: "https://i.redd.it/en44m0mkuxtb1.gif"
-        },
-        'elf_ghanor': {
-            name: 'Elfo/Elfa (Ghanor)',
-            type: 'ghanor',
-            attributes: { "sabedoria": 2, "destreza": 1, "constituicao": -1 },
-            bonusMessage: "Sabedoria +2, Destreza +1, Constituição –1<br>Armas da Floresta<br>Magia Antiga<br>Passo Leve<br>Sentidos Élficos<br>Sentimentos Conflitantes",
-            isChoice: false,
-            imageUrl: "https://i.pinimg.com/originals/af/00/76/af007620b24912908e302cc539153849.gif"
-        },
-        'giant_ghanor': {
-            name: 'Gigante (Ghanor)',
-            type: 'ghanor',
-            attributes: { "forca": 3, "constituicao": 2, "inteligencia": -2, "sabedoria": -1, "carisma": -1 },
-            bonusMessage: "Força +3, Constituição +2, Inteligência –2, Sabedoria –1, Carisma –1<br>Grandão<br>Primitivo",
-            isChoice: false,
-            imageUrl: "https://i.gifer.com/embedded/download/DYL0.gif"
-        },
-        'hobgoblin_ghanor': {
-            name: 'Hobgoblin (Ghanor)',
-            type: 'ghanor',
-            attributes: { "forca": 1, "destreza": 1, "constituicao": 1, "carisma": -1 },
-            bonusMessage: "Força +1, Destreza +1, Constituição +1, Carisma –1<br>Couro Duro<br>Dependência de Liderança<br>Militarista<br>Natureza Bestial",
-            isChoice: false,
-            imageUrl: "https://i.makeagif.com/media/2-06-2019/7hLGy0.gif"
-        },
-        'halfelf_ghanor': {
-            name: 'Meio-Elfo (Ghanor)',
-            type: 'ghanor',
-            attributes: { "carisma": 2 },
-            bonusMessage: "Carisma +2, +1 em outro atributo<br>Longa Infância<br>Sentidos Ancestrais",
-            isChoice: true,
-            choiceCount: 1,
-            maxChoicePerAttribute: 1,
-            lockedChoiceAttributes: ['carisma'],
-            imageUrl: "https://i.pinimg.com/originals/84/88/ae/8488aec8f373c20370f1c47fd5917ae1.gif"
-        },
-        'aberrant': {
-            name: 'Aberrante (Ghanor)',
-            type: 'ghanor',
-            imageUrl: 'https://media.tenor.com/3IrxSu1aWscAAAAM/resident-evil-resident-evil-2.gif',
-            createCustomUi: (container) => {
-                const mutations = [
-                    { id: 'mutacaoAscetico', name: 'Ascético' }, { id: 'mutacaoMagiaBizarra', name: 'Magia Bizarra' },
-                    { id: 'mutacaoCouroRochoso', name: 'Couro Rochoso' }, { id: 'mutacaoMetamorfose', name: 'Metamorfose' },
-                    { id: 'mutacaoMordida', name: 'Mordida' }, { id: 'mutacaoMusculoso', name: 'Musculoso' },
-                    { id: 'mutacaoResistente', name: 'Resistente' }, { id: 'mutacaoSentidosAgucados', name: 'Sentidos Aguçados' },
-                    { id: 'mutacaoVeloz', name: 'Veloz' }, { id: 'mutacaoVenenoso', name: 'Venenoso' }
-                ];
-
-                container.innerHTML = `
-    <details class="fold" style="margin-top:12px">
-      <summary class="fold-summary">
-        Mutações
-        <span class="fold-hint">Escolha até 4</span>
-      </summary>
-
-      <div id="mutation-container" class="checklist fold-body">
-        ${mutations.map(m => `
-          <label class="check">
-            <input type="checkbox" id="${m.id}" name="mutation" value="${m.id}">
-            <span>${m.name}</span>
-          </label>
-        `).join('')}
-      </div>
-    </details>
-  `;
-
-                container.querySelectorAll('input[name="mutation"]').forEach(checkbox => {
-                    checkbox.addEventListener('change', () => {
-                        const checkedCount = container.querySelectorAll('input[name="mutation"]:checked').length;
-                        if (checkedCount > 4) {
-                            alert('Você só pode escolher até 4 mutações!');
-                            checkbox.checked = false;
-                        }
-                        updateAberrantAttributes(); // mantém sua lógica atual
-                    });
-                });
-            },
-
-            calculateAttributes: () => {
-                const attrs = { forca: 0, destreza: 0, constituicao: 0, inteligencia: 0, sabedoria: 0, carisma: -2 };
-                const selectedMutations = [];
-                const bonusMap = {
-                    mutacaoAscetico: { attr: 'sabedoria', name: 'Ascético' }, mutacaoMusculoso: { attr: 'forca', name: 'Musculoso' },
-                    mutacaoResistente: { attr: 'constituicao', name: 'Resistente' }, mutacaoVeloz: { attr: 'destreza', name: 'Veloz' },
-                    mutacaoMagiaBizarra: { name: 'Magia Bizarra' }, mutacaoCouroRochoso: { name: 'Couro Rochoso' },
-                    mutacaoMetamorfose: { name: 'Metamorfose' }, mutacaoMordida: { name: 'Mordida' },
-                    mutacaoSentidosAgucados: { name: 'Sentidos Aguçados' }, mutacaoVenenoso: { name: 'Venenoso' },
-                };
-                document.querySelectorAll('input[name="mutation"]:checked').forEach(checkbox => {
-                    const mutation = bonusMap[checkbox.value];
-                    if (mutation) {
-                        if (mutation.attr) { attrs[mutation.attr] = (attrs[mutation.attr] || 0) + 1; }
-                        selectedMutations.push(mutation.name);
-                    }
-                });
-                document.getElementById('bonusMessage').innerHTML = `Carisma -2<br>Mutações: ${selectedMutations.join(', ') || 'Nenhuma'}`;
-                return { baseAttributes: attrs, isChoice: false, choiceCount: 0 };
-            }
-        },
-        'halforc_ameacas': {
-            name: 'Meio-Orc (Ameaças)',
-            type: 'ameacas',
-            attributes: { "forca": 2 },
-            bonusMessage: "Força +2, +1 em outro atributo (exceto Carisma)<br>Criatura das Profundezas<br>Adaptável<br>Sangue Orc",
-            isChoice: true,
-            choiceCount: 1,
-            maxChoicePerAttribute: 1,
-            lockedChoiceAttributes: ['carisma'],
-            imageUrl: "https://gifdb.com/images/high/tiny-tina-wonderland-video-game-orc-witness-me-7anj41yealn074hg.gif"
-        },
-        'orc_ameacas': {
-            name: 'Orc (Ameaças)',
-            type: 'ameacas',
-            attributes: { "forca": 2, "constituicao": 1, "inteligencia": -1 },
-            bonusMessage: "+2 em Força, Constituição +1, Inteligência –1<br>Feroz<br>Habitante das Cavernas<br>Vigor Brutal",
-            isChoice: false,
-            imageUrl: "https://i.pinimg.com/originals/f3/f7/ba/f3f7bac36cdf249f15bd81d7efdd2491.gif"
-        },
-        'tabrachi': {
-            name: 'Tabrachi (Ameaças)',
-            type: 'ameacas',
-            attributes: { "constituicao": 2, "forca": 1, "carisma": -1 },
-            bonusMessage: "Constituição +2, Força +1, Carisma –1<br>Batráquio<br>Linguarudo<br>Saltador",
-            isChoice: false,
-            imageUrl: "https://i.makeagif.com/media/2-06-2016/Z9za8C.gif"
-        },
-        'ogre': {
-            name: 'Ogro (Ameaças)',
-            type: 'ameacas',
-            attributes: { "forca": 3, "constituicao": 2, "inteligencia": -1, "carisma": -1 },
-            bonusMessage: "Força +3, Constituição +2, Inteligência –1, Carisma –1<br>Quanto Maior o Tamanho...<br>…Maior a Porrada<br>Camada de Ingenuidade",
-            isChoice: false,
-            imageUrl: "https://media0.giphy.com/media/TIGP3k4gNAqvza2KJK/giphy-downsized.gif"
-        },
-        'bugbear': {
-            name: 'Bugbear (Ameaças)',
-            type: 'ameacas',
-            attributes: { "forca": 2, "destreza": 1, "carisma": -1 },
-            bonusMessage: "Força +2, Destreza +1, Carisma –1<br>Empunhadura Poderosa<br>Saborear Pavor<br>Sentidos de Predador",
-            isChoice: false,
-            imageUrl: "https://media1.tenor.com/m/qEgRLp9ZG_sAAAAd/grrr-beast-man.gif"
-        },
-        'hobgoblin_ameacas': {
-            name: 'Hobgoblin (Ameaças)',
-            type: 'ameacas',
-            attributes: { "constituicao": 2, "destreza": 1, "carisma": -1 },
-            bonusMessage: "Constituição +2, Destreza +1, Carisma –1<br>Arte da Guerra<br>Metalurgia Hobgoblin<br>Táticas de Guerrilha",
-            isChoice: false,
-            imageUrl: "https://64.media.tumblr.com/a8fd66069693d12f2f4ef4372c6a3667/8f857d181fda07ba-c0/s500x750/5eade5b52d6d2b6a510609d01c119354862aaf9b.gif"
-        },
-        'centaur': {
-            name: 'Centauro (Ameaças)',
-            type: 'ameacas',
-            attributes: { "sabedoria": 2, "forca": 1, "inteligencia": -1 },
-            bonusMessage: "Sabedoria +2, Força +1, Inteligência –1<br>Avantajado<br>Cascos<br>Ginete Natural<br>Medo de Altura",
-            isChoice: false,
-            imageUrl: "https://64.media.tumblr.com/3ec153799fa25e21ad10be5be1a2157a/2c6fb1d5eacdd6bb-63/s540x810/42863302a5dcac125d795eb1e8357b0141c43089.gif"
-        },
-        'gnoll': {
-            name: 'Gnoll (Ameaças)',
-            type: 'ameacas',
-            attributes: { "constituicao": 2, "sabedoria": 1, "inteligencia": -1 },
-            bonusMessage: "Constituição +2, Sabedoria +1, Inteligência –1<br>Faro<br>Mordida<br>Oportunista<br>Rendição",
-            isChoice: false,
-            imageUrl: "https://64.media.tumblr.com/747cc66960cd29327e014a9d4d9296b5/97a1d09906c94285-49/s540x810/f00e0f34e4ff2c07ba5e0db91dfc7cecee3810f3.gif"
-        },
-        'kallyanach': {
-            name: 'Kallyanach (Ameaças)',
-            type: 'ameacas',
-            attributes: {}, // Atributos são 100% de escolha
-            bonusMessage: "+2 em um atributo ou +1 em dois atributos.<br>Herança Dracônica<br>Bênção de Kallyadranoch",
-            isChoice: true,
-            choiceCount: 2,
-            maxChoicePerAttribute: 2,
-            imageUrl: 'https://i.pinimg.com/originals/23/cc/03/23cc03827dd5eb610540f4a03ea88190.gif',
-            createCustomUi: (container) => {
-                const elementalTypes = ['Ácido', 'Eletricidade', 'Fogo', 'Frio', 'Luz', 'Trevas'];
-                const bencaos = [
-                    { id: 'bencaoArmamento', name: 'Armamento Kallyanach' }, { id: 'bencaoAsas', name: 'Asas Dracônicas' },
-                    { id: 'bencaoEscamas', name: 'Escamas Elementais' }, { id: 'bencaoMagia', name: 'Prática Arcana' },
-                    { id: 'bencaoSentidos', name: 'Sentidos Dracônicos' }, { id: 'bencaoSopro', name: 'Sopro de Dragão' },
-                ];
-                container.innerHTML = `
-                <div class="mt-2">
-                    <label class="field-label" for="kallyanach-elemental" style="display:block;margin:8px 0 6px">
-                    <span class="section-title" style="font-size:18px">Herança Dracônica</span>
-                    </label>
-
-                    <select id="kallyanach-elemental">
-                    <option value="">Selecione</option>
-                    ${elementalTypes.map(type => `<option value="${type}">${type}</option>`).join('')}
-                    </select>
-                </div>
-
-                <details class="fold" style="margin-top:12px">
-                    <summary class="fold-summary">
-                    Bênção de Kallyadranoch
-                    <span class="fold-hint">Escolha 2</span>
-                    </summary>
-
-                    <div id="bencao-container" class="checklist fold-body">
-                    ${bencaos.map(b => `
-                        <label class="check">
-                        <input type="checkbox" id="${b.id}" name="bencao">
-                        <span>${b.name}</span>
-                        </label>
-                    `).join('')}
-                    </div>
-                </details>
-                `;
-                // --- KALLYANACH: mensagem dinâmica ---
-                const updateKallyanachMessage = () => {
-                    const heranca = container.querySelector('#kallyanach-elemental')?.value || '';
-                    const bencaosMarcadas = Array.from(container.querySelectorAll('input[name="bencao"]:checked'))
-                        .map(cb => cb.closest('label')?.querySelector('span')?.textContent?.trim())
-                        .filter(Boolean);
-
-                    let msg = "+2 em um atributo ou +1 em dois atributos.<br>";
-
-                    // Herança
-                    msg += heranca
-                        ? `<b>Herança Dracônica:</b> ${heranca}<br>`
-                        : `<b>Herança Dracônica:</b> (não selecionada)<br>`;
-
-                    // Bênçãos
-                    msg += bencaosMarcadas.length
-                        ? `<b>Bênção(s) de Kallyadranoch:</b> ${bencaosMarcadas.join(', ')}`
-                        : `<b>Bênção(s) de Kallyadranoch:</b> (nenhuma)`;
-
-                    document.getElementById('bonusMessage').innerHTML = msg;
-                };
-
-                // atualiza quando troca a herança
-                container.querySelector('#kallyanach-elemental')
-                    ?.addEventListener('change', () => {
-                        updateKallyanachMessage();
-                        updateAll(); // opcional, mas ok manter
-                    });
-
-                // atualiza quando marca bênçãos (e mantém seu limite de 2)
-                container.querySelectorAll('input[name="bencao"]').forEach(checkbox => {
-                    checkbox.addEventListener('change', () => {
-                        if (container.querySelectorAll('input[name="bencao"]:checked').length > 2) {
-                            alert('Você só pode escolher até 2 bênçãos!');
-                            checkbox.checked = false;
-                        }
-                        updateKallyanachMessage();
-                        updateAll(); // opcional
-                    });
-                });
-
-                // primeira renderização
-                updateKallyanachMessage();
-
-
-                container.querySelectorAll('input[name="bencao"]').forEach(checkbox => {
-                    checkbox.addEventListener('change', () => {
-                        if (container.querySelectorAll('input[name="bencao"]:checked').length > 2) {
-                            alert('Você só pode escolher até 2 bênçãos!');
-                            checkbox.checked = false;
-                        }
-                    });
-                });
-            }
-        },
-        'kaijin': {
-            name: 'Kaijin (Ameaças)',
-            type: 'ameacas',
-            attributes: { "forca": 2, "constituicao": 1, "carisma": -2 },
-            bonusMessage: "Força +2, Constituição +1, Carisma –2<br>Couraça Rubra<br>Cria da Tormenta<br>Disforme<br>Terror Vivo",
-            isChoice: false,
-            imageUrl: "https://media1.tenor.com/m/RjZXfToDdogAAAAd/momotaros-enter.gif"
-        },
-        'kappa': {
-            name: 'Kappa (Ameaças)',
-            type: 'ameacas',
-            attributes: { "destreza": 2, "constituicao": 1, "carisma": -1 },
-            bonusMessage: "Destreza +2, Constituição +1, Carisma –1<br>Anfíbio<br>Carapaça Kappa<br>Cura das Águas<br>Tigela D’água",
-            isChoice: false,
-            imageUrl: "https://64.media.tumblr.com/1751e3f4246c2243e486b7a08ecd4d8a/a4a1b04c43a33ce9-b6/s500x750/6de651f7ce898aec1ca3b8581038df518906ebe0.gif"
-        },
-        'nezumi': {
-            name: 'Nezumi (Ameaças)',
-            type: 'ameacas',
-            attributes: { "constituicao": 2, "destreza": 1, "inteligencia": -1 },
-            bonusMessage: "Constituição +2, Destreza +1, Inteligência –1<br>Empunhadura Poderosa<br>Pequeno, Mas Não Metade<br>Roedor<br>Sentidos Murídeos",
-            isChoice: false,
-            imageUrl: "https://media.tenor.com/Ar4yaROS_wUAAAAM/breaking-boards-splinter.gif"
-        },
-        'tengu': {
-            name: 'Tengu (Ameaças)',
-            type: 'ameacas',
-            attributes: { "destreza": 2, "inteligencia": 1 },
-            bonusMessage: "Destreza +2, Inteligência +1<br>Asas Desorientadoras<br>Caminhante do Céu<br>Espírito Corvino",
-            isChoice: false,
-            imageUrl: "https://64.media.tumblr.com/1ae44c223c951f18f9dc892b001c62b2/tumblr_oz3w5jS2w41wdfs98o1_540.gif"
-        },
-        'minauro': {
-            name: 'Minauro (Ameaças)',
-            type: 'ameacas',
-            attributes: { "forca": 1 },
-            bonusMessage: "Força +1 e +1 em dois atributos<br>Faro<br>Mente Aberta<br>Plurivalente",
-            isChoice: true,
-            choiceCount: 2,
-            maxChoicePerAttribute: 1,
-            imageUrl: "https://i.imgflip.com/a0fxsg.gif"
-        },
-        'kobold': {
-            name: 'Kobolds (Ameaças)',
-            type: 'ameacas',
-            attributes: { "destreza": 2, "forca": -1 },
-            bonusMessage: "Enxame Escamoso<br>Praga Monstruosa<br>Sensibilidade a Luz<br>Talentos do Bando",
-            isChoice: false,
-            imageUrl: 'https://media.tenor.com/iY__m2gWNYwAAAAM/dnd-cartoon-dnd.gif',
-            createCustomUi: (container) => {
-                const talents = [
-                    { id: 'koboldAmontoado', name: 'Amontoados' }, { id: 'koboldAArmadilha', name: 'Armadilha Terrível' },
-                    { id: 'koboldDiferentao', name: 'Diferentão' }, { id: 'koboldExFamiliar', name: 'Ex-Familiar' },
-                    { id: 'koboldOusado', name: 'O Ousado' }, { id: 'koboldFundao', name: 'Os do Fundo' },
-                    { id: 'koboldOrganizado', name: 'Organizadinhos' }, { id: 'koboldOportunista', name: 'Pestes Oportunistas' },
-                    { id: 'koboldExplosivo', name: 'Somos Explosivos' }, { id: 'koboldEnxame', name: 'Tática de Enxame' },
-                ];
-
-                container.innerHTML = `
-    <details class="fold" style="margin-top:12px">
-      <summary class="fold-summary">
-        Talentos do Bando
-        <span class="fold-hint">Escolha 2</span>
-      </summary>
-
-      <div id="talent-container" class="checklist fold-body">
-        ${talents.map(t => `
-          <label class="check">
-            <input type="checkbox" id="${t.id}" name="talent" value="${t.id}">
-            <span>${t.name}</span>
-          </label>
-        `).join('')}
-      </div>
-    </details>
-  `;
-
-                container.querySelectorAll('input[name="talent"]').forEach(checkbox => {
-                    checkbox.addEventListener('change', () => {
-                        const checkedCount = container.querySelectorAll('input[name="talent"]:checked').length;
-                        if (checkedCount > 2) {
-                            alert('Você só pode escolher até 2 talentos!');
-                            checkbox.checked = false;
-                        }
-                        updateKoboldAttributes(); // mantém sua lógica atual
-                    });
-                });
-            },
-
-            calculateAttributes: () => {
-                const selectedTalents = Array.from(document.querySelectorAll('input[name="talent"]:checked')).map(cb => cb.nextElementSibling.textContent);
-                const baseMessage = "Destreza +2, Força -1<br>Enxame Escamoso<br>Praga Monstruosa<br>Sensibilidade a Luz";
-
-                if (selectedTalents.length > 0) {
-                    document.getElementById('bonusMessage').innerHTML = `${baseMessage}<br>Talentos de Bando: ${selectedTalents.join(', ')}`;
-                } else {
-                    document.getElementById('bonusMessage').innerHTML = baseMessage;
-                }
-
-                // Atributos do Kobold são fixos, então retornamos o base
-                return { baseAttributes: RACE_DATA.kobold.attributes, isChoice: false, choiceCount: 0 };
-            }
-        },
-        'harpia': {
-            name: 'Harpia (Ameaças)',
-            type: 'ameacas',
-            attributes: { "destreza": 2, "carisma": 1, "inteligencia": -1 },
-            bonusMessage: "Destreza +2, Carisma +1, Inteligência –1<br>Asas de Abutre<br>Cria de Masmorra<br>Grito Aterrorizante<br>Pés Rapinantes",
-            isChoice: false,
-            imageUrl: "https://images.steamusercontent.com/ugc/862852702977931501/C2CAB11CAE25250FEEF6174FA7E908D62697B3A9/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
-        },
-        'ceratops': {
-            name: 'Ceratops (Ameaças)',
-            type: 'ameacas',
-            attributes: { "constituicao": 2, "forca": 1, "destreza": -1, "inteligencia": -1 },
-            bonusMessage: "Constituição +2, Força +1, Destreza -1, Inteligência –1<br>Chifres<br>Paquidérmico<br>Papel Tribal<br>Medo de Altura",
-            isChoice: false,
-            imageUrl: "https://media1.tenor.com/m/t4csDZj4cpUAAAAd/huh-dinosaurs.gif"
-        },
-        'pteros': {
-            name: 'Pteros (Ameaças)',
-            type: 'ameacas',
-            attributes: { "sabedoria": 2, "destreza": 1, "inteligencia": -1 },
-            bonusMessage: "Sabedoria +2, Destreza +1, Inteligência -1<br>Ligação Natural<br>Mãos Rudimentares<br>Pés Rapinantes<br>Senhor dos Céus<br>Sentidos Rapinantes",
-            isChoice: false,
-            imageUrl: "https://media1.tenor.com/m/5seA8tx1za0AAAAd/sauron-marvel.gif"
-        },
-        'velocis': {
-            name: 'Velocis (Ameaças)',
-            type: 'ameacas',
-            attributes: { "destreza": 2, "sabedoria": 1, "inteligencia": -1 },
-            bonusMessage: "Destreza +2, Sabedoria +1, Inteligência –1<br>Através de Espinheiros<br>Sentidos Selvagens<br>Velocista da Planície",
-            isChoice: false,
-            imageUrl: "https://i.redd.it/gz73bz9g5cne1.gif"
-        },
-        'voracis': {
-            name: 'Voracis (Ameaças)',
-            type: 'ameacas',
-            attributes: { "destreza": 2, "constituicao": 1, "inteligencia": -1 },
-            bonusMessage: "Destreza +2, Constituição +1, Inteligência –1<br>Garras<br>Rainha da Selva<br>Sentidos Selvagens",
-            isChoice: false,
-            imageUrl: "https://media.tenor.com/17xAoIGD9IMAAAAC/thunder-cats.gif"
-        },
-        'yidishan': {
-            name: 'Yidishan (Ameaças)',
-            type: 'ameacas',
-            attributes: { "carisma": -2 },
-            bonusMessage: "+1 em três atributos (exceto Carisma)<br>Carisma –2<br>Híbrido Mecânico<br>Natureza Orgânica<br>Peças Metálicas",
-            isChoice: true,
-            choiceCount: 3,
-            maxChoicePerAttribute: 1,
-            lockedChoiceAttributes: ['carisma'],
-            imageUrl: "https://media1.tenor.com/m/Ohc53jtWsUwAAAAd/dc-cyborg.gif"
-        },
-        'moreau': {
-            name: 'Moreau (Ameaças)',
-            type: 'ameacas',
-            // Dados para cada herança
-            herancas: {
-                'coruja': { attr: 'sabedoria', bonus: 'Espreitador<br>Garras<br>Sapiência', img: 'https://64.media.tumblr.com/a08e6cc43f776f5465d828c92745732c/3ac762947728a3f4-5a/s540x810/d4a75ccf84342d5841c1993a08b7a219c5fa63e4.gif' },
-                'hiena': { attr: 'sabedoria', bonus: 'Carniceiro Prevalecido<br>Faro<br>Mordida', img: 'https://media1.tenor.com/m/BtIllWFPLZAAAAAC/hyena-lionking.gif' },
-                'raposa': { attr: 'inteligencia', bonus: 'Agarra-me se Puderes<br>Esperteza Vulpina<br>Faro', img: 'https://media1.tenor.com/m/5t3uqVBgquYAAAAC/zootopia-nick-wilde.gif' },
-                'serpente': { attr: 'inteligencia', bonus: 'Arborícola<br>Constritor<br>Instintos Traiçoeiros', img: 'https://64.media.tumblr.com/b70b2236cbc05df471b1864b070edbde/tumblr_prxsmgfkzv1r2zjloo4_r1_400.gif' },
-                'bufalo': { attr: 'forca', bonus: 'Chifres<br>Faro<br>Marrada Impressionante', img: 'https://media1.tenor.com/m/xOuqexM1QI0AAAAd/kinnikuman-buffaloman.gif' },
-                'coelho': { attr: 'destreza', bonus: 'Patas Ligeiras<br>Pé de Coelho<br>Senso de Preservação', img: 'https://media.tenor.com/7ghUf4IwTeUAAAAM/zootopia-rabbit.gif' },
-                'crocodilo': { attr: 'constituicao', bonus: 'Couro Rígido<br>Mordida<br>Predador Aquático', img: 'https://i.imgur.com/jQwOTIR.gif' },
-                'gato': { attr: 'carisma', bonus: 'As Muitas Vidas de Um Gato<br>Garras<br>Sentidos Felinos', img: 'https://i.pinimg.com/originals/b3/a6/da/b3a6daffbeef2af9e7203dd480e89000.gif' },
-                'leao': { attr: 'forca', bonus: 'Mordida<br>Rugido Imponente<br>Sentidos da Realeza', img: 'https://i.gifer.com/C93F.gif' },
-                'lobo': { attr: 'carisma', bonus: 'Faro<br>Mordida<br>Táticas de Matilha', img: 'https://i.makeagif.com/media/4-20-2023/6IDAQU.gif' },
-                'morcego': { attr: 'destreza', bonus: 'Asas<br>Cavaleiro das Trevas<br>Ecolocalização', img: 'https://i.makeagif.com/media/8-23-2024/Ioripn.gif' },
-                'urso': { attr: 'constituicao', bonus: 'Abraço de Urso<br>Faro<br>Mordida', img: 'https://i.pinimg.com/originals/af/73/01/af7301323e8db44ce871878280f61251.gif' },
-            },
-            createCustomUi: (container) => {
-                let herancaOptions = Object.keys(RACE_DATA.moreau.herancas).map(key =>
-                    `<option value="${key}">${key.charAt(0).toUpperCase() + key.slice(1)}</option>`
-                ).join('');
-
-                container.innerHTML = `
-                    <div>
-                        <label for="moreau-heranca">Herança:</label>
-                        <select id="moreau-heranca">
-                            <option value="">Selecione</option>
-                            ${herancaOptions}
-                        </select>
-                    </div>
-                `;
-                container.querySelector('#moreau-heranca').addEventListener('change', updateMoreauAttributes);
-            },
-            calculateAttributes: () => {
-                const herancaKey = document.getElementById('moreau-heranca')?.value;
-                const herancaData = RACE_DATA.moreau.herancas[herancaKey];
-                const attrs = {};
-
-                if (herancaData) {
-                    // Define o +1 fixo da herança
-                    attrs[herancaData.attr] = 1;
-
-                    // Atualiza a imagem e a mensagem
-                    document.getElementById('attribute-table').style.background = `url('${herancaData.img}') no-repeat center center`;
-                    document.getElementById('attribute-table').style.backgroundSize = "75% auto";
-                    document.getElementById('bonusMessage').innerHTML = `+1 em ${herancaData.attr.charAt(0).toUpperCase() + herancaData.attr.slice(1)} e +2 em dois atributos.<br>${herancaData.bonus}`;
-                } else {
-                    document.getElementById('attribute-table').style.background = '';
-                    document.getElementById('bonusMessage').innerHTML = 'Selecione uma Herança.';
-                }
-
-                // Todos os Moreau de escolha têm as mesmas regras
-                return { baseAttributes: attrs, isChoice: true, choiceCount: 2, maxChoicePerAttribute: 1 };
-            }
-        },
-        'sea_elf': {
-            name: 'Elfo do Mar (Ameaças)',
-            type: 'ameacas',
-            attributes: { "destreza": 2, "constituicao": 1, "inteligencia": -1 },
-            bonusMessage: "Destreza +2, Constituição +1, Inteligência –1<br>Arsenal do Oceano<br>Cria das Águas<br>Dependência de Água",
-            isChoice: false,
-            imageUrl: "https://giffiles.alphacoders.com/214/214964.gif"
-        },
-        'nagah_macho': {
-            name: 'Nagah (Macho - Ameaças)',
-            type: 'ameacas',
-            attributes: { "forca": 1, "destreza": 1, "constituicao": 1 },
-            bonusMessage: "Força +1, Destreza +1, Constituição +1<br>Cauda<br>Inocência Dissimulada<br>Presentes de Sszzaas<br>Fraquezas Ofídias",
-            isChoice: false,
-            imageUrl: "https://media3.giphy.com/media/v1.Y2lkPTZjMDliOTUyMWxlYm9kcDY2MXkwM296YTdyYTFpandvN2l5NHNwZmUzOHozMG1lcSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/jBnYaRTtSG9jbPrDrR/giphy-downsized-medium.gif"
-        },
-        'nagah_femea': {
-            name: 'Nagah (Fêmea - Ameaças)',
-            type: 'ameacas',
-            attributes: { "inteligencia": 1, "sabedoria": 1, "carisma": 1 },
-            bonusMessage: "Inteligência +1, Sabedoria +1, Carisma +1<br>Cauda<br>Inocência Dissimulada<br>Presentes de Sszzaas<br>Fraquezas Ofídias",
-            isChoice: false,
-            imageUrl: "https://media1.tenor.com/m/XAgdMWuiaYcAAAAC/snake-wrap-command.gif"
-        },
-        'fintroll': {
-            name: 'Fintroll (Ameaças)',
-            type: 'ameacas',
-            attributes: { "inteligencia": 2, "constituicao": 1, "forca": -1 },
-            bonusMessage: "Inteligência +2, Constituição +1, Força -1<br>Corpo Vegetal<br>Presença Arcana<br>Regeneração Vegetal<br>Intolerância a Luz",
-            isChoice: false,
-            imageUrl: "https://i.pinimg.com/originals/95/ea/29/95ea2981d51aaf84d5b7a0a25e3f309e.gif"
-        },
-        'soterrado': {
-            name: 'Soterrado (Ameaças)',
-            type: 'ameacas',
-            attributes: { "constituicao": -1 },
-            bonusMessage: "+1 em três atributos (exceto Constituição)<br>Constituição -1<br>Abraço Gélido<br>Esquife de Gelo<br>Natureza Esquelética<br>Preço da Não Vida",
-            isChoice: true,
-            choiceCount: 3,
-            maxChoicePerAttribute: 1,
-            lockedChoiceAttributes: ['constituicao'],
-            imageUrl: "https://i.redd.it/y5i8n0dso9p91.gif"
-        },
-        'duende': {
-            name: 'Duende (Herois de Arton)',
-            type: 'DHracas',
-            imageUrl: 'https://i.pinimg.com/originals/37/a1/d8/37a1d8584b898130605bc0b2228dbba8.gif',
-            natureData: {
-                'Animal': { isChoice: true, choiceCount: 1, maxChoicePerAttribute: 1, bonusText: "Pode adicionar +1 em um atributo à sua escolha.", imageUrl: "https://i.redd.it/z92c1bu4c8251.gif" },
-                'Vegetal': { isChoice: false, bonusText: "Natureza Vegetal, Florescer Feérico.", imageUrl: "https://static.wikia.nocookie.net/powerlisting/images/5/54/Zetsu_mayfly.gif" },
-                'Mineral': { isChoice: false, bonusText: "", imageUrl: "https://media1.tenor.com/m/5P1FeRwotGkAAAAd/whomp-mario.gif" }
-            },
-            createCustomUi: (container) => {
-                const dons = [
-                    { id: 'donForca', name: 'Força' }, { id: 'donDestreza', name: 'Destreza' }, { id: 'donConstituicao', name: 'Constituição' },
-                    { id: 'donInteligencia', name: 'Inteligência' }, { id: 'donSabedoria', name: 'Sabedoria' }, { id: 'donCarisma', name: 'Carisma' }
-                ];
-                const presentes = [
-                    { id: 'presAfinidade', name: 'Afinidade Elemental', sub: ['Água', 'Fogo', 'Vegetação'] }, { id: 'presEncantar', name: 'Encantar Objetos' },
-                    { id: 'presEnfeiticar', name: 'Enfeitiçar' }, { id: 'presInvisibilidade', name: 'Invisibilidade' },
-                    { id: 'presLingua', name: 'Língua da Natureza' }, { id: 'presMaldicao', name: 'Maldição', sub: ['Apatia Profunda', 'Coração de Geleia', 'Envelhecimento Súbito', 'Loucura do Verão', 'Mil Verrugas', 'Ruína do Corpo', 'Outra (a critério do mestre)'] },
-                    { id: 'presMetamorfose', name: 'Metamorfose Animal' }, { id: 'presLaDoQueAqui', name: 'Mais Lá do Que Aqui' },
-                    { id: 'presSonhos', name: 'Sonhos Proféticos' }, { id: 'presVelocidade', name: 'Velocidade do Pensamento' },
-                    { id: 'presVisao', name: 'Visão Feérica' }, { id: 'presVoo', name: 'Voo' }
-                ];
-
-                let presentesHtml = '';
-                presentes.forEach(p => {
-                    presentesHtml += `<div><input type="checkbox" id="${p.id}" name="presente"><label for="${p.id}">${p.name}</label>`;
-                    if (p.sub) {
-                        presentesHtml += `<select id="${p.id}-sub" class="hidden ml-2">${p.sub.map(s => `<option value="${s}">${s}</option>`).join('')}</select>`;
-                    }
-                    presentesHtml += `</div>`;
-                });
-
-                container.innerHTML = `
-                    <button id="nimbButton" class="btn-nimb mb-2">Sonhos Malucos (Modo Nimb)</button>
-
-                    <div class="mt-2">
-                        <label class="field-label" for="duende-natureza" style="display:block;margin:8px 0 6px">
-                        <span class="section-title" style="font-size:18px">Natureza</span>
-                        </label>
-                        <select id="duende-natureza">
-                        <option value="Animal">Animal</option>
-                        <option value="Vegetal">Vegetal</option>
-                        <option value="Mineral">Mineral</option>
-                        </select>
-                    </div>
-
-                    <div class="mt-2">
-                        <label class="field-label" for="duende-tamanho" style="display:block;margin:8px 0 6px">
-                        <span class="section-title" style="font-size:18px">Tamanho</span>
-                        </label>
-                        <select id="duende-tamanho">
-                        <option value="Minúsculo">Minúsculo</option>
-                        <option value="Pequeno">Pequeno</option>
-                        <option value="Medio" selected>Médio</option>
-                        <option value="Grande">Grande</option>
-                        </select>
-                    </div>
-
-                    <details class="fold" style="margin-top:12px">
-                        <summary class="fold-summary">
-                        Dons
-                        <span class="fold-hint">Escolha até 2</span>
-                        </summary>
-
-                        <div id="dons-container" class="checklist fold-body">
-                        ${dons.map(d => `
-                            <label class="check">
-                            <input type="checkbox" id="${d.id}" name="don">
-                            <span>${d.name}</span>
-                            </label>
-                        `).join('')}
-                        </div>
-                    </details>
-
-                    <details class="fold" style="margin-top:12px">
-                        <summary class="fold-summary">
-                        Presentes de Magia e Caos
-                        <span class="fold-hint">Escolha até 3</span>
-                        </summary>
-
-                        <div id="presentes-container" class="checklist fold-body">
-                        ${presentes.map(p => `
-                            <label class="check" style="display:block">
-                            <input type="checkbox" id="${p.id}" name="presente">
-                            <span>${p.name}</span>
-                            </label>
-
-                            ${p.sub ? `
-                            <div style="margin:8px 0 10px 34px">
-                                <select id="${p.id}-sub" class="hidden" style="max-width:320px">
-                                ${p.sub.map(s => `<option value="${s}">${s}</option>`).join('')}
-                                </select>
-                            </div>
-                            ` : ''}
-                        `).join('')}
-                        </div>
-                    </details>
-                    `;
-
-
-                // Event Listeners
-                container.querySelectorAll('select, input[type="checkbox"]').forEach(el => el.addEventListener('change', updateDuendeAttributes));
-
-                container.querySelector('#presAfinidade').addEventListener('change', (e) => {
-                    container.querySelector('#presAfinidade-sub')?.classList.toggle('hidden', !e.target.checked);
-                });
-                container.querySelector('#presMaldicao').addEventListener('change', (e) => {
-                    container.querySelector('#presMaldicao-sub')?.classList.toggle('hidden', !e.target.checked);
-                });
-
-
-                document.getElementById('nimbButton').addEventListener('click', () => {
-                    // Randomiza tudo
-                    const naturezaEl = document.getElementById('duende-natureza');
-                    naturezaEl.selectedIndex = Math.floor(Math.random() * naturezaEl.options.length);
-                    const tamanhoEl = document.getElementById('duende-tamanho');
-                    tamanhoEl.selectedIndex = Math.floor(Math.random() * tamanhoEl.options.length);
-                    const donsCheckboxes = Array.from(document.querySelectorAll('input[name="don"]'));
-                    donsCheckboxes.forEach(cb => cb.checked = false);
-                    donsCheckboxes.sort(() => 0.5 - Math.random()).slice(0, 2).forEach(cb => cb.checked = true);
-                    const presentesCheckboxes = Array.from(document.querySelectorAll('input[name="presente"]'));
-                    presentesCheckboxes.forEach(cb => cb.checked = false);
-                    presentesCheckboxes.sort(() => 0.5 - Math.random()).slice(0, 3).forEach(cb => cb.checked = true);
-
-                    // === UX: abre as caixinhas automaticamente no Modo Nimb ===
-                    const donsFold = container.querySelector('#dons-container')?.closest('details');
-                    const presentesFold = container.querySelector('#presentes-container')?.closest('details');
-                    if (donsFold) donsFold.open = true;
-                    if (presentesFold) presentesFold.open = true;
-
-                    // Mostra sub-seletores se os respectivos presentes foram escolhidos
-                    container.querySelector('#presAfinidade-sub')?.classList.toggle(
-                        'hidden',
-                        !container.querySelector('#presAfinidade')?.checked
-                    );
-
-                    container.querySelector('#presMaldicao-sub')?.classList.toggle(
-                        'hidden',
-                        !container.querySelector('#presMaldicao')?.checked
-                    );
-
-
-                    container.querySelectorAll('select, input, button').forEach(el => {
-                        if (el.id !== 'presAfinidade-sub' && el.id !== 'presMaldicao-sub') {
-                            el.disabled = true;
-                        }
-                    });
-
-                    document.getElementById('presAfinidade-sub').classList.toggle('hidden', !document.getElementById('presAfinidade').checked);
-                    document.getElementById('presMaldicao-sub').classList.toggle('hidden', !document.getElementById('presMaldicao').checked);
-
-                    alert("Por sua ousadia, você recebe +2 PM!");
-                    updateDuendeAttributes();
-                });
-
-                container.querySelectorAll('input[name="don"]').forEach(cb => cb.addEventListener('change', () => {
-                    if (container.querySelectorAll('input[name="don"]:checked').length > 2) {
-                        alert('Máximo de 2 Dons!');
-                        cb.checked = false;
-                    }
-                }));
-                container.querySelectorAll('input[name="presente"]').forEach(cb => cb.addEventListener('change', () => {
-                    if (container.querySelectorAll('input[name="presente"]:checked').length > 3) {
-                        alert('Máximo de 3 Presentes!');
-                        cb.checked = false;
-                    }
-                }));
-            },
-            calculateAttributes: () => {
-                const attrs = { forca: 0, destreza: 0, constituicao: 0, inteligencia: 0, sabedoria: 0, carisma: 0 };
-                const tamanho = document.getElementById('duende-tamanho')?.value;
-                if (tamanho === 'Minúsculo') attrs.forca -= 1;
-                if (tamanho === 'Grande') attrs.destreza -= 1;
-                document.querySelectorAll('input[name="don"]:checked').forEach(cb => {
-                    const attrName = cb.id.replace('don', '').toLowerCase();
-                    if (attrs.hasOwnProperty(attrName)) attrs[attrName] += 1;
-                });
-
-                const naturezaKey = document.getElementById('duende-natureza')?.value;
-                const naturezaData = RACE_DATA.duende.natureData[naturezaKey];
-
-                document.getElementById('attribute-table').style.background = `url('${naturezaData.imageUrl}') no-repeat center center`;
-                document.getElementById('attribute-table').style.backgroundSize = "75% auto";
-
-                const donsNomes = Array.from(document.querySelectorAll('input[name="don"]:checked')).map(cb => cb.nextElementSibling.textContent);
-                const presentesNomes = Array.from(document.querySelectorAll('input[name="presente"]:checked')).map(cb => {
-                    let text = cb.nextElementSibling.textContent;
-                    const subSelector = document.getElementById(`${cb.id}-sub`);
-                    if (subSelector && !subSelector.classList.contains('hidden')) {
-                        text += ` (${subSelector.value})`;
-                    }
-                    return text;
-                });
-
-                document.getElementById('bonusMessage').innerHTML = `
-            Natureza: ${naturezaKey}, Tamanho: ${tamanho}<br>
-            ${naturezaData.bonusText ? `${naturezaData.bonusText}<br>` : ''}
-            ${donsNomes.length > 0 ? `Dons: ${donsNomes.join(', ')}<br>` : ''}
-            ${presentesNomes.length > 0 ? `Presentes: ${presentesNomes.join(', ')}<br>` : ''}
-            Aversão a Ferro, Aversão a Sinos, Tabu
-        `;
-                return {
-                    baseAttributes: attrs,
-                    isChoice: naturezaData.isChoice,
-                    choiceCount: naturezaData.choiceCount || 0,
-                    maxChoicePerAttribute: naturezaData.maxChoicePerAttribute || 0
-                };
-            }
-        },
-        'eiradaan': {
-            name: 'Eiradaan (Herois de Arton)',
-            type: 'DHracas',
-            attributes: { "sabedoria": 2, "carisma": 1, "forca": -1 },
-            bonusMessage: "Sabedoria +2, Carisma +1, Força -1<br>Essência Feérica<br>Magia Instintiva<br>Sentidos Místicos<br>Canção da Melancolia",
-            isChoice: false,
-            imageUrl: "https://gamingyeeter.com/wp-content/uploads/2021/11/giphy-2.gif"
-        },
-        'galokk': {
-            name: 'Galokk (Herois de Arton)',
-            type: 'DHracas',
-            attributes: { "forca": 1, "constituicao": 1, "carisma": -1 },
-            bonusMessage: "Força +1, Constituição +1, +1 em um Atributo, Carisma -1<br>Força dos Titãs<br>Meio-Gigante<br>Infância Entre os Pequenos",
-            isChoice: true,
-            choiceCount: 1,
-            maxChoicePerAttribute: 1,
-            imageUrl: "https://i.imgur.com/a4iUv3x.gif"
-        },
-        'halfelf_herois': {
-            name: 'Meio-Elfo (Herois de Arton)',
-            type: 'DHracas',
-            attributes: { "inteligencia": 1 },
-            bonusMessage: "Inteligência +1, +1 em dois atributos (exceto Constituição)<br>Ambição Herdada<br>Entre Dois Mundos<br>Sangue Élfico",
-            isChoice: true,
-            choiceCount: 2,
-            maxChoicePerAttribute: 1,
-            lockedChoiceAttributes: ['constituicao'],
-            imageUrl: "https://i.pinimg.com/originals/ce/d5/36/ced536ade0d16ff1e3b15e5ed1ca7247.gif"
-        },
-        'satiro': {
-            name: 'Sátiro (Herois de Arton)',
-            type: 'DHracas',
-            attributes: { "carisma": 2, "destreza": 1, "sabedoria": -1 },
-            bonusMessage: "Carisma +2, Destreza +1, Sabedoria -1<br>Marrada<br>Festeiro Feérico<br>Instrumentista Mágico<br>Pernas Caprinas",
-            isChoice: false,
-            imageUrl: "https://i.imgur.com/NnVps2O.gif"
-        },
-        'nailanandora': {
-            name: 'Nailanandora (Duelo de Dragões)',
-            type: 'outraRaca',
-            attributes: { "destreza": 2, "carisma": 1, "constituicao": -1 },
-            bonusMessage: "Destreza +2, Carisma +1, Constituição –1<br>Alma das Nuvens<br>Asas Emplumadas<br>Sentidos Élficos",
-            isChoice: false,
-            imageUrl: "https://i.pinimg.com/originals/50/75/71/5075710b2596ae9889349129c8c4144d.gif"
-        },
-    };
 
     const ATTRIBUTES = ['forca', 'destreza', 'constituicao', 'inteligencia', 'sabedoria', 'carisma'];
     const racaSelect = document.getElementById('raca');
     const attributeTableBody = document.querySelector('#attribute-table tbody');
-    const customUiContainer = document.getElementById('race-specific-options');
 
-    const configPanel = document.getElementById('opcoes');
-    const configButton = document.getElementById('config-button');
-    const closeConfigButton = document.getElementById('close-config-button');
-
-    makeDraggable(configPanel);
+    makeDraggable(document.getElementById('opcoes'));
 
     const togglePontos = document.getElementById('togglePontos');
     const pontosInput = document.getElementById('pontosInput');
@@ -1061,21 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const pontosDisponiveisSpan = document.getElementById('pontos_disponiveis');
     let basePoints = 10;
 
+    // Poderes atualmente visíveis (base + dinâmicos) — usado pelo export
+    let _currentRacialPowers = [];
 
+    // ── CONFIG: pontos editáveis ──────────────────────────────
     togglePontos.addEventListener('change', () => {
-        const isChecked = togglePontos.checked;
-        pontosInput.classList.toggle('hidden', !isChecked);
-        salvarPontosBtn.classList.toggle('hidden', !isChecked);
-        if (isChecked) {
-            pontosInput.value = basePoints;
-        }
+        const on = togglePontos.checked;
+        pontosInput.classList.toggle('hidden', !on);
+        salvarPontosBtn.classList.toggle('hidden', !on);
+        if (on) pontosInput.value = basePoints;
     });
 
     salvarPontosBtn.addEventListener('click', () => {
-        const novoValor = parseInt(pontosInput.value, 10);
-        if (!isNaN(novoValor) && novoValor >= 0) {
-            basePoints = novoValor;      // <- guarda o novo total base
-            updateAll();                 // <- recalcula pontos disponíveis com basePoints
+        const v = parseInt(pontosInput.value, 10);
+        if (!isNaN(v) && v >= 0) {
+            basePoints = v; updateAll();
             togglePontos.checked = false;
             pontosInput.classList.add('hidden');
             salvarPontosBtn.classList.add('hidden');
@@ -1085,501 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const toggleOutrosInput = document.getElementById('toggleOutrosInput');
-    toggleOutrosInput.addEventListener('change', () => {
-        const isChecked = toggleOutrosInput.checked;
-        const outrosCols = document.querySelectorAll('.outros-col');
-        outrosCols.forEach(col => col.classList.toggle('show', isChecked));
-        if (!isChecked) {
-            document.querySelectorAll('.attr-outros').forEach(input => input.value = 0);
-            updateAll();
-        }
+    // ── CONFIG: coluna "Outros" ───────────────────────────────
+    document.getElementById('toggleOutrosInput').addEventListener('change', (e) => {
+        document.querySelectorAll('.outros-col').forEach(col => col.classList.toggle('show', e.target.checked));
+        if (!e.target.checked) { document.querySelectorAll('.attr-outros').forEach(i => i.value = 0); updateAll(); }
     });
 
-    configButton.addEventListener('click', () => configPanel.style.display = 'block');
-    closeConfigButton.addEventListener('click', () => configPanel.style.display = 'none');
-
-    function populateRaceSelect() {
-        while (racaSelect.options.length > 1) { racaSelect.remove(1); }
-        for (const raceId in RACE_DATA) {
-            const race = RACE_DATA[raceId];
-            const option = document.createElement('option');
-            option.value = raceId;
-            option.textContent = race.name;
-            option.dataset.raceType = race.type;
-            racaSelect.appendChild(option);
-        }
-    }
-
-
-    const ICONS_ATRIBUTOS = {
-        'forca': 'imagens/forca.png',
-        'destreza': 'imagens/destreza.png',
-        'constituicao': 'imagens/constituicao.png',
-        'inteligencia': 'imagens/inteligencia.png',
-        'sabedoria': 'imagens/sabedoria.png',
-        'carisma': 'imagens/carisma.png'
-    };
-
-    // ***** ALTERAÇÃO 1: Função para validar o valor dentro dos limites (min/max) *****
-    function validateMinMax(input) {
-        // Permite que o campo fique temporariamente vazio ou com "-" enquanto o usuário digita
-        if (input.value === '' || input.value === '-') return;
-
-        let value = parseInt(input.value, 10);
-        // ALTERAÇÃO: Definimos os limites min e max diretamente no código
-        const min = -1;
-        const max = 4;
-
-        if (isNaN(value)) {
-            // Se o valor for inválido (ex: "abc"), reverte para o valor que tinha antes da edição
-            input.value = input.dataset.previousValue;
-        } else if (value < min) {
-            input.value = min;
-        } else if (value > max) {
-            input.value = max;
-        }
-    }
-
-    // ***** ALTERAÇÃO 2: Função para validar os pontos quando o usuário termina a edição *****
-    function validatePoints(event) {
-        const input = event.target;
-        let value = parseInt(input.value, 10);
-        const min = -1;
-        const max = 4;
-
-        // 1. Limpa e valida o valor digitado
-        // Se o valor não for um número (NaN) ou estiver vazio, reverte para o anterior.
-        if (isNaN(value) || input.value.trim() === '') {
-            input.value = input.dataset.previousValue;
-            flashInvalid(input);                        // <- ADICIONE ESTA LINHA
-
-        } else {
-            // Garante que o valor está entre -1 e 4
-            if (value < min) {
-                value = min;
-            } else if (value > max) {
-                value = max;
-            }
-            // Reescreve o valor limpo e validado de volta no campo.
-            // Isso corrige entradas como "0-1" para "0" ou "5" para "4".
-            input.value = value;
-        }
-
-        // 2. Verifica se a alteração deixou os pontos disponíveis negativos
-        if (calculateAvailablePoints() < 0) {
-            // Se sim, reverte para o valor que estava antes da edição
-            input.value = input.dataset.previousValue;
-            flashInvalid(input);                        // <- ADICIONE ESTA LINHA
-
-        }
-
-        // 3. Atualiza a interface com os valores corretos
-        updateAll();
-    }
-
-
-    function populateAttributeTable() {
-        attributeTableBody.innerHTML = '';
-        ATTRIBUTES.forEach(attr => {
-            const row = document.createElement('tr');
-            // ALTERAÇÃO: Adicionado o style para definir a largura e alinhar o texto
-            row.innerHTML = `
-        <td><img src="${ICONS_ATRIBUTOS[attr]}" alt="símbolo de ${attr}" height="40px" width="auto"></td>
-        <td style="font-weight: bold; font-size: 30px;">${attr.substring(0, 3).toUpperCase()}</td>
-        <td>
-  <div class="attr-stepper" data-attr="${attr}">
-    <button type="button" class="step-btn step-minus" aria-label="Diminuir ${attr}">-</button>
-    <input type="tel" id="${attr}" class="attr-base" value="0" inputmode="numeric">
-    <button type="button" class="step-btn step-plus" aria-label="Aumentar ${attr}">+</button>
-  </div>
-</td>
-
-        <td><input type="number" id="${attr}_racial" class="attr-racial" value="0" style="width: 75px;" readonly></td>
-        <td class="outros-col"><input type="number" id="${attr}_outros" class="attr-outros" value="0" style="width: 75px;"></td>
-        <td id="total_${attr}" class="total-col">0</td>
-    `;
-            attributeTableBody.appendChild(row);
-
-            const baseAttrInput = row.querySelector(`#${attr}`);
-            const outrosAttrInput = row.querySelector(`#${attr}_outros`);
-            const minusBtn = row.querySelector('.step-minus');
-            const plusBtn = row.querySelector('.step-plus');
-
-            const nudge = (delta) => {
-                // salva o valor anterior pro validatePoints poder reverter se estourar pontos
-                baseAttrInput.dataset.previousValue = baseAttrInput.value;
-
-                // aplica delta
-                const current = parseInt(baseAttrInput.value || '0', 10);
-                baseAttrInput.value = String((isNaN(current) ? 0 : current) + delta);
-
-                // usa sua validação padrão (min/max e pontos)
-                validatePoints({ target: baseAttrInput });
-            };
-
-            minusBtn.addEventListener('click', () => nudge(-1));
-            plusBtn.addEventListener('click', () => nudge(+1));
-
-            baseAttrInput.addEventListener('focusin', (e) => {
-                e.target.dataset.previousValue = e.target.value;
-            });
-
-            baseAttrInput.addEventListener('input', (e) => validateMinMax(e.target));
-
-            baseAttrInput.addEventListener('change', validatePoints);
-
-            outrosAttrInput.addEventListener('change', updateAll);
-        });
-    }
-
-    function updateAll() {
-        updateTotals();
-        updateAvailablePoints();
-    }
-
-    function updateTotals() {
-        ATTRIBUTES.forEach(attr => {
-            const baseValue = parseInt(document.getElementById(attr).value) || 0;
-            const racialValue = parseInt(document.getElementById(`${attr}_racial`).value) || 0;
-            const outrosValue = parseInt(document.getElementById(`${attr}_outros`).value) || 0;
-            document.getElementById(`total_${attr}`).textContent = baseValue + racialValue + outrosValue;
-        });
-    }
-
-    function calculateAvailablePoints() {
-        const costTable = { '-1': -1, '0': 0, '1': 1, '2': 2, '3': 4, '4': 7 };
-        let totalCost = 0;
-        ATTRIBUTES.forEach(attr => {
-            const valor = parseInt(document.getElementById(attr).value);
-            if (!isNaN(valor)) { // Adicionado para segurança
-                totalCost += costTable[valor] || 0;
-            }
-        });
-        const pontosIniciais = togglePontos.checked
-            ? (parseInt(pontosInput.value, 10) || basePoints)
-            : basePoints;
-
-        return pontosIniciais - totalCost;
-    }
-
-    function getPointUsage() {
-        const costTable = { '-1': -1, '0': 0, '1': 1, '2': 2, '3': 4, '4': 7 };
-
-        let spent = 0;
-        ATTRIBUTES.forEach(attr => {
-            const v = parseInt(document.getElementById(attr).value, 10);
-            if (!isNaN(v)) spent += (costTable[v] ?? 0);
-        });
-
-        const base = togglePontos.checked
-            ? (parseInt(pontosInput.value, 10) || basePoints)
-            : basePoints;
-
-        return {
-            base,
-            spent,
-            available: base - spent
-        };
-    }
-
-
-    function updateAvailablePoints() {
-        const { base, spent, available } = getPointUsage();
-
-        // disponíveis (badge principal)
-        pontosDisponiveisSpan.textContent = available;
-        pontosDisponiveisSpan.style.color = available < 0 ? "red" : "black";
-
-        // total e gastos (novos badges)
-        const totalEl = document.getElementById('pontos_total');
-        const gastosEl = document.getElementById('pontos_gastos');
-
-        if (totalEl) totalEl.textContent = base;
-        if (gastosEl) gastosEl.textContent = spent; 4
-
-        if (pontosAtuais < 0) {
-            pontosDisponiveisSpan.classList.remove('points-pulse');
-            void pontosDisponiveisSpan.offsetWidth;
-            pontosDisponiveisSpan.classList.add('points-pulse');
-        }
-
-    }
-
-    function flashInvalid(el) {
-        if (!el) return;
-        el.classList.remove('flash-invalid'); // reinicia a animação se repetir rápido
-        void el.offsetWidth;                  // força reflow pra replay
-        el.classList.add('flash-invalid');
-        setTimeout(() => el.classList.remove('flash-invalid'), 700);
-    }
-
-
-    function applyRaceAttributes(attrs, isChoice, choiceCount, lockedAttrs = [], maxPerAttr = 1) {
-        const racialInputs = document.querySelectorAll('input.attr-racial');
-        racialInputs.forEach(input => {
-            const newEl = input.cloneNode(true);
-            input.parentNode.replaceChild(newEl, input);
-            const attrName = newEl.id.replace('_racial', '');
-            const baseValue = attrs[attrName] || 0;
-            newEl.value = baseValue;
-            newEl.readOnly = true;
-            newEl.disabled = true;
-            newEl.min = '';
-            newEl.max = '';
-        });
-
-        const editableInputs = document.querySelectorAll('input.attr-racial');
-        if (isChoice) {
-            editableInputs.forEach(input => {
-                const attrName = input.id.replace('_racial', '');
-                const baseValue = attrs[attrName] || 0;
-                if (lockedAttrs && lockedAttrs.includes(attrName)) {
-                    return;
-                }
-                input.disabled = false;
-                input.readOnly = false;
-                input.min = baseValue; // min já estava sendo definido
-                input.max = baseValue + maxPerAttr; // max já estava sendo definido
-
-                // Salva o valor anterior ao focar
-                input.addEventListener('focusin', (e) => {
-                    e.target.dataset.previousValue = e.target.value;
-                });
-
-                // Substitua o 'input.addEventListener('change', ...)' existente por este:
-                input.addEventListener('change', (e) => {
-                    const input = e.target;
-                    const min = parseInt(input.min, 10);
-                    const max = parseInt(input.max, 10);
-                    let value = parseInt(input.value, 10);
-
-                    // 1. Validar o valor individual do campo (contra min/max e NaN)
-                    // Se o valor for inválido (vazio) ou abaixo do mínimo, força o mínimo.
-                    if (isNaN(value) || value < min) {
-                        value = min;
-                    } else if (value > max) {
-                        // Se estiver acima do máximo, força o máximo.
-                        value = max;
-                    }
-                    input.value = value; // Corrige o valor no campo
-
-                    // 2. Validar o total de pontos distribuídos
-                    let totalPointsSpent = 0;
-                    editableInputs.forEach(inp => {
-                        const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                        let inpValue = parseInt(inp.value, 10);
-                        if (isNaN(inpValue)) inpValue = parseInt(inp.min, 10); // Fallback para o mínimo
-
-                        totalPointsSpent += (inpValue - currentBase);
-                    });
-
-                    if (totalPointsSpent > choiceCount) {
-                        alert(`Você só pode distribuir ${choiceCount} pontos!`);
-                        // Reverte para o valor anterior
-                        input.value = input.dataset.previousValue || min;
-
-                        // Recalcula o total (necessário para a lógica de desabilitar)
-                        totalPointsSpent = 0;
-                        editableInputs.forEach(inp => {
-                            const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                            let inpValue = parseInt(inp.value, 10);
-                            if (isNaN(inpValue)) inpValue = parseInt(inp.min, 10);
-                            totalPointsSpent += (inpValue - currentBase);
-                        });
-                    } else {
-                        // Se o valor for válido, atualiza o "previousValue"
-                        input.dataset.previousValue = input.value;
-                    }
-
-                    // 3. Lógica de desabilitar/habilitar (existente)
-                    editableInputs.forEach(inp => {
-                        if (lockedAttrs && lockedAttrs.includes(inp.id.replace('_racial', ''))) {
-                            inp.disabled = true;
-                            return;
-                        }
-                        const currentBase = attrs[inp.id.replace('_racial', '')] || 0;
-                        const isAtBase = (parseInt(inp.value) || 0) === currentBase;
-                        inp.disabled = (totalPointsSpent >= choiceCount && isAtBase);
-                    });
-
-                    updateAll();
-                });
-            });
-        } else {
-            editableInputs.forEach(input => {
-                const attrName = input.id.replace('_racial', '');
-                if (attrs[attrName] !== undefined) {
-                    input.disabled = false;
-                }
-            });
-        }
-    }
-
-    function handleRaceChange() {
-        const raceId = racaSelect.value;
-        const race = RACE_DATA[raceId];
-        const customUiContainer = document.getElementById('race-specific-options');
-        customUiContainer.innerHTML = '';
-        document.getElementById('bonusMessage').innerHTML = '';
-        document.getElementById('attribute-table').style.background = '';
-
-        if (!race || raceId === 'outros') {
-            applyRaceAttributes({}, false, 0);
-            updateAll();
-            return;
-        }
-
-        document.getElementById('bonusMessage').innerHTML = race.bonusMessage || '';
-        document.getElementById('attribute-table').style.background = race.imageUrl ? `url('${race.imageUrl}') no-repeat center center` : "";
-        document.getElementById('attribute-table').style.backgroundSize = "75% auto";
-
-        if (race.createCustomUi) {
-            race.createCustomUi(customUiContainer);
-        }
-
-        const updateFunction = window[`update${raceId.charAt(0).toUpperCase() + raceId.slice(1)}Attributes`];
-        if (typeof updateFunction === 'function') {
-            updateFunction();
-        } else {
-            applyRaceAttributes(race.attributes, race.isChoice, race.choiceCount, race.lockedChoiceAttributes, race.maxChoicePerAttribute);
-        }
-        updateAll();
-    }
-
-    function createSuragelUi(container) {
-        const herancaOptions = Object.keys(SURAGEL_HERANCAS).map(key =>
-            `<option value="${key}">${key}</option>`
-        ).join('');
-
-        container.innerHTML = `
-        <div class="checklist" style="margin-top:10px">
-            <label class="check">
-            <input type="checkbox" id="suragel-variante">
-            <span>Suragel Variante (Deuses de Arton)</span>
-            </label>
-        </div>
-
-        <div id="suragel-heranca-container" class="hidden mt-2">
-            <label class="field-label" for="suragel-heranca" style="display:block;margin:8px 0 6px">
-            <span class="section-title" style="font-size:18px">Herança</span>
-            </label>
-            <select id="suragel-heranca">
-            ${herancaOptions}
-            </select>
-        </div><br>
-        `;
-        container.querySelector('#suragel-variante').addEventListener('change', updateSuragelAttributes);
-        container.querySelector('#suragel-heranca').addEventListener('change', updateSuragelAttributes);
-    }
-
-    function updateAggelusAttributes() {
-        updateSuragelAttributes();
-    }
-
-    function updateSulfureAttributes() {
-        updateSuragelAttributes();
-    }
-
-    function updateSuragelAttributes() {
-        const raceId = racaSelect.value;
-        const race = RACE_DATA[raceId];
-        if (raceId !== 'aggelus' && raceId !== 'sulfure') return;
-
-        const isVariante = document.getElementById('suragel-variante')?.checked;
-        const herancaContainer = document.getElementById('suragel-heranca-container');
-        herancaContainer.classList.toggle('hidden', !isVariante);
-
-        let currentAttrs = { ...race.attributes };
-        let bonusMessage = race.bonusMessage;
-        let finalMessage = "";
-
-        // Pega as duas primeiras linhas da mensagem base (atributos e Herança Divina)
-        const baseLines = bonusMessage.split('<br>').slice(0, 2).join('<br>');
-
-        if (isVariante) {
-            const herancaKey = document.getElementById('suragel-heranca')?.value;
-            const herancaData = SURAGEL_HERANCAS[herancaKey];
-
-            finalMessage = `${baseLines}<br>${herancaData.description}`;
-
-            // Aplica a ação da herança, se houver
-            if (herancaData.action) {
-                currentAttrs = herancaData.action(currentAttrs);
-            }
-
-        } else {
-            finalMessage = bonusMessage; // Usa a mensagem original completa
-        }
-
-        document.getElementById('bonusMessage').innerHTML = finalMessage;
-        applyRaceAttributes(currentAttrs, race.isChoice, race.choiceCount, race.lockedChoiceAttributes, race.maxChoicePerAttribute);
-        updateAll();
-    }
-
-    function updateGolemAttributes() {
-        const race = RACE_DATA.golem;
-        if (!race || !race.calculateAttributes) return;
-        const result = race.calculateAttributes();
-        applyRaceAttributes(result.baseAttributes, result.isChoice, result.choiceCount, [], result.maxChoicePerAttribute);
-        updateAll();
-    }
-
-    function updateAberrantAttributes() {
-        const race = RACE_DATA.aberrant;
-        if (!race || !race.calculateAttributes) return;
-        const result = race.calculateAttributes();
-        applyRaceAttributes(result.baseAttributes, result.isChoice, result.choiceCount);
-        updateAll();
-    }
-
-    function updateKoboldAttributes() {
-        const race = RACE_DATA.kobold;
-        if (!race || !race.calculateAttributes) return;
-        race.calculateAttributes();
-        updateAll();
-    }
-
-    function updateMoreauAttributes() {
-        const race = RACE_DATA.moreau;
-        if (!race || !race.calculateAttributes) return;
-        const result = race.calculateAttributes();
-        applyRaceAttributes(result.baseAttributes, result.isChoice, result.choiceCount, [], result.maxChoicePerAttribute);
-        updateAll();
-    }
-
-    function updateDuendeAttributes() {
-        const race = RACE_DATA.duende;
-        if (!race || !race.calculateAttributes) return;
-        const result = race.calculateAttributes();
-        applyRaceAttributes(result.baseAttributes, result.isChoice, result.choiceCount, [], result.maxChoicePerAttribute);
-        updateAll();
-    }
-
-    function handleFilterChange() {
-        const selectedTypes = new Set();
-        document.querySelectorAll('.race-filter:checked').forEach(cb => selectedTypes.add(cb.dataset.raceType));
-        Array.from(racaSelect.options).forEach(option => {
-            if (option.value === 'outros') {
-                option.style.display = 'block';
-                return;
-            }
-            const raceData = RACE_DATA[option.value];
-            if (raceData) {
-                if (raceData.type === 'base' || selectedTypes.has(raceData.type)) {
-                    option.style.display = 'block';
-                } else {
-                    option.style.display = 'none';
-                }
-            }
-        });
-        const currentRaceData = RACE_DATA[racaSelect.value];
-        if (currentRaceData && racaSelect.options[racaSelect.selectedIndex].style.display === 'none') {
-            racaSelect.value = 'outros';
-            handleRaceChange();
-        }
-    }
-
+    // ── CONFIG: modal ─────────────────────────────────────────
     document.getElementById('config-button').addEventListener('click', () => {
         document.getElementById('configOverlay').classList.add('active');
         document.getElementById('configModal').classList.add('active');
@@ -1593,175 +61,531 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('configModal').classList.remove('active');
         document.getElementById('configModal').setAttribute('aria-hidden', 'true');
     }
-    document.getElementById('reset-button').addEventListener('click', () => {
-        smartReset();
-    });
 
-    function smartReset() {
-        // Fecha modal se estiver aberto
-        try { closeConfigModal(); } catch (e) { }
-
-        // 1) Volta pra raça "Outros"
-        racaSelect.value = 'outros';
-
-        // 2) Limpa opções específicas da raça (checkboxes/selects dinâmicos)
-        const raceBox = document.getElementById('race-specific-options');
-        if (raceBox) raceBox.innerHTML = '';
-
-        // 3) Limpa mensagem e deixa o handleRaceChange repopular do jeito padrão
-        const bonusEl = document.getElementById('bonusMessage');
-        if (bonusEl) bonusEl.innerHTML = '';
-
-        // 4) Zera inputs de atributos base (mantém a tabela, só reseta valores)
-        document.querySelectorAll('.attr-base').forEach(inp => {
-            inp.dataset.previousValue = inp.value;
-            inp.value = 0;
-        });
-
-        // 5) Reseta UI de pontos editáveis (mantém basePoints que você configurou)
-        if (typeof basePoints !== 'undefined') {
-            pontosInput.value = basePoints;
+    // ── POPULAR SELETOR ───────────────────────────────────────
+    function populateRaceSelect() {
+        while (racaSelect.options.length > 1) racaSelect.remove(1);
+        for (const raceId in RACE_DATA) {
+            const race = RACE_DATA[raceId];
+            const opt = document.createElement('option');
+            opt.value = raceId;
+            opt.textContent = race.name;
+            opt.dataset.raceType = race.type;
+            racaSelect.appendChild(opt);
         }
-        togglePontos.checked = false;
-        pontosInput.classList.add('hidden');
-        salvarPontosBtn.classList.add('hidden');
+    }
 
-        // 6) Se existir prompt gerado, limpa também (opcional, mas costuma ser esperado)
-        const promptGerado = document.getElementById('promptGerado');
-        if (promptGerado) promptGerado.textContent = '';
+    // ── TABELA ───────────────────────────────────────────────
+    const ICONS = { forca: 'imagens/forca.png', destreza: 'imagens/destreza.png', constituicao: 'imagens/constituicao.png', inteligencia: 'imagens/inteligencia.png', sabedoria: 'imagens/sabedoria.png', carisma: 'imagens/carisma.png' };
 
-        // 7) Recalcula tudo
-        handleRaceChange();
+    function populateAttributeTable() {
+        attributeTableBody.innerHTML = '';
+        ATTRIBUTES.forEach(attr => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+        <td><img src="${ICONS[attr]}" alt="${attr}" height="40px" width="auto"></td>
+        <td style="font-weight:bold;font-size:30px;">${attr.substring(0, 3).toUpperCase()}</td>
+        <td>
+          <div class="attr-stepper" data-attr="${attr}">
+            <button type="button" class="step-btn step-minus">-</button>
+            <input type="tel" id="${attr}" class="attr-base" value="0" inputmode="numeric">
+            <button type="button" class="step-btn step-plus">+</button>
+          </div>
+        </td>
+        <td><input type="number" id="${attr}_racial" class="attr-racial" value="0" style="width:75px;" readonly></td>
+        <td class="outros-col"><input type="number" id="${attr}_outros" class="attr-outros" value="0" style="width:75px;"></td>
+        <td id="total_${attr}" class="total-col">0</td>`;
+            attributeTableBody.appendChild(row);
+
+            const base = row.querySelector(`#${attr}`);
+            const outros = row.querySelector(`#${attr}_outros`);
+            const nudge = (d) => { base.dataset.previousValue = base.value; base.value = String((parseInt(base.value || '0', 10) || 0) + d); validatePoints({ target: base }); };
+            row.querySelector('.step-minus').addEventListener('click', () => nudge(-1));
+            row.querySelector('.step-plus').addEventListener('click', () => nudge(+1));
+            base.addEventListener('focusin', (e) => { e.target.dataset.previousValue = e.target.value; });
+            base.addEventListener('input', (e) => validateMinMax(e.target));
+            base.addEventListener('change', validatePoints);
+            outros.addEventListener('change', updateAll);
+        });
+    }
+
+    // ── VALIDAÇÃO ─────────────────────────────────────────────
+    function validateMinMax(input) {
+        if (input.value === '' || input.value === '-') return;
+        const v = parseInt(input.value, 10);
+        if (isNaN(v)) input.value = input.dataset.previousValue;
+        else if (v < -1) input.value = -1;
+        else if (v > 4) input.value = 4;
+    }
+
+    function validatePoints(event) {
+        const input = event.target;
+        let v = parseInt(input.value, 10);
+        if (isNaN(v) || input.value.trim() === '') { input.value = input.dataset.previousValue; flashInvalid(input); }
+        else { v = Math.max(-1, Math.min(4, v)); input.value = v; }
+        if (calculateAvailablePoints() < 0) { input.value = input.dataset.previousValue; flashInvalid(input); }
         updateAll();
     }
 
+    function flashInvalid(el) {
+        if (!el) return;
+        el.classList.remove('flash-invalid'); void el.offsetWidth; el.classList.add('flash-invalid');
+        setTimeout(() => el.classList.remove('flash-invalid'), 700);
+    }
 
-    document.querySelectorAll('.race-filter').forEach(checkbox => {
-        checkbox.addEventListener('change', handleFilterChange);
-    });
-    racaSelect.addEventListener('change', handleRaceChange);
+    // ── PONTOS ────────────────────────────────────────────────
+    const costTable = { '-1': -1, '0': 0, '1': 1, '2': 2, '3': 4, '4': 7 };
 
+    function calculateAvailablePoints() {
+        let cost = 0;
+        ATTRIBUTES.forEach(attr => { const v = parseInt(document.getElementById(attr).value); if (!isNaN(v)) cost += costTable[v] || 0; });
+        return (togglePontos.checked ? (parseInt(pontosInput.value, 10) || basePoints) : basePoints) - cost;
+    }
+
+    function getPointUsage() {
+        let spent = 0;
+        ATTRIBUTES.forEach(attr => { const v = parseInt(document.getElementById(attr).value, 10); if (!isNaN(v)) spent += costTable[v] ?? 0; });
+        const base = togglePontos.checked ? (parseInt(pontosInput.value, 10) || basePoints) : basePoints;
+        return { base, spent, available: base - spent };
+    }
+
+    function updateAll() { updateTotals(); updateAvailablePoints(); }
+
+    function updateTotals() {
+        ATTRIBUTES.forEach(attr => {
+            const b = parseInt(document.getElementById(attr).value) || 0;
+            const r = parseInt(document.getElementById(`${attr}_racial`).value) || 0;
+            const o = parseInt(document.getElementById(`${attr}_outros`).value) || 0;
+            document.getElementById(`total_${attr}`).textContent = b + r + o;
+        });
+    }
+
+    function updateAvailablePoints() {
+        const { base, spent, available } = getPointUsage();
+        pontosDisponiveisSpan.textContent = available;
+        pontosDisponiveisSpan.style.color = available < 0 ? 'red' : 'black';
+        const te = document.getElementById('pontos_total');
+        const ge = document.getElementById('pontos_gastos');
+        if (te) te.textContent = base;
+        if (ge) ge.textContent = spent;
+        if (available < 0) { pontosDisponiveisSpan.classList.remove('points-pulse'); void pontosDisponiveisSpan.offsetWidth; pontosDisponiveisSpan.classList.add('points-pulse'); }
+    }
+
+    // ── APLICAR ATRIBUTOS RACIAIS ─────────────────────────────
+    function applyRaceAttributes(attrs, isChoice, choiceCount, lockedAttrs = [], maxPerAttr = 1) {
+        // 1. Reseta e limpa todos os inputs raciais antes de aplicar a nova raça
+        document.querySelectorAll('input.attr-racial').forEach(input => {
+            const newEl = input.cloneNode(true);
+            input.parentNode.replaceChild(newEl, input);
+            const attrName = newEl.id.replace('_racial', '');
+
+            newEl.value = attrs[attrName] || 0;
+            newEl.readOnly = true;
+            newEl.disabled = true;
+            newEl.classList.remove('disabled'); // Limpa classe de bloqueio
+            newEl.min = '';
+            newEl.max = '';
+        });
+
+        if (!isChoice) return;
+
+        const editables = document.querySelectorAll('input.attr-racial');
+
+        editables.forEach(input => {
+            const attrName = input.id.replace('_racial', '');
+
+            // Se o atributo for travado (como o Carisma do Yidishan/Meio-Elfo), ignora
+            if (lockedAttrs.includes(attrName)) return;
+
+            const baseValRaca = attrs[attrName] || 0;
+            input.disabled = false;
+            input.readOnly = false;
+            input.min = String(baseValRaca);
+            input.max = String(baseValRaca + maxPerAttr);
+
+            // Armazena valor para validação de estouro de pontos
+            input.addEventListener('focusin', e => {
+                e.target.dataset.previousValue = e.target.value;
+            });
+
+            input.addEventListener('change', e => {
+                const inp = e.target;
+                const min = parseInt(inp.min, 10), max = parseInt(inp.max, 10);
+                let v = parseInt(inp.value, 10);
+
+                // Validação de limites individuais do input
+                if (isNaN(v) || v < min) v = min;
+                else if (v > max) v = max;
+                inp.value = v;
+
+                // Cálculo de quantos pontos foram distribuídos no total
+                let totalSpent = 0;
+                editables.forEach(i => {
+                    const attrKey = i.id.replace('_racial', '');
+                    const valorBaseOriginal = attrs[attrKey] || 0;
+                    let valorAtual = parseInt(i.value, 10);
+                    if (isNaN(valorAtual)) valorAtual = valorBaseOriginal;
+                    totalSpent += (valorAtual - valorBaseOriginal);
+                });
+
+                // Se estourar o limite de pontos da raça
+                if (totalSpent > choiceCount) {
+                    alert(`Você só pode distribuir ${choiceCount} pontos!`);
+                    inp.value = inp.dataset.previousValue || min;
+
+                    // Recalcula o total gasto após o "rollback"
+                    totalSpent = 0;
+                    editables.forEach(i => {
+                        const attrKey = i.id.replace('_racial', '');
+                        const vBase = attrs[attrKey] || 0;
+                        totalSpent += (parseInt(i.value, 10) - vBase);
+                    });
+                } else {
+                    inp.dataset.previousValue = inp.value;
+                }
+
+                // --- LÓGICA DE FEEDBACK VISUAL (CAIXAS CINZAS) ---
+                editables.forEach(i => {
+                    const currentAttr = i.id.replace('_racial', '');
+                    if (lockedAttrs.includes(currentAttr)) return;
+
+                    const vBaseOriginal = attrs[currentAttr] || 0;
+                    const vAtual = parseInt(i.value, 10) || 0;
+
+                    if (totalSpent >= choiceCount) {
+                        // Se pontos acabaram e este campo está zerado/base, desabilita e fica cinza
+                        if (vAtual === vBaseOriginal) {
+                            i.classList.add('disabled');
+                            i.disabled = true;
+                        } else {
+                            // Se tem ponto aqui, mantém habilitado para permitir reduzir
+                            i.classList.remove('disabled');
+                            i.disabled = false;
+                        }
+                    } else {
+                        // Se ainda tem pontos, libera todos os campos editáveis
+                        i.classList.remove('disabled');
+                        i.disabled = false;
+                    }
+                });
+
+                updateAll(); // Atualiza os totais da tabela e pontos de compra
+            });
+        });
+    }
+
+    // ── RENDERIZAR PODERES RACIAIS (sanfona) ──────────────────
+    // race.racialPowers = poderes base (fixos)
+    // dynamicPowers = poderes das seleções do usuário (Golem, Aberrante, etc.)
+    function renderRacialPowers(race, dynamicPowers = []) {
+        const list = document.getElementById('racial-powers-list');
+        if (!list) return;
+        list.innerHTML = '';
+        const all = [...(race?.racialPowers || []), ...dynamicPowers];
+        _currentRacialPowers = all; // guarda para export
+
+        all.forEach(power => {
+            if (power.desc && power.desc.trim() !== '') {
+                const d = document.createElement('details');
+                d.className = 'fold';
+                d.innerHTML = `<summary class="fold-summary">${power.name}<span class="fold-hint">ver descrição</span></summary><div class="fold-body">${power.desc}</div>`;
+                list.appendChild(d);
+            } else {
+                const p = document.createElement('p');
+                p.className = 'racial-power-name';
+                p.textContent = power.name;
+                list.appendChild(p);
+            }
+        });
+    }
+
+    // ── TROCA DE RAÇA ─────────────────────────────────────────
+    function handleRaceChange() {
+        const raceId = racaSelect.value;
+        const race = RACE_DATA[raceId];
+        const customUI = document.getElementById('race-specific-options');
+        customUI.innerHTML = '';
+        document.getElementById('bonusMessage').innerHTML = '';
+        document.getElementById('attribute-table').style.background = '';
+        document.getElementById('racial-powers-list').innerHTML = '';
+        _currentRacialPowers = [];
+
+        if (!race || raceId === 'outros') { applyRaceAttributes({}, false, 0); updateAll(); return; }
+
+        // bonusMessage mostra APENAS bônus de atributos
+        document.getElementById('bonusMessage').innerHTML = race.bonusMessage || '';
+        if (race.imageUrl) {
+            document.getElementById('attribute-table').style.background = `url('${race.imageUrl}') no-repeat center center`;
+            document.getElementById('attribute-table').style.backgroundSize = '75% auto';
+        }
+
+        if (race.createCustomUi) race.createCustomUi(customUI);
+
+        const updateFn = window[`update${raceId.charAt(0).toUpperCase() + raceId.slice(1)}Attributes`];
+        if (typeof updateFn === 'function') {
+            updateFn();
+        } else {
+            applyRaceAttributes(race.attributes, race.isChoice, race.choiceCount, race.lockedChoiceAttributes, race.maxChoicePerAttribute);
+            renderRacialPowers(race);
+        }
+        updateAll();
+    }
+
+    // ── SURAGEL ───────────────────────────────────────────────
+    function createSuragelUi(container) {
+        const herancaOptions = Object.keys(SURAGEL_HERANCAS).map(k => `<option value="${k}">${k}</option>`).join('');
+        container.innerHTML = `
+        <div class="checklist" style="margin-top:10px">
+            <label class="check"><input type="checkbox" id="suragel-variante"><span>Suragel Variante (Deuses de Arton)</span></label>
+        </div>
+        <div id="suragel-heranca-container" class="hidden mt-2">
+            <label class="field-label" for="suragel-heranca" style="display:block;margin:8px 0 6px">
+                <span class="section-title" style="font-size:18px">Herança</span>
+            </label>
+            <select id="suragel-heranca">${herancaOptions}</select>
+        </div><br>`;
+        container.querySelector('#suragel-variante').addEventListener('change', updateSuragelAttributes);
+        container.querySelector('#suragel-heranca').addEventListener('change', updateSuragelAttributes);
+    }
+
+    function updateAggelusAttributes() { updateSuragelAttributes(); }
+    function updateSulfureAttributes() { updateSuragelAttributes(); }
+
+    function updateSuragelAttributes() {
+        const raceId = racaSelect.value;
+        const race = RACE_DATA[raceId];
+        if (raceId !== 'aggelus' && raceId !== 'sulfure') return;
+
+        const isVariante = document.getElementById('suragel-variante')?.checked;
+        document.getElementById('suragel-heranca-container').classList.toggle('hidden', !isVariante);
+
+        let currentAttrs = { ...race.attributes };
+        document.getElementById('bonusMessage').innerHTML = race.bonusMessage || '';
+
+        // Filtragem de Poderes
+        let basePowers = [...race.racialPowers];
+        const dynamicPowers = [];
+
+        if (isVariante) {
+            // Se for variante, removemos Luz Sagrada ou Sombras Profanas da lista base
+            basePowers = basePowers.filter(p =>
+                p.name !== 'Luz Sagrada' && p.name !== 'Sombras Profanas'
+            );
+
+            const herancaKey = document.getElementById('suragel-heranca')?.value;
+            const herancaData = SURAGEL_HERANCAS[herancaKey];
+            if (herancaData) {
+                dynamicPowers.push({
+                    name: `Herança de ${herancaKey}`,
+                    desc: herancaData.description
+                });
+                if (herancaData.action) currentAttrs = herancaData.action(currentAttrs);
+            }
+        }
+
+        applyRaceAttributes(currentAttrs, race.isChoice, race.choiceCount, race.lockedChoiceAttributes, race.maxChoicePerAttribute);
+
+        // Criamos um objeto temporário para o renderizador com os poderes filtrados + a herança
+        const temporaryRaceData = {
+            ...race,
+            racialPowers: basePowers
+        };
+
+        renderRacialPowers(temporaryRaceData, dynamicPowers);
+        updateAll();
+    }
+
+    // ── UPDATE FUNÇÕES ─────────────────────────────────────────
+    function updateGolemAttributes() {
+        const raceId = racaSelect.value;
+        const race = RACE_DATA[raceId];
+        if (raceId !== 'golem') return;
+
+        // Capturamos todos os dados processados pelo calculateAttributes do Golem
+        const { baseAttributes, isChoice, choiceCount, maxChoicePerAttribute, selectedPowers } = race.calculateAttributes();
+
+        // 1. Aplicamos os atributos (isso cuida da tabela e dos inputs de escolha)
+        applyRaceAttributes(baseAttributes, isChoice, choiceCount, race.lockedChoiceAttributes, maxChoicePerAttribute);
+
+        // 2. Renderizamos os poderes (passamos o objeto da raça e a lista de poderes dinâmicos)
+        // O renderizador vai juntar os poderes fixos com os que o Golem "montou" agora
+        renderRacialPowers(race, selectedPowers);
+
+        // 3. Atualizamos o restante da UI
+        updateAll();
+    }
+
+    function updateAberrantAttributes() {
+        const race = RACE_DATA.aberrant;
+        if (!race?.calculateAttributes) return;
+        const r = race.calculateAttributes();
+        applyRaceAttributes(r.baseAttributes, r.isChoice, r.choiceCount);
+        renderRacialPowers(race, r.selectedPowers || []);
+        updateAll();
+    }
+
+    function updateKallyanachAttributes() {
+        const race = RACE_DATA.kallyanach;
+        // aplica atributos de escolha normalmente
+        applyRaceAttributes(race.attributes, race.isChoice, race.choiceCount, race.lockedChoiceAttributes, race.maxChoicePerAttribute);
+        // renderiza poderes dinâmicos pelo getter
+        renderRacialPowers(race, race.getSelectedPowers());
+        updateAll();
+    }
+
+    function updateKoboldAttributes() {
+        const race = RACE_DATA.kobold;
+        if (!race?.calculateAttributes) return;
+        const r = race.calculateAttributes();
+        // kobold não muda atributos raciais, só poderes
+        renderRacialPowers(race, r.selectedPowers || []);
+        updateAll();
+    }
+
+    function updateMoreauAttributes() {
+        const race = RACE_DATA.moreau;
+        if (!race?.calculateAttributes) return;
+        const r = race.calculateAttributes();
+        applyRaceAttributes(r.baseAttributes, r.isChoice, r.choiceCount, [], r.maxChoicePerAttribute);
+        renderRacialPowers(race, r.selectedPowers || []);
+        updateAll();
+    }
+
+    function updateDuendeAttributes() {
+        const race = RACE_DATA.duende;
+        if (!race?.calculateAttributes) return;
+        const r = race.calculateAttributes();
+        applyRaceAttributes(r.baseAttributes, r.isChoice, r.choiceCount, [], r.maxChoicePerAttribute);
+        renderRacialPowers(race, r.selectedPowers || []);
+        updateAll();
+    }
+
+    // ── FILTRO ────────────────────────────────────────────────
+    function handleFilterChange() {
+        const sel = new Set();
+        document.querySelectorAll('.race-filter:checked').forEach(cb => sel.add(cb.dataset.raceType));
+        Array.from(racaSelect.options).forEach(opt => {
+            if (opt.value === 'outros') { opt.style.display = 'block'; return; }
+            const rd = RACE_DATA[opt.value];
+            if (rd) opt.style.display = (rd.type === 'base' || sel.has(rd.type)) ? 'block' : 'none';
+        });
+        if (racaSelect.options[racaSelect.selectedIndex]?.style.display === 'none') {
+            racaSelect.value = 'outros'; handleRaceChange();
+        }
+    }
+
+    // ── RESET ─────────────────────────────────────────────────
+    function smartReset() {
+        try { closeConfigModal(); } catch (e) { }
+        racaSelect.value = 'outros';
+        document.getElementById('race-specific-options').innerHTML = '';
+        document.getElementById('bonusMessage').innerHTML = '';
+        document.getElementById('racial-powers-list').innerHTML = '';
+        _currentRacialPowers = [];
+        document.querySelectorAll('.attr-base').forEach(i => { i.dataset.previousValue = i.value; i.value = 0; });
+        pontosInput.value = basePoints;
+        togglePontos.checked = false;
+        pontosInput.classList.add('hidden');
+        salvarPontosBtn.classList.add('hidden');
+        const pg = document.getElementById('promptGerado');
+        if (pg) pg.textContent = '';
+        handleRaceChange(); updateAll();
+    }
+
+    // ── PROMPT ────────────────────────────────────────────────
     const PROMPT_ELEMENTS = {
-        poses: ["in a heroic pose", "crouching and ready for battle", "meditating in silence", "staring at the horizon", "running at full speed", "delivering a powerful blow", "casting a spell", "hiding in the shadows", "with arms crossed, imposing"],
-        attire: ["full plate armor", "adventurer's leather clothes", "an ornate mage robe", "ceremonial cleric vestments", "extravagant noble attire", "wild animal pelts", "light and stealthy armor", "blacksmith clothes with soot"],
-        heldItems: ["holding a shining sword", "with an ancient staff in hand", "wielding a battle axe", "with a longbow drawn", "holding twin daggers", "with a shield and mace", "holding an orb of energy", "with an open tome of spells"],
-        locations: ["in an ancient forest", "on top of a rocky mountain", "in a bustling tavern", "in the ruins of a castle", "inside a damp dungeon", "in an underground city", "in a dark swamp", "in a clearing under the moonlight"]
+        poses: ['in a heroic pose', 'crouching and ready for battle', 'meditating in silence', 'staring at the horizon', 'running at full speed', 'delivering a powerful blow', 'casting a spell', 'hiding in the shadows', 'with arms crossed, imposing'],
+        attire: ['full plate armor', "adventurer's leather clothes", 'an ornate mage robe', 'ceremonial cleric vestments', 'extravagant noble attire', 'wild animal pelts', 'light and stealthy armor', 'blacksmith clothes with soot'],
+        heldItems: ['holding a shining sword', 'with an ancient staff in hand', 'wielding a battle axe', 'with a longbow drawn', 'holding twin daggers', 'with a shield and mace', 'holding an orb of energy', 'with an open tome of spells'],
+        locations: ['in an ancient forest', 'on top of a rocky mountain', 'in a bustling tavern', 'in the ruins of a castle', 'inside a damp dungeon', 'in an underground city', 'in a dark swamp', 'in a clearing under the moonlight']
     };
-    const fixedCharacteristics = "4k, ultra detailed, intricate details, photorealistic, cinematic lighting, volumetric lighting, photographic, Unreal Engine, anime style";
+    const fixedChar = '4k, ultra detailed, intricate details, photorealistic, cinematic lighting, volumetric lighting, photographic, Unreal Engine, anime style';
 
     function generateRandomPrompt() {
-        const racaId = racaSelect.value;
-        const raceData = RACE_DATA[racaId];
-        const promptGerado = document.getElementById("promptGerado");
-        if (!raceData || racaId === 'outros') {
-            promptGerado.textContent = "Please select a race first.";
-            return;
-        }
-        let promptText = "";
-        if (racaId === "golem") {
-            const chassiValue = document.getElementById("golem-chassi")?.value || 'stone';
-            const action = ["guarding an ancient site", "in the middle of a construction", "standing still like a statue", "in a battle-ready pose"];
-            const randomAction = action[Math.floor(Math.random() * action.length)];
-            promptText = `A golem made of ${chassiValue}, ${randomAction}, ${fixedCharacteristics}`;
+        const rId = racaSelect.value, rd = RACE_DATA[rId], pg = document.getElementById('promptGerado');
+        if (!rd || rId === 'outros') { pg.textContent = 'Selecione uma raça primeiro.'; return; }
+        const rnd = arr => arr[Math.floor(Math.random() * arr.length)];
+        let t;
+        if (rId === 'golem') {
+            const c = document.getElementById('golem-chassi')?.value || 'stone';
+            t = `A golem made of ${c}, ${rnd(['guarding an ancient site', 'in a battle-ready pose', 'standing still like a statue', 'in the middle of a construction'])}, ${fixedChar}`;
         } else {
-            const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
-            const pose = getRandom(PROMPT_ELEMENTS.poses);
-            const vestimenta = getRandom(PROMPT_ELEMENTS.attire);
-            const item = getRandom(PROMPT_ELEMENTS.heldItems);
-            const local = getRandom(PROMPT_ELEMENTS.locations);
-            const raceName = raceData.name.split(' ')[0].replace('(', '');
-            promptText = `A ${raceName}, ${pose}, wearing ${vestimenta}, ${item}, in ${local}, ${fixedCharacteristics}`;
+            const n = rd.name.split(' ')[0].replace('(', '');
+            t = `A ${n}, ${rnd(PROMPT_ELEMENTS.poses)}, wearing ${rnd(PROMPT_ELEMENTS.attire)}, ${rnd(PROMPT_ELEMENTS.heldItems)}, in ${rnd(PROMPT_ELEMENTS.locations)}, ${fixedChar}`;
         }
-        promptGerado.textContent = promptText;
+        pg.textContent = t;
     }
 
     document.getElementById('gerarPrompt').addEventListener('click', generateRandomPrompt);
     document.getElementById('copiarPrompt').addEventListener('click', () => {
-        const promptText = document.getElementById("promptGerado").textContent;
-        if (promptText && !promptText.startsWith("Please select")) {
-            navigator.clipboard.writeText(promptText).then(() => {
-                alert("Prompt copied!");
-            }).catch(err => {
-                console.error('Error copying text: ', err);
-            });
-        }
+        const t = document.getElementById('promptGerado').textContent;
+        if (t && !t.startsWith('Selecione'))
+            navigator.clipboard.writeText(t).then(() => alert('Prompt copiado!')).catch(console.error);
     });
 
-    function makeDraggable(element) {
-        let isDragging = false;
-        let offsetX, offsetY;
-        element.addEventListener('mousedown', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'LABEL' || e.target.tagName === 'SPAN') {
-                return;
-            }
-            isDragging = true;
-            offsetX = e.clientX - element.offsetLeft;
-            offsetY = e.clientY - element.offsetTop;
-            element.style.cursor = 'grabbing';
+    // ── DRAG ──────────────────────────────────────────────────
+    function makeDraggable(el) {
+        let dragging = false, ox, oy;
+        el.addEventListener('mousedown', e => {
+            if (['INPUT', 'SELECT', 'BUTTON', 'LABEL', 'SPAN'].includes(e.target.tagName)) return;
+            dragging = true; ox = e.clientX - el.offsetLeft; oy = e.clientY - el.offsetTop; el.style.cursor = 'grabbing';
         });
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                element.style.left = `${e.clientX - offsetX}px`;
-                element.style.top = `${e.clientY - offsetY}px`;
-            }
-        });
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            element.style.cursor = 'move';
-        });
+        document.addEventListener('mousemove', e => { if (dragging) { el.style.left = `${e.clientX - ox}px`; el.style.top = `${e.clientY - oy}px`; } });
+        document.addEventListener('mouseup', () => { dragging = false; el.style.cursor = 'move'; });
     }
 
-    // --- ENVIAR ATRIBUTOS PARA A FICHA ---
+    // ── EXPORT PARA FICHA ────────────────────────────────────
     function enviarAtributosParaFicha() {
-        // Mapeamento: IDs da calculadora → chaves da ficha (t20SheetData.attrs)
-        const attrMap = {
-            'forca':        'FOR',
-            'destreza':     'DES',
-            'constituicao': 'CON',
-            'inteligencia': 'INT',
-            'sabedoria':    'SAB',
-            'carisma':      'CAR'
-        };
-
-        // 1. Lê os TOTAIS já calculados de cada atributo (base + racial + outros)
+        const attrMap = { forca: 'FOR', destreza: 'DES', constituicao: 'CON', inteligencia: 'INT', sabedoria: 'SAB', carisma: 'CAR' };
         const atributos = {};
-        ATTRIBUTES.forEach(attr => {
-            const totalEl = document.getElementById(`total_${attr}`);
-            atributos[attrMap[attr]] = totalEl ? totalEl.textContent : '0';
-        });
+        ATTRIBUTES.forEach(a => { const el = document.getElementById(`total_${a}`); atributos[attrMap[a]] = el ? el.textContent : '0'; });
 
-        // 2. Lê a raça selecionada para preencher o campo charRace da ficha
-        const racaId = racaSelect.value;
-        const racaNome = RACE_DATA[racaId]?.name?.split('/')[0] || '';
+        const raceId = racaSelect.value;
+        const race = RACE_DATA[raceId];
+        const racaNome = race?.name?.split('/')[0] || '';
 
-        // 3. Carrega os dados atuais da ficha (sem apagar nada)
-        let fichaRaw = localStorage.getItem('t20SheetData');
-        let fichaData = fichaRaw ? JSON.parse(fichaRaw) : {};
+        let tamanho = race?.tamanho || 'Médio';
+        const gt = document.getElementById('golem-tamanho'); if (gt?.value) tamanho = gt.value;
+        const dt = document.getElementById('duende-tamanho'); if (dt?.value) tamanho = dt.value;
+
+        const poderesRaciais = _currentRacialPowers.map(p => ({ name: p.name, desc: p.desc || '' }));
+
+        let fichaData = JSON.parse(localStorage.getItem('t20SheetData') || '{}');
         if (!fichaData.attrs) fichaData.attrs = {};
-
-        // 4. Sobrescreve apenas os atributos (e raça, se houver)
         fichaData.attrs = { ...fichaData.attrs, ...atributos };
         if (racaNome) fichaData.charRace = racaNome;
+        if (tamanho) fichaData.charSize = tamanho;
+        if (poderesRaciais.length > 0) fichaData.racialPowers = poderesRaciais;
 
-        // 5. Salva no localStorage compartilhado (nicholemos.github.io)
         localStorage.setItem('t20SheetData', JSON.stringify(fichaData));
-
-        const racaTexto = racaNome ? ` e raça "${racaNome}"` : '';
-        alert(`Atributos${racaTexto} enviados para a ficha com sucesso!\n\nA ficha será aberta em uma nova aba.`);
-
-        // 6. Abre a ficha em nova aba
+        alert(`Atributos${racaNome ? ` e raça "${racaNome}"` : ''}${tamanho ? ` (${tamanho})` : ''} enviados!\n\nA ficha será aberta em uma nova aba.`);
         window.open('https://nicholemos.github.io/ficha/', '_blank');
     }
 
+    // ── EVENT LISTENERS ───────────────────────────────────────
+    document.getElementById('reset-button').addEventListener('click', smartReset);
     document.getElementById('enviar-ficha-button').addEventListener('click', enviarAtributosParaFicha);
+    document.querySelectorAll('.race-filter').forEach(cb => cb.addEventListener('change', handleFilterChange));
+    racaSelect.addEventListener('change', handleRaceChange);
 
-    // --- INICIALIZAÇÃO ---
+    // ── INICIALIZAÇÃO ─────────────────────────────────────────
     populateAttributeTable();
     populateRaceSelect();
     handleRaceChange();
     handleFilterChange();
-    document.getElementById('reset-button').addEventListener('click', () => {
-        smartReset();
-    });
+
+    // ── EXPOR AO GLOBAL (necessário para racas.js chamar via event listeners) ──
+    window.updateAll = updateAll;
+    window.applyRaceAttributes = applyRaceAttributes;
+    window.renderRacialPowers = renderRacialPowers;
+    window.createSuragelUi = createSuragelUi;
+    window.updateGolemAttributes = updateGolemAttributes;
+    window.updateAberrantAttributes = updateAberrantAttributes;
+    window.updateKoboldAttributes = updateKoboldAttributes;
+    window.updateMoreauAttributes = updateMoreauAttributes;
+    window.updateDuendeAttributes = updateDuendeAttributes;
+    window.updateAggelusAttributes = updateAggelusAttributes;
+    window.updateSulfureAttributes = updateSulfureAttributes;
+    window.updateKallyanachAttributes = updateKallyanachAttributes;
 
 });
