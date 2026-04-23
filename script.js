@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return { base, spent, available: base - spent };
     }
 
-    function updateAll() { updateTotals(); updateAvailablePoints(); }
+    function updateAll() { updateTotals(); updateAvailablePoints(); saveState(); }
 
     function updateTotals() {
         ATTRIBUTES.forEach(attr => {
@@ -464,10 +464,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleFilterChange() {
         const sel = new Set();
         document.querySelectorAll('.race-filter:checked').forEach(cb => sel.add(cb.dataset.raceType));
+        const selectedRaceId = racaSelect.value;
         Array.from(racaSelect.options).forEach(opt => {
             if (opt.value === 'outros') { opt.style.display = 'block'; return; }
             const rd = RACE_DATA[opt.value];
-            if (rd) opt.style.display = (rd.type === 'base' || sel.has(rd.type)) ? 'block' : 'none';
+            if (rd) {
+                // Nunca esconde a raça que está atualmente selecionada (permite raças fora do filtro serem salvas)
+                const visivel = rd.type === 'base' || sel.has(rd.type) || opt.value === selectedRaceId;
+                opt.style.display = visivel ? 'block' : 'none';
+            }
         });
         if (racaSelect.options[racaSelect.selectedIndex]?.style.display === 'none') {
             racaSelect.value = 'outros'; handleRaceChange();
@@ -476,20 +481,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── RESET ─────────────────────────────────────────────────
     function smartReset() {
-        try { closeConfigModal(); } catch (e) { }
-        racaSelect.value = 'outros';
-        document.getElementById('race-specific-options').innerHTML = '';
-        document.getElementById('bonusMessage').innerHTML = '';
-        document.getElementById('racial-powers-list').innerHTML = '';
-        _currentRacialPowers = [];
-        document.querySelectorAll('.attr-base').forEach(i => { i.dataset.previousValue = i.value; i.value = 0; });
-        pontosInput.value = basePoints;
-        togglePontos.checked = false;
-        pontosInput.classList.add('hidden');
-        salvarPontosBtn.classList.add('hidden');
-        const pg = document.getElementById('promptGerado');
-        if (pg) pg.textContent = '';
-        handleRaceChange(); updateAll();
+        if (!confirm("Deseja resetar todos os campos?")) return;
+        localStorage.removeItem('t20_calc_state');
+        location.reload(); // Forma mais segura de limpar tudo e voltar ao estado original
     }
 
     // ── PROMPT ────────────────────────────────────────────────
@@ -534,6 +528,89 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('mouseup', () => { dragging = false; el.style.cursor = 'move'; });
     }
 
+    function saveState() {
+        const state = {
+            racaId: racaSelect.value,
+            basePoints: basePoints,
+            // Salva quais filtros de livros estão ativos
+            filtrosLivros: Array.from(document.querySelectorAll('.race-filter')).map(cb => ({
+                id: cb.id,
+                checked: cb.checked
+            })),
+            baseAttributes: ATTRIBUTES.reduce((acc, attr) => {
+                acc[attr] = document.getElementById(attr).value;
+                return acc;
+            }, {}),
+            outrosAttributes: ATTRIBUTES.reduce((acc, attr) => {
+                acc[attr] = document.getElementById(`${attr}_outros`).value;
+                return acc;
+            }, {}),
+            customChoices: Array.from(document.querySelectorAll('#race-specific-options input, #race-specific-options select')).map(el => ({
+                id: el.id,
+                value: el.type === 'checkbox' ? el.checked : el.value
+            })),
+            racialChoices: ATTRIBUTES.reduce((acc, attr) => {
+                acc[attr] = document.getElementById(`${attr}_racial`).value;
+                return acc;
+            }, {}),
+            configColOutros: document.getElementById('toggleOutrosInput').checked
+        };
+        localStorage.setItem('t20_calc_state', JSON.stringify(state));
+    }
+
+    function loadState() {
+        const saved = localStorage.getItem('t20_calc_state');
+        if (!saved) return;
+        const state = JSON.parse(saved);
+
+        // 1. Restaura os filtros de livros
+        if (state.filtrosLivros) {
+            state.filtrosLivros.forEach(f => {
+                const cb = document.getElementById(f.id);
+                if (cb) cb.checked = f.checked;
+            });
+        }
+
+        // 2. Atualiza a visibilidade do select (isso esconde o que não está nos filtros)
+        handleFilterChange();
+
+        // 3. FORÇA a exibição da raça salva (mesmo que o filtro esteja desativado)
+        const savedOption = Array.from(racaSelect.options).find(opt => opt.value === state.racaId);
+        if (savedOption) {
+            savedOption.style.display = 'block'; // Garante que ela exista visualmente
+            racaSelect.value = state.racaId;
+            handleRaceChange();
+        }
+
+        // 4. Restaura Pontos e Atributos
+        basePoints = state.basePoints;
+        ATTRIBUTES.forEach(attr => {
+            document.getElementById(attr).value = state.baseAttributes[attr] || 0;
+            document.getElementById(`${attr}_outros`).value = state.outrosAttributes[attr] || 0;
+        });
+
+        // 5. Restaura UI específica da raça com um delay para o DOM carregar
+        setTimeout(() => {
+            state.customChoices.forEach(choice => {
+                const el = document.getElementById(choice.id);
+                if (el) {
+                    if (el.type === 'checkbox') el.checked = choice.value;
+                    else el.value = choice.value;
+                    el.dispatchEvent(new Event('change'));
+                }
+            });
+
+            // Restaura bônus raciais editáveis (como Humano)
+            ATTRIBUTES.forEach(attr => {
+                const input = document.getElementById(`${attr}_racial`);
+                if (input && state.racialChoices[attr]) {
+                    input.value = state.racialChoices[attr];
+                }
+            });
+            updateAll();
+        }, 150);
+    }
+
     // ── EXPORT PARA FICHA ────────────────────────────────────
     function enviarAtributosParaFicha() {
         const attrMap = { forca: 'FOR', destreza: 'DES', constituicao: 'CON', inteligencia: 'INT', sabedoria: 'SAB', carisma: 'CAR' };
@@ -555,7 +632,18 @@ document.addEventListener('DOMContentLoaded', () => {
         fichaData.attrs = { ...fichaData.attrs, ...atributos };
         if (racaNome) fichaData.charRace = racaNome;
         if (tamanho) fichaData.charSize = tamanho;
-        if (poderesRaciais.length > 0) fichaData.racialPowers = poderesRaciais;
+
+        // Salva em racialPowers (campo dedicado da ficha)
+        fichaData.racialPowers = poderesRaciais;
+
+        // Também envia para classAbilities — mesmo caminho do Compilado de Poderes (main-Poderes.js).
+        // Remove envios anteriores da calculadora pelo nome para não duplicar ao reenviar.
+        if (!fichaData.classAbilities) fichaData.classAbilities = [];
+        if (poderesRaciais.length > 0) {
+            const nomesPoderes = new Set(poderesRaciais.map(p => p.name));
+            fichaData.classAbilities = fichaData.classAbilities.filter(p => !nomesPoderes.has(p.name));
+            fichaData.classAbilities = [...poderesRaciais, ...fichaData.classAbilities];
+        }
 
         localStorage.setItem('t20SheetData', JSON.stringify(fichaData));
         alert(`Atributos${racaNome ? ` e raça "${racaNome}"` : ''}${tamanho ? ` (${tamanho})` : ''} enviados!\n\nA ficha será aberta em uma nova aba.`);
@@ -571,6 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── INICIALIZAÇÃO ─────────────────────────────────────────
     populateAttributeTable();
     populateRaceSelect();
+    loadState();
     handleRaceChange();
     handleFilterChange();
 
