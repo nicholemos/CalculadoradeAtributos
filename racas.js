@@ -816,7 +816,7 @@ const RACE_DATA = {
     kliren: {
         name: 'Kliren',
         type: 'base',
-        tamanho: 'Pequeno',
+        tamanho: 'Médio',
         attributes: { inteligencia: 2, carisma: 1, forca: -1 },
         isChoice: false,
         bonusMessage: 'Inteligência +2, Carisma +1, Força −1',
