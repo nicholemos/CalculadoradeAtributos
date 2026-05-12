@@ -43,9 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── CONFIG: coluna "Outros" ───────────────────────────────
     document.getElementById('toggleOutrosInput').addEventListener('change', (e) => {
-        document.querySelectorAll('.outros-col').forEach(col => col.classList.toggle('show', e.target.checked));
+        const cols = document.querySelectorAll('.outros-col');
+        cols.forEach(col => {
+            col.style.display = e.target.checked ? 'table-cell' : 'none';
+        });
         if (!e.target.checked) { document.querySelectorAll('.attr-outros').forEach(i => i.value = 0); updateAll(); }
     });
+
+    function hideOutrosColumn() {
+        document.querySelectorAll('.outros-col').forEach(col => col.style.display = 'none');
+    }
 
     // ── CONFIG: modal ─────────────────────────────────────────
     document.getElementById('config-button').addEventListener('click', () => {
@@ -486,37 +493,6 @@ document.addEventListener('DOMContentLoaded', () => {
         location.reload(); // Forma mais segura de limpar tudo e voltar ao estado original
     }
 
-    // ── PROMPT ────────────────────────────────────────────────
-    const PROMPT_ELEMENTS = {
-        poses: ['in a heroic pose', 'crouching and ready for battle', 'meditating in silence', 'staring at the horizon', 'running at full speed', 'delivering a powerful blow', 'casting a spell', 'hiding in the shadows', 'with arms crossed, imposing'],
-        attire: ['full plate armor', "adventurer's leather clothes", 'an ornate mage robe', 'ceremonial cleric vestments', 'extravagant noble attire', 'wild animal pelts', 'light and stealthy armor', 'blacksmith clothes with soot'],
-        heldItems: ['holding a shining sword', 'with an ancient staff in hand', 'wielding a battle axe', 'with a longbow drawn', 'holding twin daggers', 'with a shield and mace', 'holding an orb of energy', 'with an open tome of spells'],
-        locations: ['in an ancient forest', 'on top of a rocky mountain', 'in a bustling tavern', 'in the ruins of a castle', 'inside a damp dungeon', 'in an underground city', 'in a dark swamp', 'in a clearing under the moonlight']
-    };
-    const fixedChar = '4k, ultra detailed, intricate details, photorealistic, cinematic lighting, volumetric lighting, photographic, Unreal Engine, anime style';
-
-    function generateRandomPrompt() {
-        const rId = racaSelect.value, rd = RACE_DATA[rId], pg = document.getElementById('promptGerado');
-        if (!rd || rId === 'outros') { pg.textContent = 'Selecione uma raça primeiro.'; return; }
-        const rnd = arr => arr[Math.floor(Math.random() * arr.length)];
-        let t;
-        if (rId === 'golem') {
-            const c = document.getElementById('golem-chassi')?.value || 'stone';
-            t = `A golem made of ${c}, ${rnd(['guarding an ancient site', 'in a battle-ready pose', 'standing still like a statue', 'in the middle of a construction'])}, ${fixedChar}`;
-        } else {
-            const n = rd.name.split(' ')[0].replace('(', '');
-            t = `A ${n}, ${rnd(PROMPT_ELEMENTS.poses)}, wearing ${rnd(PROMPT_ELEMENTS.attire)}, ${rnd(PROMPT_ELEMENTS.heldItems)}, in ${rnd(PROMPT_ELEMENTS.locations)}, ${fixedChar}`;
-        }
-        pg.textContent = t;
-    }
-
-    document.getElementById('gerarPrompt').addEventListener('click', generateRandomPrompt);
-    document.getElementById('copiarPrompt').addEventListener('click', () => {
-        const t = document.getElementById('promptGerado').textContent;
-        if (t && !t.startsWith('Selecione'))
-            navigator.clipboard.writeText(t).then(() => alert('Prompt copiado!')).catch(console.error);
-    });
-
     // ── DRAG ──────────────────────────────────────────────────
     function makeDraggable(el) {
         let dragging = false, ox, oy;
@@ -658,6 +634,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── INICIALIZAÇÃO ─────────────────────────────────────────
     populateAttributeTable();
+    hideOutrosColumn();
     populateRaceSelect();
     loadState();
     handleRaceChange();

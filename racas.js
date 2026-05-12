@@ -2420,8 +2420,12 @@ const RACE_DATA = {
             }
         ],
         imageUrl: 'https://25.media.tumblr.com/tumblr_m4y08eYarJ1runxsho1_500.gif'
-    },
+},
 
 };
+
+// Exportar para uso global
+window.RACE_DATA = RACE_DATA;
+window.SURAGEL_HERANCAS = SURAGEL_HERANCAS;
 
 
