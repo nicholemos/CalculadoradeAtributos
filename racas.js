@@ -1910,7 +1910,9 @@ const RACE_DATA = {
                     <option value="">Selecione</option>${opts}
                 </select>
             </div>`;
-            container.querySelector('#moreau-heranca').addEventListener('change', updateMoreauAttributes);
+            const herancaSelect = container.querySelector('#moreau-heranca');
+            herancaSelect.addEventListener('change', updateMoreauAttributes);
+            herancaSelect.addEventListener('input', updateMoreauAttributes);
         },
 
         calculateAttributes() {

@@ -1412,11 +1412,25 @@ input[type="checkbox"]:checked+.slider:before {
 }
 
 .fold-body {
+  display: block;
   padding: 12px;
   background: rgba(15, 23, 42, 0.3);
   color: #cbd5e1;
   font-size: 13px;
   line-height: 1.5;
+  min-height: 20px;
+}
+
+#racial-powers-list {
+  min-height: 30px;
+}
+
+#racial-powers-list .fold {
+  margin-bottom: 8px;
+}
+
+#racial-powers-list .fold:last-child {
+  margin-bottom: 0;
 }
 
 /* troca o hint quando abrir */
@@ -1681,27 +1695,60 @@ input[type="checkbox"]:checked+.slider:before {
   }
 
   .total-col {
-    font-size: 11px;
-    padding: 2px 3px;
-    width: 38px;
+    font-size: 24px !important;
+    padding: 4px 5px;
+    width: 50px;
+    font-weight: bold;
   }
 
   .attr-stepper .attr-base {
-    width: 35px;
-    font-size: 10px;
-    padding: 2px;
+    width: 40px;
+    font-size: 14px;
+    padding: 4px;
+    font-weight: bold;
   }
 
   .step-btn {
-    width: 16px;
-    height: 16px;
-    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
   }
 
-  /* badges/linha de pontos: permite quebrar em 2 linhas se precisar */
+  /* badges/linha de pontos: permite quebrar em 2 linhas se preciso */
   .calc-points {
     flex-wrap: wrap;
     gap: 8px 10px;
+  }
+
+  /* Ajuste para opções de raça e poderes raciais no mobile */
+  #race-specific-options {
+    margin-bottom: 12px;
+    min-height: 40px;
+  }
+
+  #race-specific-options select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  #racial-powers-list {
+    margin-top: 10px;
+  }
+
+  #racial-powers-list .fold {
+    margin-top: 8px;
+  }
+
+  .fold-summary {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .fold-body {
+    font-size: 12px;
+    padding: 10px;
   }
 }
 
